@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
-import { ChevronRight, ChevronLeft, Upload, X } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Upload } from 'lucide-react'
+import PhotoCropper from '@/components/PhotoCropper'
 
 const NICHES = ['Fashion & Lifestyle','Tech & Gadgets','Food & Cooking','Finance & Investing','Gaming','Fitness & Health','Travel','Education & Coaching','Comedy & Entertainment','Beauty & Skincare','Business','Other']
 const PLATFORMS = ['Instagram','YouTube','LinkedIn','Twitter / X','Podcast','Blog','Moj / Josh','Snapchat']
@@ -29,6 +30,8 @@ export default function Onboarding() {
   const [error, setError] = useState('')
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
+  const [rawPhoto, setRawPhoto] = useState<string | null>(null)
+  const [showCropper, setShowCropper] = useState(false)
   const photoRef = useRef<HTMLInputElement>(null)
 
   const [form, setForm] = useState({
@@ -56,10 +59,21 @@ export default function Onboarding() {
   function handlePhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    setPhotoFile(file)
     const reader = new FileReader()
-    reader.onload = ev => setPhotoPreview(ev.target?.result as string)
+    reader.onload = ev => {
+      setRawPhoto(ev.target?.result as string)
+      setShowCropper(true)
+    }
     reader.readAsDataURL(file)
+    // Reset input so same file can be selected again
+    e.target.value = ''
+  }
+
+  function handleCropDone(file: File, preview: string) {
+    setPhotoFile(file)
+    setPhotoPreview(preview)
+    setShowCropper(false)
+    setRawPhoto(null)
   }
 
   function validate() {

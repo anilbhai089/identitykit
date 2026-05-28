@@ -117,8 +117,8 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
 
         {/* Header */}
         <div style={{ padding: '18px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, marginBottom: 3 }}>Adjust your photo</h3>
-          <p style={{ fontSize: 12, color: 'var(--text3)' }}>Drag to reposition &middot; Slider to zoom</p>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, marginBottom: 3, color: '#ffffff' }}>Adjust your photo</h3>
+          <p style={{ fontSize: 12, color: '#ffffff' }}>Drag to reposition &middot; Slider to zoom</p>
         </div>
 
         {/* Preview */}
@@ -160,14 +160,14 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 16, fontSize: 11, color: 'var(--text3)' }}>
+          <div style={{ display: 'flex', gap: 16, fontSize: 11, color: '#ffffff' }}>
             <span>Drag to move</span>
             <span>Slider to zoom</span>
           </div>
 
           {/* Zoom slider */}
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 13, color: 'var(--text3)' }}>A</span>
+            <span style={{ fontSize: 13, color: '#ffffff' }}>A</span>
             <input
               type="range"
               min={0.3}
@@ -177,13 +177,13 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
               onChange={e => handleZoom(Number(e.target.value))}
               style={{ flex: 1, accentColor: 'var(--orange)', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: 18, color: 'var(--text3)' }}>A</span>
+            <span style={{ fontSize: 18, color: '#ffffff' }}>A</span>
           </div>
         </div>
 
         {/* Actions */}
         <div style={{ padding: '14px 20px', borderTop: '1px solid var(--border)', display: 'flex', gap: 10 }}>
-          <button onClick={onCancel} style={{ flex: 1, padding: '11px', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 10, color: 'var(--text)', cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500 }}>
+          <button onClick={onCancel} style={{ flex: 1, padding: '11px', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 10, color: '#ffffff', cursor: 'pointer', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500 }}>
             Cancel
           </button>
           <button onClick={handleSave} disabled={saving} className="btn-primary" style={{ flex: 2, justifyContent: 'center', opacity: saving ? 0.7 : 1 }}>

@@ -11,7 +11,7 @@ export default function Dashboard() {
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
-  const [debugInfo, setDebugInfo] = useState('')
+
 
   useEffect(() => {
     async function load() {
@@ -20,7 +20,6 @@ export default function Dashboard() {
         const { data: { user }, error: userError } = await supabase.auth.getUser()
         
         if (userError) {
-          setDebugInfo(`Auth error: ${userError.message}`)
           setLoading(false)
           return
         }
@@ -31,7 +30,6 @@ export default function Dashboard() {
         }
 
         setUser(user)
-        setDebugInfo(`User found: ${user.id}`)
 
         // Step 2: Get profile
         const { data, error: profileError } = await supabase
@@ -41,16 +39,11 @@ export default function Dashboard() {
           .single()
 
         if (profileError) {
-          setDebugInfo(`User: ${user.id} | Profile error: ${profileError.message} | Code: ${profileError.code}`)
         } else if (data) {
-          setDebugInfo(`Profile found: ${data.username}`)
           setProfile(data)
-        } else {
-          setDebugInfo(`User: ${user.id} | No profile found (null)`)
         }
 
       } catch (e: any) {
-        setDebugInfo(`Exception: ${e.message}`)
       }
 
       setLoading(false)
@@ -95,15 +88,7 @@ export default function Dashboard() {
       </nav>
 
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '40px 24px' }}>
-
-        {/* DEBUG BOX — shows exact error */}
-        {debugInfo && (
-          <div style={{ background: '#1a1a0a', border: '1px solid #ff6b2b', borderRadius: 10, padding: '12px 16px', marginBottom: 24, fontSize: 12, fontFamily: 'monospace', color: '#ff6b2b', wordBreak: 'break-all' }}>
-            DEBUG: {debugInfo}
-          </div>
-        )}
-
-        {/* WELCOME */}
+{/* WELCOME */}
         <div style={{ marginBottom: 32 }}>
           <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, marginBottom: 6 }}>
             Welcome back{profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}! 👋

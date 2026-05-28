@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { ChevronRight, ChevronLeft, Upload } from 'lucide-react'
@@ -7,7 +7,6 @@ import PhotoCropper from '@/components/PhotoCropper'
 
 const NICHES = ['Fashion & Lifestyle','Tech & Gadgets','Food & Cooking','Finance & Investing','Gaming','Fitness & Health','Travel','Education & Coaching','Comedy & Entertainment','Beauty & Skincare','Business','Other']
 const PLATFORMS = ['Instagram','YouTube','LinkedIn','Twitter / X','Podcast','Blog','Moj / Josh','Snapchat']
-const CONTENT_TYPES = ['Instagram Reel','Static Post','Carousel','Stories Pack','Story + Link','YouTube Dedicated Video','YouTube Integration','YouTube Short','Twitter Thread','LinkedIn Post','Blog Post','Podcast Mention']
 const VIBES = ['Educational & Informative','Fun & Entertaining','Honest & Raw','Aspirational & Aesthetic','Relatable & Desi','Professional & Corporate']
 const TURNAROUND = ['3-5 business days','5-7 business days','1-2 weeks','2+ weeks']
 const COLLAB_TYPES = ['One-off campaigns','Long-term partnerships','Both']
@@ -32,7 +31,6 @@ export default function Onboarding() {
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [rawPhoto, setRawPhoto] = useState<string | null>(null)
   const [showCropper, setShowCropper] = useState(false)
-  const photoRef = useRef<HTMLInputElement>(null)
 
   const [form, setForm] = useState({
     full_name: '', username: '', city: '', niche: '', languages: '', bio_note: '',
@@ -65,7 +63,6 @@ export default function Onboarding() {
       setShowCropper(true)
     }
     reader.readAsDataURL(file)
-    // Reset input so same file can be selected again
     e.target.value = ''
   }
 
@@ -106,11 +103,9 @@ export default function Onboarding() {
         }
       }
 
-      // Save to DB first
       const profileData = { id: user.id, ...form, platforms: form.platforms.join(', '), photo_url, status: 'generating' }
       await supabase.from('profiles').upsert(profileData)
 
-      // Generate AI content
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -133,7 +128,7 @@ export default function Onboarding() {
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, marginBottom: 12 }}>Building your identity...</h2>
         <p style={{ color: 'var(--text2)', fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>AI is writing your bio, crafting your media kit and generating your rate card. This takes about 15 seconds!</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, textAlign: 'left' }}>
-          {['Writing your professional bio...', 'Formatting your media kit...', 'Creating your rate card...', 'Setting up your profile page...'].map((item, i) => (
+          {['Writing your professional bio...', 'Formatting your media kit...', 'Creating your rate card...', 'Setting up your profile page...'].map((item) => (
             <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10 }}>
               <div style={{ width: 20, height: 20, border: '2px solid var(--border2)', borderTopColor: 'var(--orange)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }}></div>
               <span style={{ fontSize: 13, color: 'var(--text2)' }}>{item}</span>
@@ -147,6 +142,14 @@ export default function Onboarding() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex' }}>
+      {showCropper && rawPhoto && (
+        <PhotoCropper
+          initialImage={rawPhoto}
+          onDone={handleCropDone}
+          onCancel={() => { setShowCropper(false); setRawPhoto(null) }}
+        />
+      )}
+
       {/* LEFT SIDEBAR */}
       <div style={{ width: 260, background: 'var(--bg2)', borderRight: '1px solid var(--border)', padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }}>
@@ -181,19 +184,39 @@ export default function Onboarding() {
           {/* STEP 0 */}
           {step === 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+
+              {/* PHOTO UPLOAD — input sits INSIDE label, opacity:0 covers full area */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px', background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 12 }}>
-                <label htmlFor="photoUpload" style={{ width: 72, height: 72, borderRadius: '50%', border: '2px dashed var(--orange-border)', background: photoPreview ? 'transparent' : 'var(--bg3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
-                  {photoPreview ? <img src={photoPreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Upload size={22} color="var(--orange)" />}
+                {/* Clickable circle */}
+                <label style={{ position: 'relative', width: 72, height: 72, borderRadius: '50%', border: '2px dashed var(--orange-border)', background: photoPreview ? 'transparent' : 'var(--bg3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
+                  {photoPreview
+                    ? <img src={photoPreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none' }} />
+                    : <Upload size={22} color="var(--orange)" />
+                  }
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhoto}
+                    style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%', zIndex: 10 }}
+                  />
                 </label>
+
                 <div>
                   <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 3 }}>Profile photo</p>
                   <p style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 8 }}>Used in your media kit and CV</p>
-                  <label htmlFor="photoUpload" style={{ fontSize: 11, padding: '5px 12px', background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 6, color: 'var(--orange)', cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'inline-block' }}>
-                    {photoPreview ? '✏️ Change photo' : '📷 Choose photo'}
+                  {/* Clickable button */}
+                  <label style={{ position: 'relative', fontSize: 11, padding: '6px 14px', background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 6, color: 'var(--orange)', cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'inline-block', overflow: 'hidden', fontWeight: 500 }}>
+                    {photoPreview ? 'Change photo' : 'Choose photo'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhoto}
+                      style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%', zIndex: 10 }}
+                    />
                   </label>
                 </div>
-                <input id="photoUpload" type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} />
               </div>
+
               <div><label className="label">Full name *</label><input className="input" placeholder="Anil Prajapati" value={form.full_name} onChange={e => set('full_name', e.target.value)} /></div>
               <div><label className="label">Username * <span style={{ color: 'var(--text3)', fontWeight: 400 }}>— identitykit.in/yourname</span></label><input className="input" placeholder="anilprajapati" value={form.username} onChange={e => set('username', e.target.value.toLowerCase().replace(/\s/g, ''))} /></div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -267,32 +290,32 @@ export default function Onboarding() {
           {step === 4 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>📸 Instagram rates</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Instagram rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Reel (₹)</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
-                  <div><label className="label">Static Post (₹)</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
-                  <div><label className="label">Carousel (₹)</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
-                  <div><label className="label">Stories Pack (₹)</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
+                  <div><label className="label">Reel (Rs.)</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
+                  <div><label className="label">Static Post (Rs.)</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
+                  <div><label className="label">Carousel (Rs.)</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
+                  <div><label className="label">Stories Pack (Rs.)</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
                 </div>
               </div>
               <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>▶️ YouTube rates</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>YouTube rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Dedicated Video (₹)</label><input className="input" placeholder="3000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
-                  <div><label className="label">Integration (₹)</label><input className="input" placeholder="1500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
-                  <div><label className="label">YouTube Short (₹)</label><input className="input" placeholder="1000" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
+                  <div><label className="label">Dedicated Video (Rs.)</label><input className="input" placeholder="3000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
+                  <div><label className="label">Integration (Rs.)</label><input className="input" placeholder="1500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
+                  <div><label className="label">YouTube Short (Rs.)</label><input className="input" placeholder="1000" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
                 </div>
               </div>
               <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>🌐 Other platforms</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Other platforms</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Twitter Thread (₹)</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
-                  <div><label className="label">LinkedIn Post (₹)</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
-                  <div><label className="label">Blog Post (₹)</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
-                  <div><label className="label">Podcast Mention (₹)</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
+                  <div><label className="label">Twitter Thread (Rs.)</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
+                  <div><label className="label">LinkedIn Post (Rs.)</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
+                  <div><label className="label">Blog Post (Rs.)</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
+                  <div><label className="label">Podcast Mention (Rs.)</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
                 </div>
               </div>
-              <div><label className="label">Custom bundle package</label><input className="input" placeholder="Reel + Stories + YT = ₹5,500" value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>
+              <div><label className="label">Custom bundle package</label><input className="input" placeholder="Reel + Stories + YT = Rs.5,500" value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>
               <div><label className="label">Turnaround time</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
                   {TURNAROUND.map(t => <div key={t} className={`chip ${form.turnaround === t ? 'selected' : ''}`} onClick={() => set('turnaround', t)}>{t}</div>)}
@@ -327,7 +350,7 @@ export default function Onboarding() {
               <div><label className="label">Email *</label><input className="input" type="email" placeholder="you@gmail.com" value={form.email} onChange={e => set('email', e.target.value)} /></div>
               <div><label className="label">WhatsApp number</label><input className="input" placeholder="+91 98765 43210" value={form.whatsapp} onChange={e => set('whatsapp', e.target.value)} /></div>
               <div style={{ background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 12, padding: 16 }}>
-                <p style={{ fontSize: 13, color: 'var(--orange2)', fontWeight: 500, marginBottom: 4 }}>🎉 Almost done!</p>
+                <p style={{ fontSize: 13, color: 'var(--orange2)', fontWeight: 500, marginBottom: 4 }}>Almost done!</p>
                 <p style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.6 }}>After submitting, AI will generate your complete bio, media kit and profile in about 15 seconds.</p>
               </div>
             </div>
@@ -346,7 +369,7 @@ export default function Onboarding() {
               </button>
             ) : (
               <button className="btn-primary" onClick={submit} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                ✨ Generate my profile
+                Generate my profile
               </button>
             )}
           </div>

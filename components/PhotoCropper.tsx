@@ -1,26 +1,13 @@
 'use client'
-import { useState, useCallback } from 'react'
-
-interface Point { x: number; y: number }
-interface Area { x: number; y: number; width: number; height: number }
-
-async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<Blob> {
-  const img = new window.Image()
-  img.src = imageSrc
-  await new Promise(r => { img.onload = r })
-  const canvas = document.createElement('canvas')
-  canvas.width = pixelCrop.width
-  canvas.height = pixelCrop.height
-  const ctx = canvas.getContext('2d')!
-  ctx.drawImage(img, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, pixelCrop.width, pixelCrop.height)
-  return new Promise(resolve => canvas.toBlob(blob => resolve(blob!), 'image/jpeg', 0.95))
-}
+import { useState, useEffect } from 'react'
 
 interface Props {
   onDone: (file: File, preview: string) => void
   onCancel: () => void
   initialImage: string
 }
+
+const CIRCLE_SIZE = 220
 
 export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) {
   const [saving, setSaving] = useState(false)
@@ -29,21 +16,46 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
   const [dragging, setDragging] = useState(false)
   const [startDrag, setStartDrag] = useState({ x: 0, y: 0 })
   const [startPos, setStartPos] = useState({ x: 0, y: 0 })
+  const [imgNaturalW, setImgNaturalW] = useState(0)
+  const [imgNaturalH, setImgNaturalH] = useState(0)
+  const [ready, setReady] = useState(false)
+
+  // On mount: load image, pick initial zoom so it fills the circle, then CENTER it
+  useEffect(() => {
+    const img = new window.Image()
+    img.onload = () => {
+      const nw = img.naturalWidth
+      const nh = img.naturalHeight
+      setImgNaturalW(nw)
+      setImgNaturalH(nh)
+
+      // Zoom so the shorter side fills the circle
+      const initialZoom = Math.max(CIRCLE_SIZE / nw, CIRCLE_SIZE / nh)
+      const clampedZoom = Math.max(0.5, Math.min(3, initialZoom))
+      setZoom(clampedZoom)
+
+      // Center: rendered size at this zoom
+      const rw = nw * clampedZoom
+      const rh = nh * clampedZoom
+      // Offset so center of image aligns with center of circle
+      setPos({
+        x: (CIRCLE_SIZE - rw) / 2,
+        y: (CIRCLE_SIZE - rh) / 2,
+      })
+      setReady(true)
+    }
+    img.src = initialImage
+  }, [initialImage])
 
   function onMouseDown(e: React.MouseEvent) {
     setDragging(true)
     setStartDrag({ x: e.clientX, y: e.clientY })
     setStartPos({ ...pos })
   }
-
   function onMouseMove(e: React.MouseEvent) {
     if (!dragging) return
-    setPos({
-      x: startPos.x + (e.clientX - startDrag.x),
-      y: startPos.y + (e.clientY - startDrag.y)
-    })
+    setPos({ x: startPos.x + (e.clientX - startDrag.x), y: startPos.y + (e.clientY - startDrag.y) })
   }
-
   function onMouseUp() { setDragging(false) }
 
   function onTouchStart(e: React.TouchEvent) {
@@ -51,19 +63,29 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
     setStartDrag({ x: e.touches[0].clientX, y: e.touches[0].clientY })
     setStartPos({ ...pos })
   }
-
   function onTouchMove(e: React.TouchEvent) {
     if (!dragging) return
-    setPos({
-      x: startPos.x + (e.touches[0].clientX - startDrag.x),
-      y: startPos.y + (e.touches[0].clientY - startDrag.y)
-    })
+    setPos({ x: startPos.x + (e.touches[0].clientX - startDrag.x), y: startPos.y + (e.touches[0].clientY - startDrag.y) })
+  }
+
+  // When zoom changes via slider, re-center around the current center
+  function handleZoom(newZoom: number) {
+    if (!imgNaturalW) return
+    const oldRw = imgNaturalW * zoom
+    const oldRh = imgNaturalH * zoom
+    const newRw = imgNaturalW * newZoom
+    const newRh = imgNaturalH * newZoom
+    // Keep the visible center the same
+    const centerX = pos.x + oldRw / 2
+    const centerY = pos.y + oldRh / 2
+    setPos({ x: centerX - newRw / 2, y: centerY - newRh / 2 })
+    setZoom(newZoom)
   }
 
   async function handleSave() {
     setSaving(true)
     try {
-      const SIZE = 300
+      const SIZE = 400
       const img = new window.Image()
       img.src = initialImage
       await new Promise(r => { img.onload = r })
@@ -74,12 +96,13 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
       ctx.beginPath()
       ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2, 0, Math.PI * 2)
       ctx.clip()
-      const scale = zoom
-      const w = img.width * scale
-      const h = img.height * scale
-      const dx = (SIZE - w) / 2 + pos.x
-      const dy = (SIZE - h) / 2 + pos.y
-      ctx.drawImage(img, dx, dy, w, h)
+      // Scale factor from preview circle (220px) to output canvas (400px)
+      const scale = SIZE / CIRCLE_SIZE
+      const rw = img.width * zoom * scale
+      const rh = img.height * zoom * scale
+      const dx = pos.x * scale
+      const dy = pos.y * scale
+      ctx.drawImage(img, dx, dy, rw, rh)
       const blob: Blob = await new Promise(resolve => canvas.toBlob(b => resolve(b!), 'image/jpeg', 0.95))
       const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' })
       const preview = URL.createObjectURL(blob)
@@ -95,21 +118,19 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
         {/* Header */}
         <div style={{ padding: '18px 20px', borderBottom: '1px solid var(--border)' }}>
           <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 18, fontWeight: 700, marginBottom: 3 }}>Adjust your photo</h3>
-          <p style={{ fontSize: 12, color: 'var(--text3)' }}>Drag photo to reposition · Slider to zoom</p>
+          <p style={{ fontSize: 12, color: 'var(--text3)' }}>Drag to reposition &middot; Slider to zoom</p>
         </div>
 
-        {/* Preview area */}
+        {/* Preview */}
         <div style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
-
-          {/* Circle preview with drag */}
-          <div style={{ position: 'relative', width: 220, height: 220 }}>
-            {/* Outer dim overlay */}
-            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', boxShadow: '0 0 0 999px rgba(0,0,0,0.6)', zIndex: 2, pointerEvents: 'none' }}></div>
-            {/* Circle border */}
-            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px solid var(--orange)', zIndex: 3, pointerEvents: 'none' }}></div>
+          <div style={{ position: 'relative', width: CIRCLE_SIZE, height: CIRCLE_SIZE }}>
+            {/* Dim overlay outside circle */}
+            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', boxShadow: '0 0 0 999px rgba(0,0,0,0.55)', zIndex: 2, pointerEvents: 'none' }} />
+            {/* Orange border */}
+            <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px solid var(--orange)', zIndex: 3, pointerEvents: 'none' }} />
             {/* Drag area */}
             <div
-              style={{ width: 220, height: 220, borderRadius: '50%', overflow: 'hidden', cursor: dragging ? 'grabbing' : 'grab', userSelect: 'none', background: '#111' }}
+              style={{ width: CIRCLE_SIZE, height: CIRCLE_SIZE, borderRadius: '50%', overflow: 'hidden', cursor: dragging ? 'grabbing' : 'grab', userSelect: 'none', background: '#111' }}
               onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
               onMouseUp={onMouseUp}
@@ -118,46 +139,46 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
               onTouchMove={onTouchMove}
               onTouchEnd={onMouseUp}
             >
-              <img
-                src={initialImage}
-                alt="crop"
-                draggable={false}
-                style={{
-                  position: 'relative',
-                  left: pos.x,
-                  top: pos.y,
-                  width: `${zoom * 100}%`,
-                  maxWidth: 'none',
-                  pointerEvents: 'none',
-                  userSelect: 'none'
-                }}
-              />
+              {ready && (
+                <img
+                  src={initialImage}
+                  alt="crop"
+                  draggable={false}
+                  style={{
+                    position: 'relative',
+                    left: pos.x,
+                    top: pos.y,
+                    width: imgNaturalW * zoom,
+                    height: imgNaturalH * zoom,
+                    maxWidth: 'none',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    display: 'block',
+                  }}
+                />
+              )}
             </div>
           </div>
 
-          {/* Instructions */}
           <div style={{ display: 'flex', gap: 16, fontSize: 11, color: 'var(--text3)' }}>
-            <span>👆 Drag to move</span>
-            <span>🔍 Slider to zoom</span>
+            <span>Drag to move</span>
+            <span>Slider to zoom</span>
           </div>
 
           {/* Zoom slider */}
-          <div style={{ width: '100%' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 14 }}>🔍</span>
-              <input
-                type="range"
-                min={0.5}
-                max={3}
-                step={0.05}
-                value={zoom}
-                onChange={e => setZoom(Number(e.target.value))}
-                style={{ flex: 1, accentColor: 'var(--orange)', cursor: 'pointer' }}
-              />
-              <span style={{ fontSize: 14 }}>🔎</span>
-            </div>
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 13, color: 'var(--text3)' }}>A</span>
+            <input
+              type="range"
+              min={0.3}
+              max={4}
+              step={0.05}
+              value={zoom}
+              onChange={e => handleZoom(Number(e.target.value))}
+              style={{ flex: 1, accentColor: 'var(--orange)', cursor: 'pointer' }}
+            />
+            <span style={{ fontSize: 18, color: 'var(--text3)' }}>A</span>
           </div>
-
         </div>
 
         {/* Actions */}
@@ -166,7 +187,7 @@ export default function PhotoCropper({ onDone, onCancel, initialImage }: Props) 
             Cancel
           </button>
           <button onClick={handleSave} disabled={saving} className="btn-primary" style={{ flex: 2, justifyContent: 'center', opacity: saving ? 0.7 : 1 }}>
-            {saving ? 'Saving...' : '✅ Use this photo'}
+            {saving ? 'Saving...' : 'Use this photo'}
           </button>
         </div>
 

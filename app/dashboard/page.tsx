@@ -11,14 +11,48 @@ export default function Dashboard() {
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [debugInfo, setDebugInfo] = useState('')
 
   useEffect(() => {
     async function load() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { router.push('/auth'); return }
-      setUser(user)
-      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-      setProfile(data)
+      try {
+        // Step 1: Get user
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        
+        if (userError) {
+          setDebugInfo(`Auth error: ${userError.message}`)
+          setLoading(false)
+          return
+        }
+
+        if (!user) {
+          router.push('/auth')
+          return
+        }
+
+        setUser(user)
+        setDebugInfo(`User found: ${user.id}`)
+
+        // Step 2: Get profile
+        const { data, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single()
+
+        if (profileError) {
+          setDebugInfo(`User: ${user.id} | Profile error: ${profileError.message} | Code: ${profileError.code}`)
+        } else if (data) {
+          setDebugInfo(`Profile found: ${data.username}`)
+          setProfile(data)
+        } else {
+          setDebugInfo(`User: ${user.id} | No profile found (null)`)
+        }
+
+      } catch (e: any) {
+        setDebugInfo(`Exception: ${e.message}`)
+      }
+
       setLoading(false)
     }
     load()
@@ -40,6 +74,7 @@ export default function Dashboard() {
       <div style={{ textAlign: 'center' }}>
         <div style={{ width: 40, height: 40, border: '3px solid var(--border2)', borderTopColor: 'var(--orange)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }}></div>
         <p style={{ color: 'var(--text2)' }}>Loading your dashboard...</p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     </div>
   )
@@ -60,6 +95,13 @@ export default function Dashboard() {
       </nav>
 
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '40px 24px' }}>
+
+        {/* DEBUG BOX — shows exact error */}
+        {debugInfo && (
+          <div style={{ background: '#1a1a0a', border: '1px solid #ff6b2b', borderRadius: 10, padding: '12px 16px', marginBottom: 24, fontSize: 12, fontFamily: 'monospace', color: '#ff6b2b', wordBreak: 'break-all' }}>
+            DEBUG: {debugInfo}
+          </div>
+        )}
 
         {/* WELCOME */}
         <div style={{ marginBottom: 32 }}>

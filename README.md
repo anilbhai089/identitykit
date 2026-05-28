@@ -1,2 +1,0 @@
-# identitykit
-creator identity platform

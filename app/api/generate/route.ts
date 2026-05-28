@@ -1,45 +1,76 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
-
 export async function POST(req: NextRequest) {
-  const data = await req.json()
+  let data: Record<string, string> = {}
 
-  const prompt = `You are an expert profile writer for Indian content creators. Generate a professional creator profile based on the details below. Return ONLY valid JSON.
+  try {
+    data = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+  }
 
-Creator details:
-Name: ${data.full_name}
-City: ${data.city}
-Niche: ${data.niche}
-Languages: ${data.languages}
-Platforms: ${data.platforms?.join ? data.platforms.join(', ') : data.platforms}
-Instagram: ${data.instagram_followers} followers ${data.instagram_handle}
-YouTube: ${data.youtube_subscribers} subscribers - ${data.youtube_channel}
-Avg views: ${data.avg_views}
-Engagement: ${data.engagement_rate}
-Audience: ${data.audience_gender}, ${data.audience_age}, Top cities: ${data.top_cities}
-Brands worked with: ${data.brands_worked}
-Best campaign: ${data.best_campaign}
-Awards: ${data.awards}
-Content vibe: ${data.vibe}
-Turnaround: ${data.turnaround}
+  try {
+    const apiKey = process.env.ANTHROPIC_API_KEY
+    if (!apiKey) {
+      console.error('ANTHROPIC_API_KEY is not set!')
+      throw new Error('API key not configured')
+    }
 
-Return ONLY this JSON (no markdown, no backticks):
-{
-  "bio": "A compelling 3-sentence professional bio in 3rd person, India-context aware, ${data.vibe} tone",
-  "tagline": "A punchy 8-word tagline describing the creator"
-}`
+    const anthropic = new Anthropic({ apiKey })
 
-  const message = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1000,
-    messages: [{ role: 'user', content: prompt }]
-  })
+    const platforms = Array.isArray(data.platforms)
+      ? (data.platforms as unknown as string[]).join(', ')
+      : (data.platforms || '')
 
-  const text = message.content.map((b: any) => b.text || '').join('')
-  const clean = text.replace(/```json|```/g, '').trim()
-  const result = JSON.parse(clean)
+    const prompt = `You are an expert profile writer for Indian content creators. Generate a professional creator profile. Return ONLY valid JSON, no markdown, no backticks, no extra text.
 
-  return NextResponse.json(result)
+Creator:
+Name: ${data.full_name || 'Creator'}
+City: ${data.city || 'India'}
+Niche: ${data.niche || 'Content Creation'}
+Platforms: ${platforms}
+Instagram: ${data.instagram_followers || ''} followers
+YouTube: ${data.youtube_subscribers || ''} subscribers
+Brands worked with: ${data.brands_worked || 'Various brands'}
+Content vibe: ${data.vibe || 'Professional'}
+
+Return ONLY this JSON:
+{"bio":"3-sentence professional bio in 3rd person","tagline":"Punchy 8-word tagline"}`
+
+    const message = await anthropic.messages.create({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 400,
+      messages: [{ role: 'user', content: prompt }]
+    })
+
+    const text = message.content
+      .filter((b: { type: string }) => b.type === 'text')
+      .map((b: { type: string; text?: string }) => b.text || '')
+      .join('')
+      .replace(/```json|```/g, '')
+      .trim()
+
+    console.log('Claude response:', text)
+
+    const result = JSON.parse(text)
+
+    return NextResponse.json({
+      bio: result.bio || '',
+      tagline: result.tagline || ''
+    })
+
+  } catch (error) {
+    console.error('Generate API error:', error)
+
+    // Return a sensible fallback so the profile still gets created
+    const name = data.full_name || 'This creator'
+    const niche = data.niche || 'content creation'
+    const city = data.city || 'India'
+
+    return NextResponse.json({
+      bio: `${name} is a ${niche} creator based in ${city}, crafting content that resonates with a growing audience across social media platforms. Known for their authentic style and consistent engagement, they bring brands to life through compelling storytelling. Their work spans multiple platforms, making them a versatile and impactful voice in the Indian creator economy.`,
+      tagline: `${niche} creator making an impact.`
+    })
+  }
 }

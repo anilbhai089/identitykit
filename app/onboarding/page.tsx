@@ -103,8 +103,23 @@ export default function Onboarding() {
         }
       }
 
-      const profileData = { id: user.id, ...form, platforms: form.platforms.join(', '), photo_url, status: 'generating' }
-      await supabase.from('profiles').upsert(profileData)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { bio_note, ...formWithoutBioNote } = form
+      const profileData = {
+        id: user.id,
+        ...formWithoutBioNote,
+        platforms: form.platforms.join(', '),
+        photo_url,
+        status: 'generating'
+      }
+
+      const { error: upsertError } = await supabase.from('profiles').upsert(profileData)
+      if (upsertError) {
+        console.error('Upsert error:', upsertError)
+        setError(`Profile save failed: ${upsertError.message}`)
+        setGenerating(false)
+        return
+      }
 
       const res = await fetch('/api/generate', {
         method: 'POST',

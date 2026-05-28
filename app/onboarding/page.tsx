@@ -182,17 +182,17 @@ export default function Onboarding() {
           {step === 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px', background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 12 }}>
-                <div onClick={() => photoRef.current?.click()} style={{ width: 72, height: 72, borderRadius: '50%', border: '2px dashed var(--orange-border)', background: photoPreview ? 'transparent' : 'var(--bg3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
+                <label htmlFor="photoUpload" style={{ width: 72, height: 72, borderRadius: '50%', border: '2px dashed var(--orange-border)', background: photoPreview ? 'transparent' : 'var(--bg3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
                   {photoPreview ? <img src={photoPreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Upload size={22} color="var(--orange)" />}
-                </div>
+                </label>
                 <div>
                   <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 3 }}>Profile photo</p>
                   <p style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 8 }}>Used in your media kit and CV</p>
-                  <button onClick={() => photoRef.current?.click()} style={{ fontSize: 11, padding: '5px 12px', background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 6, color: 'var(--orange)', cursor: 'pointer', fontFamily: 'var(--font-body)' }}>
-                    {photoPreview ? 'Change photo' : 'Choose photo'}
-                  </button>
+                  <label htmlFor="photoUpload" style={{ fontSize: 11, padding: '5px 12px', background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 6, color: 'var(--orange)', cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'inline-block' }}>
+                    {photoPreview ? '✏️ Change photo' : '📷 Choose photo'}
+                  </label>
                 </div>
-                <input ref={photoRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} />
+                <input id="photoUpload" type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} />
               </div>
               <div><label className="label">Full name *</label><input className="input" placeholder="Anil Prajapati" value={form.full_name} onChange={e => set('full_name', e.target.value)} /></div>
               <div><label className="label">Username * <span style={{ color: 'var(--text3)', fontWeight: 400 }}>— identitykit.in/yourname</span></label><input className="input" placeholder="anilprajapati" value={form.username} onChange={e => set('username', e.target.value.toLowerCase().replace(/\s/g, ''))} /></div>

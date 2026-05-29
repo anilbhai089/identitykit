@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
-import { ChevronRight, ChevronLeft, Upload } from 'lucide-react'
+import { ChevronRight, ChevronLeft, Upload, X } from 'lucide-react'
 import PhotoCropper from '@/components/PhotoCropper'
 
 const NICHES = ['Fashion & Lifestyle','Tech & Gadgets','Food & Cooking','Finance & Investing','Gaming','Fitness & Health','Travel','Education & Coaching','Comedy & Entertainment','Beauty & Skincare','Business','Other']
@@ -10,6 +10,7 @@ const PLATFORMS = ['Instagram','YouTube','LinkedIn','Twitter / X','Podcast','Blo
 const VIBES = ['Educational & Informative','Fun & Entertaining','Honest & Raw','Aspirational & Aesthetic','Relatable & Desi','Professional & Corporate']
 const TURNAROUND = ['3-5 business days','5-7 business days','1-2 weeks','2+ weeks']
 const COLLAB_TYPES = ['One-off campaigns','Long-term partnerships','Both']
+const SKILLS_LIST = ['Video Editing','CapCut','Adobe Premiere','Final Cut Pro','Canva','Photoshop','Lightroom','After Effects','Scriptwriting','Voiceover','SEO','Instagram Analytics','YouTube Analytics','Photography','Graphic Design','Motion Graphics']
 
 const STEPS = [
   { title: 'Basic identity', sub: 'Who you are' },
@@ -17,6 +18,7 @@ const STEPS = [
   { title: 'Audience data', sub: 'Who watches you' },
   { title: 'Past work', sub: 'Your experience' },
   { title: 'Your rates', sub: 'What you charge' },
+  { title: 'Portfolio', sub: 'Show your best work' },
   { title: 'Preferences', sub: 'How you work' },
   { title: 'Contact', sub: 'How to reach you' },
 ]
@@ -32,16 +34,22 @@ export default function Onboarding() {
   const [rawPhoto, setRawPhoto] = useState<string | null>(null)
   const [showCropper, setShowCropper] = useState(false)
 
+  // Portfolio media
+  const [portfolioImages, setPortfolioImages] = useState<{ file: File; preview: string }[]>([])
+  const [portfolioVideos, setPortfolioVideos] = useState<{ file: File; preview: string; name: string }[]>([])
+
   const [form, setForm] = useState({
     full_name: '', username: '', city: '', niche: '', languages: '', bio_note: '',
     platforms: [] as string[], instagram_handle: '', youtube_channel: '',
     instagram_followers: '', youtube_subscribers: '', avg_views: '', engagement_rate: '',
+    follower_growth: '',
     audience_gender: '', audience_age: '', top_cities: '',
     brands_worked: '', best_campaign: '', awards: '',
     rate_reel: '', rate_post: '', rate_carousel: '', rate_stories: '',
     rate_story_link: '', rate_yt_dedicated: '', rate_yt_integration: '',
     rate_yt_short: '', rate_twitter: '', rate_linkedin: '', rate_blog: '',
     rate_podcast: '', custom_package: '', turnaround: '',
+    skills: [] as string[],
     collab_type: '', categories_avoid: '', response_time: '', vibe: '',
     email: '', whatsapp: '',
   })
@@ -58,20 +66,42 @@ export default function Onboarding() {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = ev => {
-      setRawPhoto(ev.target?.result as string)
-      setShowCropper(true)
-    }
+    reader.onload = ev => { setRawPhoto(ev.target?.result as string); setShowCropper(true) }
     reader.readAsDataURL(file)
     e.target.value = ''
   }
 
   function handleCropDone(file: File, preview: string) {
-    setPhotoFile(file)
-    setPhotoPreview(preview)
-    setShowCropper(false)
-    setRawPhoto(null)
+    setPhotoFile(file); setPhotoPreview(preview); setShowCropper(false); setRawPhoto(null)
   }
+
+  function handlePortfolioImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || [])
+    const remaining = 2 - portfolioImages.length
+    if (remaining <= 0) return
+    files.slice(0, remaining).forEach(file => {
+      const reader = new FileReader()
+      reader.onload = ev => {
+        setPortfolioImages(prev => [...prev, { file, preview: ev.target?.result as string }])
+      }
+      reader.readAsDataURL(file)
+    })
+    e.target.value = ''
+  }
+
+  function handlePortfolioVideo(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || [])
+    const remaining = 2 - portfolioVideos.length
+    if (remaining <= 0) return
+    files.slice(0, remaining).forEach(file => {
+      const url = URL.createObjectURL(file)
+      setPortfolioVideos(prev => [...prev, { file, preview: url, name: file.name }])
+    })
+    e.target.value = ''
+  }
+
+  function removeImage(i: number) { setPortfolioImages(prev => prev.filter((_, idx) => idx !== i)) }
+  function removeVideo(i: number) { setPortfolioVideos(prev => prev.filter((_, idx) => idx !== i)) }
 
   function validate() {
     if (step === 0 && (!form.full_name || !form.username || !form.niche)) {
@@ -86,21 +116,46 @@ export default function Onboarding() {
   function next() { if (validate()) setStep(s => s + 1) }
   function back() { setError(''); setStep(s => s - 1) }
 
+  async function uploadFile(file: File, path: string): Promise<string> {
+    const { error } = await supabase.storage.from('profile-photos').upload(path, file, { upsert: true, contentType: file.type })
+    if (error) throw error
+    const { data } = supabase.storage.from('profile-photos').getPublicUrl(path)
+    return data.publicUrl
+  }
+
   async function submit() {
     setGenerating(true)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth'); return }
 
+      // Upload profile photo
       let photo_url = ''
       if (photoFile) {
         const ext = photoFile.name.split('.').pop()
-        const fileName = `${user.id}.${ext}`
-        const { error: upErr } = await supabase.storage.from('profile-photos').upload(fileName, photoFile, { upsert: true, contentType: photoFile.type })
-        if (!upErr) {
-          const { data } = supabase.storage.from('profile-photos').getPublicUrl(fileName)
-          photo_url = data.publicUrl
-        }
+        photo_url = await uploadFile(photoFile, `${user.id}.${ext}`)
+      }
+
+      // Upload portfolio images
+      let portfolio_image1 = '', portfolio_image2 = ''
+      if (portfolioImages[0]) {
+        const ext = portfolioImages[0].file.name.split('.').pop()
+        portfolio_image1 = await uploadFile(portfolioImages[0].file, `portfolio/${user.id}_img1.${ext}`)
+      }
+      if (portfolioImages[1]) {
+        const ext = portfolioImages[1].file.name.split('.').pop()
+        portfolio_image2 = await uploadFile(portfolioImages[1].file, `portfolio/${user.id}_img2.${ext}`)
+      }
+
+      // Upload portfolio videos
+      let portfolio_video1 = '', portfolio_video2 = ''
+      if (portfolioVideos[0]) {
+        const ext = portfolioVideos[0].file.name.split('.').pop()
+        portfolio_video1 = await uploadFile(portfolioVideos[0].file, `videos/${user.id}_vid1.${ext}`)
+      }
+      if (portfolioVideos[1]) {
+        const ext = portfolioVideos[1].file.name.split('.').pop()
+        portfolio_video2 = await uploadFile(portfolioVideos[1].file, `videos/${user.id}_vid2.${ext}`)
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -109,17 +164,17 @@ export default function Onboarding() {
         id: user.id,
         ...formWithoutBioNote,
         platforms: form.platforms.join(', '),
+        skills: form.skills.join(', '),
         photo_url,
+        portfolio_image1,
+        portfolio_image2,
+        portfolio_video1,
+        portfolio_video2,
         status: 'generating'
       }
 
       const { error: upsertError } = await supabase.from('profiles').upsert(profileData)
-      if (upsertError) {
-        console.error('Upsert error:', upsertError)
-        setError(`Profile save failed: ${upsertError.message}`)
-        setGenerating(false)
-        return
-      }
+      if (upsertError) { setError(`Profile save failed: ${upsertError.message}`); setGenerating(false); return }
 
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -127,10 +182,10 @@ export default function Onboarding() {
         body: JSON.stringify(form)
       })
       const { bio, tagline } = await res.json()
-
       await supabase.from('profiles').update({ bio, tagline, status: 'active' }).eq('id', user.id)
       router.push('/dashboard')
-    } catch {
+    } catch (err) {
+      console.error(err)
       setError('Something went wrong. Please try again!')
       setGenerating(false)
     }
@@ -143,7 +198,7 @@ export default function Onboarding() {
         <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, marginBottom: 12 }}>Building your identity...</h2>
         <p style={{ color: 'var(--text2)', fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>AI is writing your bio, crafting your media kit and generating your rate card. This takes about 15 seconds!</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, textAlign: 'left' }}>
-          {['Writing your professional bio...', 'Formatting your media kit...', 'Creating your rate card...', 'Setting up your profile page...'].map((item) => (
+          {['Writing your professional bio...','Formatting your media kit...','Creating your rate card...','Setting up your profile page...'].map(item => (
             <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10 }}>
               <div style={{ width: 20, height: 20, border: '2px solid var(--border2)', borderTopColor: 'var(--orange)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }}></div>
               <span style={{ fontSize: 13, color: 'var(--text2)' }}>{item}</span>
@@ -158,11 +213,7 @@ export default function Onboarding() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex' }}>
       {showCropper && rawPhoto && (
-        <PhotoCropper
-          initialImage={rawPhoto}
-          onDone={handleCropDone}
-          onCancel={() => { setShowCropper(false); setRawPhoto(null) }}
-        />
+        <PhotoCropper initialImage={rawPhoto} onDone={handleCropDone} onCancel={() => { setShowCropper(false); setRawPhoto(null) }} />
       )}
 
       {/* LEFT SIDEBAR */}
@@ -187,7 +238,6 @@ export default function Onboarding() {
       {/* FORM AREA */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
         <div style={{ maxWidth: 600, margin: '0 auto', padding: '40px 32px', width: '100%' }}>
-
           <div style={{ marginBottom: 32 }}>
             <div style={{ fontSize: 12, color: 'var(--orange)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Step {step + 1} of {STEPS.length}</div>
             <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, marginBottom: 6 }}>{STEPS[step].title}</h1>
@@ -196,38 +246,20 @@ export default function Onboarding() {
 
           {error && <div style={{ background: 'rgba(255,68,68,0.1)', border: '1px solid rgba(255,68,68,0.3)', color: '#FF6666', padding: '10px 14px', borderRadius: 10, fontSize: 13, marginBottom: 20 }}>{error}</div>}
 
-          {/* STEP 0 */}
+          {/* STEP 0 — Basic Identity */}
           {step === 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-
-              {/* PHOTO UPLOAD — input sits INSIDE label, opacity:0 covers full area */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px', background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 12 }}>
-                {/* Clickable circle */}
                 <label style={{ position: 'relative', width: 72, height: 72, borderRadius: '50%', border: '2px dashed var(--orange-border)', background: photoPreview ? 'transparent' : 'var(--bg3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', flexShrink: 0 }}>
-                  {photoPreview
-                    ? <img src={photoPreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none', userSelect: 'none' }} />
-                    : <Upload size={22} color="var(--orange)" />
-                  }
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhoto}
-                    style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%', zIndex: 10 }}
-                  />
+                  {photoPreview ? <img src={photoPreview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} /> : <Upload size={22} color="var(--orange)" />}
+                  <input type="file" accept="image/*" onChange={handlePhoto} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%', zIndex: 10 }} />
                 </label>
-
                 <div>
                   <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 3 }}>Profile photo</p>
                   <p style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 8 }}>Used in your media kit and CV</p>
-                  {/* Clickable button */}
                   <label style={{ position: 'relative', fontSize: 11, padding: '6px 14px', background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 6, color: 'var(--orange)', cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'inline-block', overflow: 'hidden', fontWeight: 500 }}>
                     {photoPreview ? 'Change photo' : 'Choose photo'}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhoto}
-                      style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%', zIndex: 10 }}
-                    />
+                    <input type="file" accept="image/*" onChange={handlePhoto} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%', zIndex: 10 }} />
                   </label>
                 </div>
               </div>
@@ -252,7 +284,7 @@ export default function Onboarding() {
             </div>
           )}
 
-          {/* STEP 1 */}
+          {/* STEP 1 — Platform Stats */}
           {step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div><label className="label">Platforms you create on *</label>
@@ -272,10 +304,11 @@ export default function Onboarding() {
                 <div><label className="label">Avg views per post</label><input className="input" placeholder="35,000" value={form.avg_views} onChange={e => set('avg_views', e.target.value)} /></div>
                 <div><label className="label">Engagement rate</label><input className="input" placeholder="4.8%" value={form.engagement_rate} onChange={e => set('engagement_rate', e.target.value)} /></div>
               </div>
+              <div><label className="label">Follower growth (last 6 months)</label><input className="input" placeholder="e.g. +12% in last 6 months" value={form.follower_growth} onChange={e => set('follower_growth', e.target.value)} /></div>
             </div>
           )}
 
-          {/* STEP 2 */}
+          {/* STEP 2 — Audience */}
           {step === 2 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div><label className="label">Audience gender</label>
@@ -292,45 +325,50 @@ export default function Onboarding() {
             </div>
           )}
 
-          {/* STEP 3 */}
+          {/* STEP 3 — Past Work */}
           {step === 3 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div><label className="label">Brands you&apos;ve worked with</label><input className="input" placeholder="Mamaearth, boAt, Nykaa" value={form.brands_worked} onChange={e => set('brands_worked', e.target.value)} /></div>
               <div><label className="label">Your best campaign or achievement</label><textarea className="input" placeholder="My Reel for Nykaa got 2M views..." value={form.best_campaign} onChange={e => set('best_campaign', e.target.value)} style={{ minHeight: 90, resize: 'vertical' }} /></div>
               <div><label className="label">Awards or press mentions (optional)</label><input className="input" placeholder="Forbes 30 Under 30, ET feature..." value={form.awards} onChange={e => set('awards', e.target.value)} /></div>
+              <div><label className="label">Your skills & tools</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+                  {SKILLS_LIST.map(s => <div key={s} className={`chip ${form.skills.includes(s) ? 'selected' : ''}`} onClick={() => toggleArr('skills', s)}>{s}</div>)}
+                </div>
+              </div>
             </div>
           )}
 
-          {/* STEP 4 */}
+          {/* STEP 4 — Rates */}
           {step === 4 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Instagram rates</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>📸 Instagram rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Reel (Rs.)</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
-                  <div><label className="label">Static Post (Rs.)</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
-                  <div><label className="label">Carousel (Rs.)</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
-                  <div><label className="label">Stories Pack (Rs.)</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
+                  <div><label className="label">Reel (₹)</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
+                  <div><label className="label">Static Post (₹)</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
+                  <div><label className="label">Carousel (₹)</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
+                  <div><label className="label">Stories Pack (₹)</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
                 </div>
               </div>
               <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>YouTube rates</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>▶️ YouTube rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Dedicated Video (Rs.)</label><input className="input" placeholder="3000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
-                  <div><label className="label">Integration (Rs.)</label><input className="input" placeholder="1500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
-                  <div><label className="label">YouTube Short (Rs.)</label><input className="input" placeholder="1000" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
+                  <div><label className="label">Dedicated Video (₹)</label><input className="input" placeholder="5000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
+                  <div><label className="label">Integration / Mention (₹)</label><input className="input" placeholder="2500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
+                  <div><label className="label">YouTube Short (₹)</label><input className="input" placeholder="1500" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
                 </div>
               </div>
               <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Other platforms</p>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>🌐 Other platforms</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Twitter Thread (Rs.)</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
-                  <div><label className="label">LinkedIn Post (Rs.)</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
-                  <div><label className="label">Blog Post (Rs.)</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
-                  <div><label className="label">Podcast Mention (Rs.)</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
+                  <div><label className="label">Twitter Thread (₹)</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
+                  <div><label className="label">LinkedIn Post (₹)</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
+                  <div><label className="label">Blog Post (₹)</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
+                  <div><label className="label">Podcast Mention (₹)</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
                 </div>
               </div>
-              <div><label className="label">Custom bundle package</label><input className="input" placeholder="Reel + Stories + YT = Rs.5,500" value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>
+              <div><label className="label">Custom bundle package</label><input className="input" placeholder="Reel + Stories + YT Short = ₹5,500" value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>
               <div><label className="label">Turnaround time</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
                   {TURNAROUND.map(t => <div key={t} className={`chip ${form.turnaround === t ? 'selected' : ''}`} onClick={() => set('turnaround', t)}>{t}</div>)}
@@ -339,8 +377,68 @@ export default function Onboarding() {
             </div>
           )}
 
-          {/* STEP 5 */}
+          {/* STEP 5 — Portfolio */}
           {step === 5 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <div style={{ background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 12, padding: '12px 16px' }}>
+                <p style={{ fontSize: 12, color: 'var(--orange2)', lineHeight: 1.6 }}>📌 Upload your 2 best content pieces as images and 2 as videos (max 60 sec). Brands watch these to judge your content quality!</p>
+              </div>
+
+              {/* Images */}
+              <div>
+                <label className="label" style={{ marginBottom: 12 }}>Portfolio images (max 2) — your best posts or campaign shots</label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  {portfolioImages.map((img, i) => (
+                    <div key={i} style={{ position: 'relative', aspectRatio: '1', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--border2)' }}>
+                      <img src={img.preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <button onClick={() => removeImage(i)} style={{ position: 'absolute', top: 6, right: 6, width: 24, height: 24, background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '50%', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  {portfolioImages.length < 2 && (
+                    <label style={{ aspectRatio: '1', border: '2px dashed var(--orange-border)', borderRadius: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', gap: 8, background: 'var(--bg3)' }}>
+                      <Upload size={24} color="var(--orange)" />
+                      <span style={{ fontSize: 11, color: 'var(--text3)' }}>Add image</span>
+                      <input type="file" accept="image/*" multiple onChange={handlePortfolioImage} style={{ display: 'none' }} />
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              {/* Videos */}
+              <div>
+                <label className="label" style={{ marginBottom: 12 }}>Portfolio videos (max 2, max 60 sec each) — your best Reels or YouTube clips</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {portfolioVideos.map((vid, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 10 }}>
+                      <span style={{ fontSize: 20 }}>🎬</span>
+                      <div style={{ flex: 1 }}>
+                        <p style={{ fontSize: 12, color: 'var(--text)', fontWeight: 500, marginBottom: 2 }}>{vid.name}</p>
+                        <p style={{ fontSize: 10, color: 'var(--text3)' }}>Video {i + 1} uploaded ✅</p>
+                      </div>
+                      <button onClick={() => removeVideo(i)} style={{ background: 'rgba(255,68,68,0.1)', border: '1px solid rgba(255,68,68,0.2)', borderRadius: 6, color: '#FF6666', cursor: 'pointer', padding: '4px 10px', fontSize: 11 }}>Remove</button>
+                    </div>
+                  ))}
+                  {portfolioVideos.length < 2 && (
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', border: '2px dashed var(--orange-border)', borderRadius: 10, cursor: 'pointer', background: 'var(--bg3)' }}>
+                      <Upload size={20} color="var(--orange)" />
+                      <div>
+                        <p style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>Upload video {portfolioVideos.length + 1}</p>
+                        <p style={{ fontSize: 11, color: 'var(--text3)' }}>MP4, MOV — max 60 seconds</p>
+                      </div>
+                      <input type="file" accept="video/*" onChange={handlePortfolioVideo} style={{ display: 'none' }} />
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              <p style={{ fontSize: 11, color: 'var(--text3)', textAlign: 'center' }}>Portfolio is optional but strongly recommended — creators with portfolio get 3x more brand inquiries!</p>
+            </div>
+          )}
+
+          {/* STEP 6 — Preferences */}
+          {step === 6 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div><label className="label">Preferred collaboration type</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
@@ -359,19 +457,19 @@ export default function Onboarding() {
             </div>
           )}
 
-          {/* STEP 6 */}
-          {step === 6 && (
+          {/* STEP 7 — Contact */}
+          {step === 7 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div><label className="label">Email *</label><input className="input" type="email" placeholder="you@gmail.com" value={form.email} onChange={e => set('email', e.target.value)} /></div>
               <div><label className="label">WhatsApp number</label><input className="input" placeholder="+91 98765 43210" value={form.whatsapp} onChange={e => set('whatsapp', e.target.value)} /></div>
               <div style={{ background: 'var(--orange-dim)', border: '1px solid var(--orange-border)', borderRadius: 12, padding: 16 }}>
-                <p style={{ fontSize: 13, color: 'var(--orange2)', fontWeight: 500, marginBottom: 4 }}>Almost done!</p>
+                <p style={{ fontSize: 13, color: 'var(--orange2)', fontWeight: 500, marginBottom: 4 }}>Almost done! 🎉</p>
                 <p style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.6 }}>After submitting, AI will generate your complete bio, media kit and profile in about 15 seconds.</p>
               </div>
             </div>
           )}
 
-          {/* NAV BUTTONS */}
+          {/* NAV */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--border)' }}>
             {step > 0 ? (
               <button className="btn-ghost" onClick={back} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -384,11 +482,10 @@ export default function Onboarding() {
               </button>
             ) : (
               <button className="btn-primary" onClick={submit} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                Generate my profile
+                ✨ Generate my profile
               </button>
             )}
           </div>
-
         </div>
       </div>
     </div>

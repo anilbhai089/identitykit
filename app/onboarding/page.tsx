@@ -117,47 +117,56 @@ export default function Onboarding() {
   function back() { setError(''); setStep(s => s - 1) }
 
   async function uploadFile(file: File, path: string): Promise<string> {
-    const { error } = await supabase.storage.from('profile-photos').upload(path, file, { upsert: true, contentType: file.type })
-    if (error) throw error
-    const { data } = supabase.storage.from('profile-photos').getPublicUrl(path)
-    return data.publicUrl
+    try {
+      const { error } = await supabase.storage.from('profile-photos').upload(path, file, { upsert: true, contentType: file.type })
+      if (error) { console.error('Upload error:', error); return '' }
+      const { data } = supabase.storage.from('profile-photos').getPublicUrl(path)
+      return data.publicUrl
+    } catch (e) {
+      console.error('Upload failed:', e)
+      return ''
+    }
   }
 
   async function submit() {
     setGenerating(true)
+    setError('')
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth'); return }
 
-      // Upload profile photo
+      // Upload files — never crash if upload fails
       let photo_url = ''
-      if (photoFile) {
-        const ext = photoFile.name.split('.').pop()
-        photo_url = await uploadFile(photoFile, `${user.id}.${ext}`)
-      }
-
-      // Upload portfolio images
       let portfolio_image1 = '', portfolio_image2 = ''
-      if (portfolioImages[0]) {
-        const ext = portfolioImages[0].file.name.split('.').pop()
-        portfolio_image1 = await uploadFile(portfolioImages[0].file, `portfolio/${user.id}_img1.${ext}`)
-      }
-      if (portfolioImages[1]) {
-        const ext = portfolioImages[1].file.name.split('.').pop()
-        portfolio_image2 = await uploadFile(portfolioImages[1].file, `portfolio/${user.id}_img2.${ext}`)
-      }
-
-      // Upload portfolio videos
       let portfolio_video1 = '', portfolio_video2 = ''
-      if (portfolioVideos[0]) {
-        const ext = portfolioVideos[0].file.name.split('.').pop()
-        portfolio_video1 = await uploadFile(portfolioVideos[0].file, `videos/${user.id}_vid1.${ext}`)
-      }
-      if (portfolioVideos[1]) {
-        const ext = portfolioVideos[1].file.name.split('.').pop()
-        portfolio_video2 = await uploadFile(portfolioVideos[1].file, `videos/${user.id}_vid2.${ext}`)
+
+      try {
+        if (photoFile) {
+          const ext = photoFile.name.split('.').pop() || 'jpg'
+          photo_url = await uploadFile(photoFile, `${user.id}.${ext}`)
+        }
+        if (portfolioImages[0]) {
+          const ext = portfolioImages[0].file.name.split('.').pop() || 'jpg'
+          portfolio_image1 = await uploadFile(portfolioImages[0].file, `portfolio/${user.id}_img1.${ext}`)
+        }
+        if (portfolioImages[1]) {
+          const ext = portfolioImages[1].file.name.split('.').pop() || 'jpg'
+          portfolio_image2 = await uploadFile(portfolioImages[1].file, `portfolio/${user.id}_img2.${ext}`)
+        }
+        if (portfolioVideos[0]) {
+          const ext = portfolioVideos[0].file.name.split('.').pop() || 'mp4'
+          portfolio_video1 = await uploadFile(portfolioVideos[0].file, `videos/${user.id}_vid1.${ext}`)
+        }
+        if (portfolioVideos[1]) {
+          const ext = portfolioVideos[1].file.name.split('.').pop() || 'mp4'
+          portfolio_video2 = await uploadFile(portfolioVideos[1].file, `videos/${user.id}_vid2.${ext}`)
+        }
+      } catch (uploadErr) {
+        console.error('File upload error (non-fatal):', uploadErr)
+        // Continue even if uploads fail
       }
 
+      // Save profile to Supabase
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { bio_note, ...formWithoutBioNote } = form
       const profileData = {
@@ -174,19 +183,43 @@ export default function Onboarding() {
       }
 
       const { error: upsertError } = await supabase.from('profiles').upsert(profileData)
-      if (upsertError) { setError(`Profile save failed: ${upsertError.message}`); setGenerating(false); return }
+      if (upsertError) {
+        console.error('Supabase upsert error:', upsertError)
+        setError(`Profile save failed: ${upsertError.message}`)
+        setGenerating(false)
+        return
+      }
 
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      })
-      const { bio, tagline } = await res.json()
+      // Generate bio via AI — if it fails use fallback
+      let bio = ''
+      let tagline = ''
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...form,
+            platforms: form.platforms.join(', '),
+            skills: form.skills.join(', '),
+          })
+        })
+        if (res.ok) {
+          const result = await res.json()
+          bio = result.bio || ''
+          tagline = result.tagline || ''
+        }
+      } catch (genErr) {
+        console.error('AI generation failed (non-fatal):', genErr)
+        bio = `${form.full_name} is a ${form.niche} creator based in ${form.city}, creating engaging content across platforms.`
+        tagline = `${form.niche} creator from ${form.city}`
+      }
+
       await supabase.from('profiles').update({ bio, tagline, status: 'active' }).eq('id', user.id)
       router.push('/dashboard')
+
     } catch (err) {
-      console.error(err)
-      setError('Something went wrong. Please try again!')
+      console.error('Submit error:', err)
+      setError(`Error: ${err instanceof Error ? err.message : 'Something went wrong. Please try again!'}`)
       setGenerating(false)
     }
   }

@@ -1,5 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
 export const r2 = new S3Client({
   region: 'auto',
@@ -10,6 +9,8 @@ export const r2 = new S3Client({
   },
 })
 
+export const R2_PUBLIC_URL = 'https://pub-fd2cd796dcdc4dff9656bd4b07dcb0d7.r2.dev'
+
 export async function uploadToR2(file: Buffer, key: string, contentType: string) {
   await r2.send(new PutObjectCommand({
     Bucket: process.env.R2_BUCKET_NAME!,
@@ -17,5 +18,5 @@ export async function uploadToR2(file: Buffer, key: string, contentType: string)
     Body: file,
     ContentType: contentType,
   }))
-  return `https://pub-${process.env.R2_ACCOUNT_ID}.r2.dev/${key}`
+  return `${R2_PUBLIC_URL}/${key}`
 }

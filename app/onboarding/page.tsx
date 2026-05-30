@@ -116,14 +116,35 @@ export default function Onboarding() {
   function next() { if (validate()) setStep(s => s + 1) }
   function back() { setError(''); setStep(s => s - 1) }
 
-  async function uploadFile(file: File, path: string): Promise<string> {
+  // Upload profile photo → Supabase
+  async function uploadPhotoToSupabase(file: File, path: string): Promise<string> {
     try {
       const { error } = await supabase.storage.from('profile-photos').upload(path, file, { upsert: true, contentType: file.type })
-      if (error) { console.error('Upload error:', error); return '' }
+      if (error) { console.error('Supabase upload error:', error.message); return '' }
       const { data } = supabase.storage.from('profile-photos').getPublicUrl(path)
       return data.publicUrl
     } catch (e) {
-      console.error('Upload failed:', e)
+      console.error('Supabase upload failed:', e)
+      return ''
+    }
+  }
+
+  // Upload portfolio images/videos → Cloudflare R2 via API route
+  async function uploadToR2(file: File, key: string): Promise<string> {
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('key', key)
+      const res = await fetch('/api/upload', { method: 'POST', body: fd })
+      if (!res.ok) {
+        const err = await res.json()
+        console.error('R2 upload error:', err)
+        return ''
+      }
+      const { url } = await res.json()
+      return url || ''
+    } catch (e) {
+      console.error('R2 upload failed:', e)
       return ''
     }
   }
@@ -135,35 +156,39 @@ export default function Onboarding() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth'); return }
 
-      // Upload files — never crash if upload fails
+      // Profile photo → Supabase storage
       let photo_url = ''
+      // Portfolio images & videos → Cloudflare R2
       let portfolio_image1 = '', portfolio_image2 = ''
       let portfolio_video1 = '', portfolio_video2 = ''
 
       try {
         if (photoFile) {
           const ext = photoFile.name.split('.').pop() || 'jpg'
-          photo_url = await uploadFile(photoFile, `${user.id}.${ext}`)
+          photo_url = await uploadPhotoToSupabase(photoFile, `${user.id}.${ext}`)
+          console.log('Photo URL:', photo_url)
         }
         if (portfolioImages[0]) {
           const ext = portfolioImages[0].file.name.split('.').pop() || 'jpg'
-          portfolio_image1 = await uploadFile(portfolioImages[0].file, `portfolio/${user.id}_img1.${ext}`)
+          portfolio_image1 = await uploadToR2(portfolioImages[0].file, `portfolio/${user.id}_img1.${ext}`)
+          console.log('Portfolio image 1:', portfolio_image1)
         }
         if (portfolioImages[1]) {
           const ext = portfolioImages[1].file.name.split('.').pop() || 'jpg'
-          portfolio_image2 = await uploadFile(portfolioImages[1].file, `portfolio/${user.id}_img2.${ext}`)
+          portfolio_image2 = await uploadToR2(portfolioImages[1].file, `portfolio/${user.id}_img2.${ext}`)
         }
         if (portfolioVideos[0]) {
           const ext = portfolioVideos[0].file.name.split('.').pop() || 'mp4'
-          portfolio_video1 = await uploadFile(portfolioVideos[0].file, `videos/${user.id}_vid1.${ext}`)
+          portfolio_video1 = await uploadToR2(portfolioVideos[0].file, `videos/${user.id}_vid1.${ext}`)
+          console.log('Portfolio video 1:', portfolio_video1)
         }
         if (portfolioVideos[1]) {
           const ext = portfolioVideos[1].file.name.split('.').pop() || 'mp4'
-          portfolio_video2 = await uploadFile(portfolioVideos[1].file, `videos/${user.id}_vid2.${ext}`)
+          portfolio_video2 = await uploadToR2(portfolioVideos[1].file, `videos/${user.id}_vid2.${ext}`)
         }
       } catch (uploadErr) {
         console.error('File upload error (non-fatal):', uploadErr)
-        // Continue even if uploads fail
+        // Continue even if uploads fail — profile still saves
       }
 
       // Save profile to Supabase

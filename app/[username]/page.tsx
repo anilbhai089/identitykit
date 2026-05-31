@@ -174,8 +174,8 @@ export default function PublicProfile() {
 
         {/* AVATAR ROW */}
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14 }}>
-          <div className='ik-avatar-wrap' style={{ position: 'relative', marginTop: -44 }}>
-            <div style={{ width: 88, height: 88, borderRadius: '50%', border: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden', boxShadow: '0 0 0 4px #08080E' }}>
+          <div className='ik-avatar-wrap' style={{ position: 'relative', marginTop: -56 }}>
+            <div style={{ width: 88, height: 88, borderRadius: '50%', border: '4px solid #08080E', outline: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden', boxShadow: '0 0 0 0px #08080E' }}>
               {profile.photo_url ? <img src={profile.photo_url} alt={profile.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
             </div>
             <div style={{ position: 'absolute', bottom: 4, right: 4, width: 14, height: 14, borderRadius: '50%', background: '#22c55e', border: '2px solid #08080E' }}></div>
@@ -214,7 +214,7 @@ export default function PublicProfile() {
         {profile.bio && <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 18, wordBreak: 'break-word' }}>{profile.bio}</p>}
 
         {/* ─── BENTO STATS GRID ─── */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 8 }}>
+        <div className="ik-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 8 }}>
           {[
             { val: profile.instagram_followers || profile.youtube_subscribers || '—', label: 'Followers', icon: 'ti-users' },
             { val: profile.avg_views || '—', label: 'Avg Views', icon: 'ti-eye' },

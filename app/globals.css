@@ -259,3 +259,30 @@ html, body {
   /* Fix: Share buttons smaller on mobile */
   .ik-share { padding: 6px 9px !important; font-size: 10px !important; }
 }
+
+/* ── MOBILE FIXES v3 ── */
+@media (max-width: 680px) {
+
+  /* Stats strip — FORCE 2x2 no matter what */
+  .ik-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    overflow: visible !important;
+  }
+
+  /* Rate card header — stack name and valid till vertically */
+  .ik-rc-header-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  .ik-rc-valid {
+    align-self: flex-start !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  /* Profile avatar — fix banner overlap */
+  .ik-avatar-wrap {
+    margin-top: -32px !important;
+  }
+}

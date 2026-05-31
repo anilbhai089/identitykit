@@ -49,6 +49,9 @@ export default function Onboarding() {
     rate_story_link: '', rate_yt_dedicated: '', rate_yt_integration: '',
     rate_yt_short: '', rate_twitter: '', rate_linkedin: '', rate_blog: '',
     rate_podcast: '', custom_package: '', turnaround: '',
+    rate_valid_till: '',
+    term_advance: '', term_gst: '', term_usage: '', term_revision: '',
+    term_custom: '', term_brief: '', term_approval: '', term_cancel: '',
     skills: [] as string[],
     collab_type: '', categories_avoid: '', response_time: '', vibe: '',
     email: '', whatsapp: '',
@@ -106,6 +109,15 @@ export default function Onboarding() {
         rate_podcast: data.rate_podcast || '',
         custom_package: data.custom_package || '',
         turnaround: data.turnaround || '',
+        rate_valid_till: data.rate_valid_till || '',
+        term_advance: data.term_advance || '',
+        term_gst: data.term_gst || '',
+        term_usage: data.term_usage || '',
+        term_revision: data.term_revision || '',
+        term_custom: data.term_custom || '',
+        term_brief: data.term_brief || '',
+        term_approval: data.term_approval || '',
+        term_cancel: data.term_cancel || '',
         skills: data.skills ? data.skills.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
         collab_type: data.collab_type || '',
         categories_avoid: data.categories_avoid || '',
@@ -496,6 +508,34 @@ export default function Onboarding() {
               <div><label className="label">Turnaround time</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
                   {TURNAROUND.map(t => <div key={t} className={`chip ${form.turnaround === t ? 'selected' : ''}`} onClick={() => set('turnaround', t)}>{t}</div>)}
+                </div>
+              </div>
+
+              <div><label className="label">Valid till (optional) <span style={{ color: 'var(--text3)', fontWeight: 400 }}>— leave blank to hide from rate card</span></label>
+                <input className="input" type="month" value={form.rate_valid_till} onChange={e => set('rate_valid_till', e.target.value)} />
+              </div>
+
+              <div>
+                <label className="label" style={{ marginBottom: 10 }}>Terms &amp; notes — tick what applies to you</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {[
+                    { key: 'term_advance', label: '50% advance payment required before work begins' },
+                    { key: 'term_gst', label: 'All prices exclusive of 18% GST · GST invoice provided' },
+                    { key: 'term_usage', label: 'Usage rights for 6 months · Exclusivity available on request' },
+                    { key: 'term_revision', label: '1 free revision per deliverable · Additional revisions charged separately' },
+                    { key: 'term_custom', label: 'Custom packages available · Contact to discuss' },
+                    { key: 'term_brief', label: 'Detailed brand brief required before starting' },
+                    { key: 'term_approval', label: 'Content requires brand approval before posting' },
+                    { key: 'term_cancel', label: '50% cancellation fee after work has started' },
+                  ].map(t => (
+                    <div key={t.key} onClick={() => set(t.key, form[t.key as keyof typeof form] === 'yes' ? '' : 'yes')}
+                      style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: form[t.key as keyof typeof form] === 'yes' ? 'var(--orange-dim)' : 'var(--bg3)', border: `1px solid ${form[t.key as keyof typeof form] === 'yes' ? 'var(--orange-border)' : 'var(--border)'}`, borderRadius: 10, cursor: 'pointer', transition: 'all 0.15s' }}>
+                      <div style={{ width: 18, height: 18, borderRadius: 5, border: `2px solid ${form[t.key as keyof typeof form] === 'yes' ? 'var(--orange)' : 'var(--border2)'}`, background: form[t.key as keyof typeof form] === 'yes' ? 'var(--orange)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.15s' }}>
+                        {form[t.key as keyof typeof form] === 'yes' && <span style={{ color: 'white', fontSize: 11, fontWeight: 700 }}>✓</span>}
+                      </div>
+                      <span style={{ fontSize: 12, color: form[t.key as keyof typeof form] === 'yes' ? 'var(--orange2)' : 'var(--text2)', lineHeight: 1.4 }}>{t.label}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

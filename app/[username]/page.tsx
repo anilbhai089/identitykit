@@ -244,7 +244,7 @@ export default function PublicProfile() {
 
             {/* BENTO ROW 1 — Platforms + Audience */}
             {(platformList.length > 0 || profile.audience_age) && (
-              <div style={{ display: 'grid', gridTemplateColumns: platformList.length > 0 && profile.audience_age ? '1fr 1fr' : '1fr', gap: 8, marginBottom: 8 }}>
+              <div className='ik-bento-row' style={{ display: 'grid', gridTemplateColumns: platformList.length > 0 && profile.audience_age ? '1fr 1fr' : '1fr', gap: 8, marginBottom: 8 }}>
                 {/* Platforms bento */}
                 {platformList.length > 0 && (
                   <div className="ik-bento" style={{ ...S.card, padding: '18px 16px', transition: 'all 0.2s' }}>
@@ -459,7 +459,7 @@ export default function PublicProfile() {
                   <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>{profile.niche} · {profile.city} · {profile.languages}</div>
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, gap: 4 }}>
+              <div className='ik-mk-stats' style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, gap: 4 }}>
                 {[
                   [profile.instagram_followers || '—', 'Instagram'],
                   [profile.youtube_subscribers || '—', 'YouTube'],
@@ -613,7 +613,7 @@ export default function PublicProfile() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div><div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Full Brand Bundle</div><div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 3 }}>{profile.custom_package}</div></div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: '#FF6B2B' }}>Best value</div>
+                  <div className='ik-bundle-price' style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: '#FF6B2B' }}>Best value</div>
                 </div>
               </div>
             )}

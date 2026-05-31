@@ -286,3 +286,10 @@ html, body {
     margin-top: -32px !important;
   }
 }
+
+/* ── FINAL STATS FIX ── */
+@media (max-width: 640px) {
+  .ik-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}

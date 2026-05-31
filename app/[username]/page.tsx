@@ -170,7 +170,7 @@ export default function PublicProfile() {
         <div style={{ position: 'absolute', bottom: 10, right: 16, fontFamily: "'Syne',sans-serif", fontSize: 9, color: 'rgba(255,107,43,0.2)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>Identity Kit</div>
       </div>
 
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 16px 48px' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 16px 48px', overflowX: 'hidden' }}>
 
         {/* AVATAR ROW */}
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14 }}>
@@ -193,7 +193,7 @@ export default function PublicProfile() {
         {/* NAME */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8, marginBottom: 6 }}>
           <div>
-            <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 24, fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 3 }}>{profile.full_name}</h1>
+            <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 'clamp(20px,5.5vw,24px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 3 }}>{profile.full_name}</h1>
             <div style={{ fontSize: 11, color: '#FF6B2B' }}>identitykit.in/{profile.username}</div>
           </div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(34,197,94,0.08)', color: '#22c55e', fontSize: 11, fontWeight: 600, padding: '5px 12px', borderRadius: 99, border: '1px solid rgba(34,197,94,0.2)' }}>
@@ -211,7 +211,7 @@ export default function PublicProfile() {
         </div>
 
         {/* BIO */}
-        {profile.bio && <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 18 }}>{profile.bio}</p>}
+        {profile.bio && <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 18, wordBreak: 'break-word' }}>{profile.bio}</p>}
 
         {/* ─── BENTO STATS GRID ─── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 8 }}>
@@ -223,8 +223,8 @@ export default function PublicProfile() {
           ].map(s => (
             <div key={s.label} className="ik-bento" style={{ ...S.card, padding: '14px 12px', textAlign: 'center', transition: 'all 0.2s' }}>
               <i className={`ti ${s.icon}`} style={{ fontSize: 14, color: 'rgba(255,107,43,0.5)', display: 'block', marginBottom: 6 }}></i>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: '#FF6B2B', marginBottom: 3 }}>{s.val}</div>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{s.label}</div>
+              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 'clamp(13px,3.5vw,18px)', fontWeight: 800, color: '#FF6B2B', marginBottom: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.val}</div>
+              <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.06em', overflow: 'hidden' }}>{s.label}</div>
             </div>
           ))}
         </div>

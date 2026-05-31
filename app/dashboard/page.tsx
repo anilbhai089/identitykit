@@ -88,16 +88,16 @@ export default function Dashboard() {
               <p style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 4 }}>identitykit.in/{profile.username}</p>
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>{profile.view_count || 0} profile views</p>
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={copyLink} className="db-btn" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', background: copied ? '#22c55e22' : '#FF6B2B', border: `1px solid ${copied ? '#22c55e44' : 'transparent'}`, borderRadius: 9, color: copied ? '#22c55e' : 'white', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
-                <i className={`ti ${copied ? 'ti-check' : 'ti-copy'}`} style={{ fontSize: 15 }}></i>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button onClick={copyLink} className="db-btn" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 14px', background: copied ? '#22c55e22' : '#FF6B2B', border: `1px solid ${copied ? '#22c55e44' : 'transparent'}`, borderRadius: 9, color: copied ? '#22c55e' : 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s', whiteSpace: 'nowrap' }}>
+                <i className={`ti ${copied ? 'ti-check' : 'ti-copy'}`} style={{ fontSize: 14 }}></i>
                 {copied ? 'Copied!' : 'Copy link'}
               </button>
-              <button onClick={shareWhatsApp} className="db-btn" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 14px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 9, color: '#22c55e', fontSize: 13, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
-                <i className="ti ti-brand-whatsapp" style={{ fontSize: 15 }}></i> WhatsApp
+              <button onClick={shareWhatsApp} className="db-btn" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 14px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 9, color: '#22c55e', fontSize: 12, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s', whiteSpace: 'nowrap' }}>
+                <i className="ti ti-brand-whatsapp" style={{ fontSize: 14 }}></i> WhatsApp
               </button>
-              <button onClick={() => window.open(profileUrl, '_blank')} className="db-btn" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 9, color: 'rgba(255,255,255,0.6)', fontSize: 13, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
-                <i className="ti ti-external-link" style={{ fontSize: 15 }}></i> Preview
+              <button onClick={() => window.open(profileUrl, '_blank')} className="db-btn" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 9, color: 'rgba(255,255,255,0.6)', fontSize: 12, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s', whiteSpace: 'nowrap' }}>
+                <i className="ti ti-external-link" style={{ fontSize: 14 }}></i> Preview
               </button>
             </div>
           </div>

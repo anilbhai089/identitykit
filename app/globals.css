@@ -137,3 +137,46 @@ select.input option { background: var(--bg3); }
 .animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
 .animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
 .animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+/* ── GLOBAL MOBILE FIXES ── */
+* { box-sizing: border-box; }
+
+/* Profile page mobile */
+@media (max-width: 640px) {
+  /* Bento stats — 2x2 grid on mobile */
+  .ik-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Tabs — scrollable on mobile */
+  .ik-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap !important;
+  }
+  .ik-tabs::-webkit-scrollbar { display: none; }
+  .ik-tab-btn { white-space: nowrap; flex-shrink: 0; }
+
+  /* Audience grid — single column */
+  .ik-aud-grid { grid-template-columns: 1fr !important; }
+
+  /* Portfolio — single column on very small */
+  .ik-portfolio-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* CV two column — stack on mobile */
+  .ik-cv-cols { grid-template-columns: 1fr !important; }
+
+  /* Rate table font size */
+  .ik-rate-price { font-size: 13px !important; }
+
+  /* Dashboard grid — single column */
+  .ik-dashboard-grid { grid-template-columns: 1fr !important; }
+
+  /* Onboarding sidebar — hidden on mobile */
+  .ik-onboarding-sidebar { display: none !important; }
+}
+
+@media (max-width: 400px) {
+  .ik-portfolio-grid { grid-template-columns: 1fr !important; }
+}

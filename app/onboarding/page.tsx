@@ -54,6 +54,10 @@ export default function Onboarding() {
     email: '', whatsapp: '',
   })
 
+  // Store existing portfolio URLs (already uploaded, not new files)
+  const [existingPortfolioImages, setExistingPortfolioImages] = useState<string[]>([])
+  const [existingPortfolioVideos, setExistingPortfolioVideos] = useState<string[]>([])
+
   // Load existing profile to pre-fill form when editing
   useEffect(() => {
     async function loadExisting() {
@@ -62,6 +66,11 @@ export default function Onboarding() {
       const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
       if (!data) return
       if (data.photo_url) setPhotoPreview(data.photo_url)
+      // Pre-fill existing portfolio URLs
+      const existImgs = [data.portfolio_image1, data.portfolio_image2].filter(Boolean)
+      const existVids = [data.portfolio_video1, data.portfolio_video2].filter(Boolean)
+      if (existImgs.length > 0) setExistingPortfolioImages(existImgs)
+      if (existVids.length > 0) setExistingPortfolioVideos(existVids)
       setForm(f => ({
         ...f,
         full_name: data.full_name || '',
@@ -212,10 +221,12 @@ export default function Onboarding() {
       if (!user) { router.push('/auth'); return }
 
       // Profile photo → Supabase storage
-      let photo_url = ''
-      // Portfolio images & videos → Cloudflare R2
-      let portfolio_image1 = '', portfolio_image2 = ''
-      let portfolio_video1 = '', portfolio_video2 = ''
+      let photo_url = photoPreview || '' // keep existing if no new file
+      // Portfolio — keep existing URLs if no new files uploaded
+      let portfolio_image1 = existingPortfolioImages[0] || ''
+      let portfolio_image2 = existingPortfolioImages[1] || ''
+      let portfolio_video1 = existingPortfolioVideos[0] || ''
+      let portfolio_video2 = existingPortfolioVideos[1] || ''
 
       try {
         if (photoFile) {
@@ -497,6 +508,22 @@ export default function Onboarding() {
                 <p style={{ fontSize: 12, color: 'var(--orange2)', lineHeight: 1.6 }}>📌 Upload your 2 best content pieces as images and 2 as videos (max 60 sec). Brands watch these to judge your content quality!</p>
               </div>
 
+              {/* Existing portfolio images from previous save */}
+              {existingPortfolioImages.length > 0 && portfolioImages.length === 0 && (
+                <div>
+                  <label className="label" style={{ marginBottom: 8 }}>Current portfolio images</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 8 }}>
+                    {existingPortfolioImages.map((url, i) => (
+                      <div key={i} style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--border2)' }}>
+                        <img src={url} alt="" style={{ width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block' }} />
+                        <div style={{ position: 'absolute', bottom: 6, left: 6, background: 'rgba(0,0,0,0.7)', fontSize: 10, color: 'white', padding: '2px 8px', borderRadius: 4 }}>Saved ✅</div>
+                      </div>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 4 }}>Upload new images below to replace these:</p>
+                </div>
+              )}
+
               {/* Images */}
               <div>
                 <label className="label" style={{ marginBottom: 12 }}>Portfolio images (max 2) — your best posts or campaign shots</label>
@@ -518,6 +545,26 @@ export default function Onboarding() {
                   )}
                 </div>
               </div>
+
+              {/* Existing portfolio videos from previous save */}
+              {existingPortfolioVideos.length > 0 && portfolioVideos.length === 0 && (
+                <div>
+                  <label className="label" style={{ marginBottom: 8 }}>Current portfolio videos</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
+                    {existingPortfolioVideos.map((url, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 10 }}>
+                        <span style={{ fontSize: 20 }}>🎬</span>
+                        <div style={{ flex: 1 }}>
+                          <p style={{ fontSize: 12, color: 'var(--text)', fontWeight: 500 }}>Video {i + 1}</p>
+                          <p style={{ fontSize: 10, color: '#22c55e' }}>Already saved ✅</p>
+                        </div>
+                        <a href={url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: 'var(--orange)', textDecoration: 'none' }}>Preview</a>
+                      </div>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: 11, color: 'var(--text3)', marginBottom: 4 }}>Upload new videos below to replace these:</p>
+                </div>
+              )}
 
               {/* Videos */}
               <div>

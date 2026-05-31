@@ -180,3 +180,59 @@ select.input option { background: var(--bg3); }
 @media (max-width: 400px) {
   .ik-portfolio-grid { grid-template-columns: 1fr !important; }
 }
+
+/* ── MOBILE FIXES v2 ── */
+@media (max-width: 640px) {
+
+  /* Fix 1: Stats strip — 2x2 grid */
+  .ik-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Fix 1b: Media Kit header stats — 2x2 */
+  .ik-mk-stats {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Fix 2: Profile bento — single column */
+  .ik-bento-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Fix 3: Rate card bundle — fix font size */
+  .ik-bundle-price {
+    font-size: 15px !important;
+    font-family: "'Plus Jakarta Sans',sans-serif" !important;
+  }
+
+  /* Fix 4: CV columns — stack vertically */
+  .ik-cv-cols {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Fix: Tabs scrollable */
+  .ik-tabs {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap !important;
+    padding-bottom: 1px;
+  }
+  .ik-tabs::-webkit-scrollbar { display: none; }
+  .ik-tab-btn { white-space: nowrap !important; flex-shrink: 0 !important; padding: 11px 12px !important; font-size: 11px !important; }
+
+  /* Fix: Onboarding sidebar hidden */
+  .ik-onboarding-sidebar { display: none !important; }
+
+  /* Fix: Dashboard grid single column */
+  .ik-dashboard-grid { grid-template-columns: 1fr !important; }
+
+  /* Fix: Share buttons smaller on mobile */
+  .ik-share { padding: 6px 9px !important; font-size: 10px !important; }
+
+  /* Fix: Name size on mobile */
+  .ik-profile-name { font-size: 18px !important; }
+
+  /* Fix: Max width padding */
+  .ik-page-wrap { padding: 0 14px !important; }
+}

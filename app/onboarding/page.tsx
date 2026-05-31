@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { ChevronRight, ChevronLeft, Upload, X } from 'lucide-react'
@@ -53,6 +53,61 @@ export default function Onboarding() {
     collab_type: '', categories_avoid: '', response_time: '', vibe: '',
     email: '', whatsapp: '',
   })
+
+  // Load existing profile to pre-fill form when editing
+  useEffect(() => {
+    async function loadExisting() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+      if (!data) return
+      if (data.photo_url) setPhotoPreview(data.photo_url)
+      setForm(f => ({
+        ...f,
+        full_name: data.full_name || '',
+        username: data.username || '',
+        city: data.city || '',
+        niche: data.niche || '',
+        languages: data.languages || '',
+        platforms: data.platforms ? data.platforms.split(',').map((p: string) => p.trim()).filter(Boolean) : [],
+        instagram_handle: data.instagram_handle || '',
+        youtube_channel: data.youtube_channel || '',
+        instagram_followers: data.instagram_followers || '',
+        youtube_subscribers: data.youtube_subscribers || '',
+        avg_views: data.avg_views || '',
+        engagement_rate: data.engagement_rate || '',
+        follower_growth: data.follower_growth || '',
+        audience_gender: data.audience_gender || '',
+        audience_age: data.audience_age || '',
+        top_cities: data.top_cities || '',
+        brands_worked: data.brands_worked || '',
+        best_campaign: data.best_campaign || '',
+        awards: data.awards || '',
+        rate_reel: data.rate_reel || '',
+        rate_post: data.rate_post || '',
+        rate_carousel: data.rate_carousel || '',
+        rate_stories: data.rate_stories || '',
+        rate_story_link: data.rate_story_link || '',
+        rate_yt_dedicated: data.rate_yt_dedicated || '',
+        rate_yt_integration: data.rate_yt_integration || '',
+        rate_yt_short: data.rate_yt_short || '',
+        rate_twitter: data.rate_twitter || '',
+        rate_linkedin: data.rate_linkedin || '',
+        rate_blog: data.rate_blog || '',
+        rate_podcast: data.rate_podcast || '',
+        custom_package: data.custom_package || '',
+        turnaround: data.turnaround || '',
+        skills: data.skills ? data.skills.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
+        collab_type: data.collab_type || '',
+        categories_avoid: data.categories_avoid || '',
+        response_time: data.response_time || '',
+        vibe: data.vibe || '',
+        email: data.email || '',
+        whatsapp: data.whatsapp || '',
+      }))
+    }
+    loadExisting()
+  }, [])
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
   const toggleArr = (k: string, v: string) => setForm(f => ({

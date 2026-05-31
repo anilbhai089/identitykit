@@ -12,10 +12,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const apiKey = process.env.ANTHROPIC_API_KEY
-    if (!apiKey) {
-      console.error('ANTHROPIC_API_KEY is not set!')
-      throw new Error('API key not configured')
-    }
+    if (!apiKey) throw new Error('API key not configured')
 
     const anthropic = new Anthropic({ apiKey })
 
@@ -23,20 +20,29 @@ export async function POST(req: NextRequest) {
       ? (data.platforms as unknown as string[]).join(', ')
       : (data.platforms || '')
 
-    const prompt = `You are an expert profile writer for Indian content creators. Generate a professional creator profile. Return ONLY valid JSON, no markdown, no backticks, no extra text.
+    const prompt = `You are an expert profile writer for Indian content creators. Generate a creator profile written in FIRST PERSON — as if the creator is writing about themselves. Use "I", "my", "me". Never write in 3rd person. Return ONLY valid JSON, no markdown, no backticks.
 
-Creator:
+Creator details:
 Name: ${data.full_name || 'Creator'}
 City: ${data.city || 'India'}
 Niche: ${data.niche || 'Content Creation'}
 Platforms: ${platforms}
 Instagram: ${data.instagram_followers || ''} followers
 YouTube: ${data.youtube_subscribers || ''} subscribers
-Brands worked with: ${data.brands_worked || 'Various brands'}
+Avg views: ${data.avg_views || ''}
+Brands worked with: ${data.brands_worked || ''}
+Best campaign: ${data.best_campaign || ''}
 Content vibe: ${data.vibe || 'Professional'}
+Languages: ${data.languages || 'Hindi, English'}
 
-Return ONLY this JSON:
-{"bio":"3-sentence professional bio in 3rd person","tagline":"Punchy 8-word tagline"}`
+Write the bio in FIRST PERSON like the creator wrote it. Make it feel personal, genuine, confident. 2-3 sentences max.
+
+Good example: "I create business content that helps young Indians build their entrepreneurial mindset. With 27K+ followers across Instagram and YouTube, I break down complex concepts into simple, actionable steps my audience can actually use. Brands trust me to deliver campaigns that connect — not just impress."
+
+Bad example (DO NOT DO THIS): "Anil Prajapati is a business creator from Palanpur who educates..."
+
+Return ONLY this JSON with no extra text:
+{"bio":"2-3 sentence first-person bio","tagline":"Short punchy 7-8 word tagline"}`
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-5',
@@ -51,8 +57,6 @@ Return ONLY this JSON:
       .replace(/```json|```/g, '')
       .trim()
 
-    console.log('Claude response:', text)
-
     const result = JSON.parse(text)
 
     return NextResponse.json({
@@ -62,15 +66,16 @@ Return ONLY this JSON:
 
   } catch (error) {
     console.error('Generate API error:', error)
-
-    // Return a sensible fallback so the profile still gets created
-    const name = data.full_name || 'This creator'
+    const name = data.full_name || 'Creator'
     const niche = data.niche || 'content creation'
     const city = data.city || 'India'
+    const ig = data.instagram_followers || ''
+    const yt = data.youtube_subscribers || ''
+    const followers = ig && yt ? `${ig} on Instagram and ${yt} on YouTube` : ig || yt || 'a growing audience'
 
     return NextResponse.json({
-      bio: `${name} is a ${niche} creator based in ${city}, crafting content that resonates with a growing audience across social media platforms. Known for their authentic style and consistent engagement, they bring brands to life through compelling storytelling. Their work spans multiple platforms, making them a versatile and impactful voice in the Indian creator economy.`,
-      tagline: `${niche} creator making an impact.`
+      bio: `I create ${niche.toLowerCase()} content that genuinely connects with my audience. With ${followers}, I've built a community that trusts my recommendations and engages with everything I put out. Based in ${city}, I work with brands to create content that feels real — because that's the only kind that actually works.`,
+      tagline: `${niche} creator making content that connects.`
     })
   }
 }

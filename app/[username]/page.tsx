@@ -172,21 +172,26 @@ export default function PublicProfile() {
 
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 16px 48px', overflowX: 'hidden' }}>
 
-        {/* AVATAR ROW */}
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14 }}>
-          <div className='ik-avatar-wrap' style={{ position: 'relative', marginTop: -56 }}>
-            <div style={{ width: 88, height: 88, borderRadius: '50%', border: '4px solid #08080E', outline: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden', boxShadow: '0 0 0 0px #08080E' }}>
-              {profile.photo_url ? <img src={profile.photo_url} alt={profile.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
+        {/* AVATAR ROW — avatar overlaps banner by sitting in padding-top space */}
+        <div style={{ paddingTop: 12, marginBottom: 14 }}>
+          {/* Top row: avatar left, share buttons right */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
+            {/* Avatar — pull up with negative margin to overlap banner */}
+            <div style={{ position: 'relative', marginTop: -52, flexShrink: 0 }}>
+              <div style={{ width: 88, height: 88, borderRadius: '50%', border: '4px solid #08080E', outline: '3px solid #FF6B2B', outlineOffset: '0px', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden' }}>
+                {profile.photo_url ? <img src={profile.photo_url} alt={profile.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
+              </div>
+              <div style={{ position: 'absolute', bottom: 5, right: 5, width: 14, height: 14, borderRadius: '50%', background: '#22c55e', border: '2px solid #08080E' }}></div>
             </div>
-            <div style={{ position: 'absolute', bottom: 4, right: 4, width: 14, height: 14, borderRadius: '50%', background: '#22c55e', border: '2px solid #08080E' }}></div>
-          </div>
-          <div style={{ display: 'flex', gap: 6, paddingBottom: 6 }}>
-            <button onClick={copyLink} className="ik-share" style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', background: copied ? 'rgba(34,197,94,0.12)' : '#111120', border: `1px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 10, color: copied ? '#22c55e' : 'rgba(255,255,255,0.4)', fontSize: 11, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
-              <i className={`ti ${copied ? 'ti-check' : 'ti-link'}`} style={{ fontSize: 13 }}></i>{copied ? 'Copied!' : 'Copy link'}
-            </button>
-            <button onClick={shareWhatsApp} className="ik-share" style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, color: 'rgba(255,255,255,0.4)', fontSize: 11, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
-              <i className="ti ti-brand-whatsapp" style={{ fontSize: 13, color: '#22c55e' }}></i>Share
-            </button>
+            {/* Share buttons */}
+            <div style={{ display: 'flex', gap: 6, paddingTop: 4 }}>
+              <button onClick={copyLink} className="ik-share" style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', background: copied ? 'rgba(34,197,94,0.12)' : '#111120', border: `1px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 10, color: copied ? '#22c55e' : 'rgba(255,255,255,0.4)', fontSize: 11, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
+                <i className={`ti ${copied ? 'ti-check' : 'ti-link'}`} style={{ fontSize: 13 }}></i>{copied ? 'Copied!' : 'Copy link'}
+              </button>
+              <button onClick={shareWhatsApp} className="ik-share" style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, color: 'rgba(255,255,255,0.4)', fontSize: 11, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
+                <i className="ti ti-brand-whatsapp" style={{ fontSize: 13, color: '#22c55e' }}></i>Share
+              </button>
+            </div>
           </div>
         </div>
 

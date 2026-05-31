@@ -122,7 +122,7 @@ export default function Dashboard() {
         </div>
 
         {/* Profile preview + actions */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 16, alignItems: 'start' }}>
+        <div className='ik-dashboard-grid' style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 16, alignItems: 'start' }}>
 
           {/* Profile summary */}
           <div style={{ background: '#111118', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, overflow: 'hidden' }}>

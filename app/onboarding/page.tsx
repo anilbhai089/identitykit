@@ -353,7 +353,7 @@ export default function Onboarding() {
       )}
 
       {/* LEFT SIDEBAR */}
-      <div style={{ width: 260, background: 'var(--bg2)', borderRight: '1px solid var(--border)', padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
+      <div className="ik-onboarding-sidebar" style={{ width: 260, background: 'var(--bg2)', borderRight: '1px solid var(--border)', padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }}>
           <div style={{ width: 28, height: 28, background: 'var(--orange)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: 13, color: 'white' }}>IK</div>
           <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>Identity Kit</span>

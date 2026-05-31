@@ -174,7 +174,7 @@ export default function PublicProfile() {
 
         {/* AVATAR ROW */}
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14 }}>
-          <div style={{ position: 'relative', marginTop: -44 }}>
+          <div className='ik-avatar-wrap' style={{ position: 'relative', marginTop: -44 }}>
             <div style={{ width: 88, height: 88, borderRadius: '50%', border: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden', boxShadow: '0 0 0 4px #08080E' }}>
               {profile.photo_url ? <img src={profile.photo_url} alt={profile.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
             </div>
@@ -591,14 +591,14 @@ export default function PublicProfile() {
           <div style={{ animation: 'fadeUp 0.2s ease', display: 'flex', flexDirection: 'column', gap: 8 }}>
             {/* Header */}
             <div style={{ ...S.card, padding: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+              <div className='ik-rc-header-row' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
                 <div>
                   <div style={{ fontSize: 9, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 4 }}>Rate Card</div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: '#fff' }}>{profile.full_name}</div>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>{profile.niche} · identitykit.in/{profile.username}</div>
                 </div>
                 {profile.rate_valid_till && (
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 8, flexShrink: 0, marginLeft: 8 }}>
+                  <span className='ik-rc-valid' style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 8, whiteSpace: 'nowrap' }}>
                     Valid till {new Date(profile.rate_valid_till + '-01').toLocaleString('default', { month: 'long', year: 'numeric' })}
                   </span>
                 )}

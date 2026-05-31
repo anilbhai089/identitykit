@@ -597,7 +597,11 @@ export default function PublicProfile() {
                   <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: '#fff' }}>{profile.full_name}</div>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>{profile.niche} · identitykit.in/{profile.username}</div>
                 </div>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 8, flexShrink: 0, marginLeft: 8 }}>Valid till {validTill}</span>
+                {profile.rate_valid_till && (
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 8, flexShrink: 0, marginLeft: 8 }}>
+                    Valid till {new Date(profile.rate_valid_till + '-01').toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -655,16 +659,32 @@ export default function PublicProfile() {
               </div>
             )}
 
-            {/* Terms */}
-            <div style={{ ...S.card, padding: '18px 16px' }}>
-              <div style={S.sectionTitle}>Terms &amp; notes</div>
-              {['50% advance payment required before work begins', 'All prices exclusive of 18% GST · GST invoice provided', 'Usage rights for 6 months · Exclusivity available on request', '1 free revision per deliverable · Additional revisions charged separately', 'Custom packages available · Contact to discuss'].map(t => (
-                <div key={t} style={{ display: 'flex', gap: 10, marginBottom: 8, alignItems: 'flex-start' }}>
-                  <i className="ti ti-circle-check" style={{ fontSize: 14, color: '#FF6B2B', flexShrink: 0, marginTop: 1 }}></i>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.5 }}>{t}</span>
+            {/* Terms — only show what creator selected */}
+            {(() => {
+              const termMap = [
+                { key: 'term_advance', label: '50% advance payment required before work begins' },
+                { key: 'term_gst', label: 'All prices exclusive of 18% GST · GST invoice provided' },
+                { key: 'term_usage', label: 'Usage rights for 6 months · Exclusivity available on request' },
+                { key: 'term_revision', label: '1 free revision per deliverable · Additional revisions charged separately' },
+                { key: 'term_custom', label: 'Custom packages available · Contact to discuss' },
+                { key: 'term_brief', label: 'Detailed brand brief required before starting' },
+                { key: 'term_approval', label: 'Content requires brand approval before posting' },
+                { key: 'term_cancel', label: '50% cancellation fee after work has started' },
+              ]
+              const selectedTerms = termMap.filter(t => profile[t.key] === 'yes')
+              if (selectedTerms.length === 0) return null
+              return (
+                <div style={{ ...S.card, padding: '18px 16px' }}>
+                  <div style={S.sectionTitle}>Terms &amp; notes</div>
+                  {selectedTerms.map(t => (
+                    <div key={t.key} style={{ display: 'flex', gap: 10, marginBottom: 8, alignItems: 'flex-start' }}>
+                      <i className="ti ti-circle-check" style={{ fontSize: 14, color: '#FF6B2B', flexShrink: 0, marginTop: 1 }}></i>
+                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.5 }}>{t.label}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              )
+            })()}
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 4px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
               {profile.email && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{profile.email} · {profile.whatsapp}</span>}

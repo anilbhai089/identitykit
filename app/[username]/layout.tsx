@@ -3,10 +3,10 @@ import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-    if (supabaseUrl === 'https://placeholder.supabase.co') {
+    if (!supabaseUrl || supabaseUrl.includes('placeholder')) {
       return { title: 'Identity Kit' }
     }
 
@@ -14,10 +14,14 @@ export async function generateMetadata({ params }: { params: { username: string 
     const { data } = await supabase
       .from('profiles')
       .select('full_name, niche, city, bio, photo_url, username, instagram_followers, youtube_subscribers')
-      .eq('username', params.username)
+      .eq('username', params.username.toLowerCase())
       .single()
 
-    if (!data) return { title: 'Creator not found | Identity Kit' }
+    // If no profile found, just show Identity Kit — not "Creator not found"
+    if (!data) return {
+      title: 'Identity Kit — Creator Profiles',
+      description: 'Professional creator profiles with Media Kit, Rate Card and CV in one link.'
+    }
 
     const followers = data.instagram_followers || data.youtube_subscribers || ''
     const title = `${data.full_name} | ${data.niche} Creator | Identity Kit`

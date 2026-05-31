@@ -214,7 +214,7 @@ export default function PublicProfile() {
         {profile.bio && <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 18 }}>{profile.bio}</p>}
 
         {/* ─── BENTO STATS GRID ─── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginBottom: 8 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 8 }}>
           {[
             { val: profile.instagram_followers || profile.youtube_subscribers || '—', label: 'Followers', icon: 'ti-users' },
             { val: profile.avg_views || '—', label: 'Avg Views', icon: 'ti-eye' },
@@ -230,9 +230,9 @@ export default function PublicProfile() {
         </div>
 
         {/* ─── TABS ─── */}
-        <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 20, marginTop: 20 }}>
+        <div className="ik-tabs" style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: 20, marginTop: 20 }}>
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="ik-tab" style={{ padding: '11px 16px', background: 'none', border: 'none', borderBottom: tab === t.id ? '2px solid #FF6B2B' : '2px solid transparent', color: tab === t.id ? '#FF6B2B' : 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: tab === t.id ? 700 : 500, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.15s', marginBottom: -1 }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="ik-tab ik-tab-btn" style={{ padding: '11px 16px', background: 'none', border: 'none', borderBottom: tab === t.id ? '2px solid #FF6B2B' : '2px solid transparent', color: tab === t.id ? '#FF6B2B' : 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: tab === t.id ? 700 : 500, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.15s', marginBottom: -1 }}>
               {t.label}
             </button>
           ))}
@@ -475,7 +475,7 @@ export default function PublicProfile() {
             </div>
 
             {/* Platform + Audience bento row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }} className="ik-aud-grid">
               <div style={{ ...S.card, padding: '16px' }}>
                 <div style={S.sectionTitle}>Platform breakdown</div>
                 {platformList.map((p: string) => {
@@ -716,7 +716,7 @@ export default function PublicProfile() {
             </div>
 
             {/* Two column */}
-            <div style={{ display: 'grid', gridTemplateColumns: '190px 1fr' }}>
+            <div className='ik-cv-cols' style={{ display: 'grid', gridTemplateColumns: '190px 1fr' }}>
               {/* LEFT sidebar */}
               <div style={{ background: '#111120', padding: '18px 16px', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
                 {/* Stats */}

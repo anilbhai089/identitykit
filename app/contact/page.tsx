@@ -28,15 +28,30 @@ export default function ContactPage() {
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         a { text-decoration: none; color: inherit; }
         input, textarea, select { font-family: inherit; }
-        .form-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 15px; width: 100%; outline: none; transition: border 0.2s; padding: 12px 16px; }
+        .form-input {
+          background: #111118;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 10px;
+          color: #fff;
+          font-size: 15px;
+          width: 100%;
+          outline: none;
+          transition: border 0.2s;
+          padding: 12px 16px;
+          -webkit-appearance: none;
+          appearance: none;
+          color-scheme: dark;
+        }
         .form-input:focus { border-color: #FF6B2B; }
         .form-input::placeholder { color: rgba(255,255,255,0.25); }
+        select.form-input option { background: #1a1a28; color: #fff; }
         .contact-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 24px; display: flex; align-items: flex-start; gap: 16px; transition: all 0.2s; }
         .contact-card:hover { border-color: rgba(255,107,43,0.25); }
         .nav-link:hover { color: #FF6B2B !important; }
         @media (max-width: 768px) {
           .contact-grid { grid-template-columns: 1fr !important; }
           .hero-title { font-size: 32px !important; }
+          .name-email-row { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
@@ -62,7 +77,7 @@ export default function ContactPage() {
           <span style={{ fontSize: 13, color: '#FF6B2B', fontWeight: 600 }}>Get in Touch</span>
         </div>
         <h1 className="hero-title" style={{ fontFamily: 'Syne, sans-serif', fontSize: 52, fontWeight: 800, lineHeight: 1.1, marginBottom: 16, letterSpacing: '-1px' }}>
-          We'd love to <span style={{ background: 'linear-gradient(135deg, #FF6B2B, #FF9A6B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>hear from you</span>
+          We&apos;d love to <span style={{ background: 'linear-gradient(135deg, #FF6B2B, #FF9A6B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>hear from you</span>
         </h1>
         <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.5)', maxWidth: 500, margin: '0 auto' }}>Questions, feedback, partnership ideas — we read every message. Usually reply within 24 hours.</p>
       </div>
@@ -75,9 +90,8 @@ export default function ContactPage() {
             <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 22, fontWeight: 800, marginBottom: 24 }}>Contact details</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 40 }}>
               {[
-                { icon: 'ti-mail', label: 'Email us', value: 'hello@identitykit.in', href: 'mailto:hello@identitykit.in' },
-                { icon: 'ti-brand-whatsapp', label: 'WhatsApp', value: '+91 98765 43210', href: 'https://wa.me/919876543210' },
-                { icon: 'ti-brand-instagram', label: 'Instagram', value: '@identitykit.in', href: 'https://instagram.com/identitykit.in' },
+                { icon: 'ti-mail', label: 'Email us', value: 'anilprajapati2667@gmail.com', href: 'mailto:anilprajapati2667@gmail.com' },
+                { icon: 'ti-brand-whatsapp', label: 'WhatsApp', value: '+91 79842 66725', href: 'https://wa.me/917984266725' },
               ].map(c => (
                 <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                   <div className="contact-card">
@@ -95,7 +109,7 @@ export default function ContactPage() {
 
             <div style={{ background: 'rgba(255,107,43,0.06)', border: '1px solid rgba(255,107,43,0.15)', borderRadius: 16, padding: 24 }}>
               <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>🤝 Want to partner with us?</div>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>If you're a brand, agency, or creator community and want to collaborate — email us at <span style={{ color: '#FF6B2B' }}>partnerships@identitykit.in</span></p>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>If you&apos;re a brand, agency, or creator community and want to collaborate — email us at <span style={{ color: '#FF6B2B' }}>anilprajapati2667@gmail.com</span></p>
             </div>
           </div>
 
@@ -109,12 +123,12 @@ export default function ContactPage() {
                   <i className="ti ti-check" style={{ fontSize: 28, color: '#4CAF50' }}></i>
                 </div>
                 <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 8 }}>Message sent! 🎉</div>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15 }}>We'll get back to you within 24 hours.</p>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15 }}>We&apos;ll get back to you within 24 hours.</p>
                 <button onClick={() => setStatus('idle')} style={{ marginTop: 24, background: 'transparent', border: '1px solid rgba(255,107,43,0.3)', color: '#FF6B2B', borderRadius: 8, padding: '8px 20px', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>Send another</button>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div className="name-email-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                   <div>
                     <label style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: 8 }}>Your name *</label>
                     <input className="form-input" placeholder="Anil Prajapati" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
@@ -126,14 +140,19 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: 8 }}>Subject</label>
-                  <select className="form-input" value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}>
-                    <option value="">Select a topic</option>
-                    <option value="general">General question</option>
-                    <option value="bug">Found a bug</option>
-                    <option value="feature">Feature request</option>
-                    <option value="partnership">Partnership / Collaboration</option>
-                    <option value="press">Press / Media</option>
-                    <option value="other">Other</option>
+                  <select
+                    className="form-input"
+                    value={form.subject}
+                    onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <option value="" style={{ background: '#1a1a28', color: '#fff' }}>Select a topic</option>
+                    <option value="general" style={{ background: '#1a1a28', color: '#fff' }}>General question</option>
+                    <option value="bug" style={{ background: '#1a1a28', color: '#fff' }}>Found a bug</option>
+                    <option value="feature" style={{ background: '#1a1a28', color: '#fff' }}>Feature request</option>
+                    <option value="partnership" style={{ background: '#1a1a28', color: '#fff' }}>Partnership / Collaboration</option>
+                    <option value="press" style={{ background: '#1a1a28', color: '#fff' }}>Press / Media</option>
+                    <option value="other" style={{ background: '#1a1a28', color: '#fff' }}>Other</option>
                   </select>
                 </div>
                 <div>
@@ -142,7 +161,7 @@ export default function ContactPage() {
                 </div>
                 {status === 'error' && (
                   <div style={{ background: 'rgba(255,68,68,0.08)', border: '1px solid rgba(255,68,68,0.2)', borderRadius: 10, padding: '12px 16px', color: '#FF6B6B', fontSize: 14 }}>
-                    Something went wrong. Please email us directly at hello@identitykit.in
+                    Something went wrong. Please email us directly at anilprajapati2667@gmail.com
                   </div>
                 )}
                 <button

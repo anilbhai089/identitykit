@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const LAST_UPDATED = 'June 1, 2025'
 const COMPANY = 'Identity Kit'
-const EMAIL = 'privacy@identitykit.in'
+const EMAIL = 'anilprajapati2667@gmail.com'
 
 export default function PrivacyPage() {
   return (
@@ -202,7 +202,7 @@ export default function PrivacyPage() {
           <p>For any privacy-related questions, concerns, or requests, please contact us:</p>
           <ul>
             <li>Email: <a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
-            <li>General contact: <a href="https://identitykit.in/contact">identitykit.in/contact</a></li>
+            <li>General contact: <a href="https://identitykit.in/contact">identitykit.in/contact</a> or WhatsApp <a href="https://wa.me/917984266725">+91 79842 66725</a></li>
           </ul>
           <p>We take privacy seriously and will respond to all legitimate requests within 30 days.</p>
         </div>

@@ -163,27 +163,29 @@ export default function PublicProfile() {
         </div>
       )}
 
-      {/* BANNER */}
-      <div style={{ height: 120, background: '#0e0e1c', position: 'relative' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,107,43,0.06) 30px,rgba(255,107,43,0.06) 31px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,107,43,0.06) 30px,rgba(255,107,43,0.06) 31px)' }}></div>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 400, height: 200, background: 'radial-gradient(ellipse,rgba(255,107,43,0.1) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
-        <div style={{ position: 'absolute', bottom: 10, right: 16, fontFamily: "'Syne',sans-serif", fontSize: 9, color: 'rgba(255,107,43,0.2)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>Identity Kit</div>
+      {/* BANNER + AVATAR — banner is taller to contain avatar overlap */}
+      <div style={{ background: '#0e0e1c', position: 'relative', paddingBottom: 52 }}>
+        {/* Banner visual area */}
+        <div style={{ height: 120, position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,107,43,0.06) 30px,rgba(255,107,43,0.06) 31px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,107,43,0.06) 30px,rgba(255,107,43,0.06) 31px)' }}></div>
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 400, height: 200, background: 'radial-gradient(ellipse,rgba(255,107,43,0.1) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
+          <div style={{ position: 'absolute', bottom: 10, right: 16, fontFamily: "'Syne',sans-serif", fontSize: 9, color: 'rgba(255,107,43,0.2)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>Identity Kit</div>
+        </div>
+        {/* Avatar sits below banner line, positioned from top of outer div */}
+        <div style={{ position: 'absolute', bottom: 0, left: 16 }}>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <div style={{ width: 88, height: 88, borderRadius: '50%', border: '4px solid #07070D', outline: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden' }}>
+              {profile.photo_url ? <img src={profile.photo_url} alt={profile.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
+            </div>
+            <div style={{ position: 'absolute', bottom: 5, right: 5, width: 14, height: 14, borderRadius: '50%', background: '#22c55e', border: '2px solid #07070D' }}></div>
+          </div>
+        </div>
       </div>
 
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 16px 48px', overflowX: 'hidden' }}>
 
-        {/* AVATAR — in normal flow, negative margin pulls it over the banner */}
-        <div style={{ marginTop: -44, marginBottom: 8 }}>
-          <div style={{ position: 'relative', display: 'inline-block' }}>
-            <div style={{ width: 88, height: 88, borderRadius: '50%', border: '4px solid #08080E', outline: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#FF6B2B', overflow: 'hidden' }}>
-              {profile.photo_url ? <img src={profile.photo_url} alt={profile.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : initials}
-            </div>
-            <div style={{ position: 'absolute', bottom: 5, right: 5, width: 14, height: 14, borderRadius: '50%', background: '#22c55e', border: '2px solid #08080E' }}></div>
-          </div>
-        </div>
-
         {/* SHARE BUTTONS ROW */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: -60, marginBottom: 52 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: -40, marginBottom: 48 }}>
           <div style={{ display: 'flex', gap: 6 }}>
             <button onClick={copyLink} className="ik-share" style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '7px 12px', background: copied ? 'rgba(34,197,94,0.12)' : '#111120', border: `1px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 10, color: copied ? '#22c55e' : 'rgba(255,255,255,0.4)', fontSize: 11, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>
               <i className={`ti ${copied ? 'ti-check' : 'ti-link'}`} style={{ fontSize: 13 }}></i>{copied ? 'Copied!' : 'Copy link'}

@@ -164,7 +164,7 @@ export default function PublicProfile() {
       )}
 
       {/* FULL WIDTH BANNER */}
-      <div style={{ height: 120, background: '#0e0e1c', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ height: 120, background: '#0e0e1c', position: 'relative' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,107,43,0.06) 30px,rgba(255,107,43,0.06) 31px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,107,43,0.06) 30px,rgba(255,107,43,0.06) 31px)' }}></div>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 400, height: 200, background: 'radial-gradient(ellipse,rgba(255,107,43,0.1) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
         <div style={{ position: 'absolute', bottom: 10, right: 16, fontFamily: "'Syne',sans-serif", fontSize: 9, color: 'rgba(255,107,43,0.2)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>Identity Kit</div>

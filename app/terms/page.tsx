@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const LAST_UPDATED = 'June 1, 2025'
 const COMPANY = 'Identity Kit'
-const EMAIL = 'legal@identitykit.in'
+const EMAIL = 'anilprajapati2667@gmail.com'
 const WEBSITE = 'identitykit.in'
 
 export default function TermsPage() {

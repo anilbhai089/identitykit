@@ -311,13 +311,22 @@ export default function Landing() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '24px 20px' }}>
-        <div style={{ maxWidth: 1080, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 26, height: 26, background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 10, color: 'white' }}>IK</div>
-            <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Identity Kit</span>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '32px 20px' }}>
+        <div style={{ maxWidth: 1080, margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 26, height: 26, background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 10, color: 'white' }}>IK</div>
+              <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Identity Kit</span>
+            </div>
+            <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
+              {[['About', '/about'], ['Contact', '/contact'], ['Terms', '/terms'], ['Privacy', '/privacy']].map(([label, href]) => (
+                <a key={label} href={href} style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#FF6B2B')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}>{label}</a>
+              ))}
+            </div>
           </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>Built with ❤️ for Indian creators 🇮🇳</p>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textAlign: 'center' }}>© 2025 Identity Kit · Made with ❤️ for Indian creators 🇮🇳</p>
         </div>
       </footer>
     </div>

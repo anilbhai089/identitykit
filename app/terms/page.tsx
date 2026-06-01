@@ -20,6 +20,12 @@ export default function TermsPage() {
         a { color: #FF6B2B; text-decoration: none; }
         a:hover { text-decoration: underline; }
         .nav-link:hover { color: #FF6B2B !important; }
+        .nav-links-row { display: flex; gap: 28px; align-items: center; }
+        .mob-cta { display: none; }
+        @media (max-width: 640px) {
+          .nav-links-row { display: none !important; }
+          .mob-cta { display: block !important; }
+        }
         .section { margin-bottom: 40px; }
         .section h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 16px; color: #fff; }
         .section p { color: rgba(255,255,255,0.6); line-height: 1.8; font-size: 15px; margin-bottom: 12px; }
@@ -30,17 +36,18 @@ export default function TermsPage() {
         .toc a:hover { color: #FF6B2B; text-decoration: none; }
       `}</style>
 
-      {/* Nav */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,7,13,0.9)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 24px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
-          <Link href="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 20, color: '#FF6B2B', letterSpacing: '-0.5px' }}>
+            {/* Nav */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(7,7,13,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
+          <a href="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, color: '#FF6B2B', letterSpacing: '-0.5px', whiteSpace: 'nowrap', textDecoration: 'none' }}>
             Identity Kit
-          </Link>
-          <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-            <Link href="/about" className="nav-link" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>About</Link>
-            <Link href="/contact" className="nav-link" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Contact</Link>
-            <Link href="/auth" style={{ background: '#FF6B2B', color: '#fff', borderRadius: 8, padding: '8px 18px', fontSize: 14, fontWeight: 700 }}>Get Started</Link>
+          </a>
+          <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="nav-links-row">
+            <a href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', fontWeight: '400', whiteSpace: 'nowrap', textDecoration: 'none' }}>About</a>
+            <a href="/contact" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', fontWeight: '400', whiteSpace: 'nowrap', textDecoration: 'none' }}>Contact</a>
+            <a href="/auth" style={{ background: '#FF6B2B', color: '#fff', borderRadius: 8, padding: '8px 18px', fontSize: 14, fontWeight: 700, whiteSpace: 'nowrap', textDecoration: 'none' }}>Get Started</a>
           </div>
+          <a href="/auth" className="mob-cta" style={{ background: '#FF6B2B', color: '#fff', borderRadius: 8, padding: '7px 14px', fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap', textDecoration: 'none' }}>Get Started</a>
         </div>
       </nav>
 

@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Identity Kit <noreply@identitykit.in>',
-          to: ['hello@identitykit.in'],
+          from: 'Identity Kit <anilprajapati2667@gmail.com>',
+          to: ['anilprajapati2667@gmail.com'],
           subject: `Contact form: ${subject || 'New message'} from ${name}`,
           html: `
             <div style="font-family: sans-serif; max-width: 600px;">

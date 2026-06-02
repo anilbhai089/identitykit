@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Analytics } from '@vercel/analytics/next'
+import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: 'Identity Kit — One link for Indian Creators',
-  description: 'AI-powered Media Kit, Rate Card and CV for Indian creators. One beautiful shareable link.',
+  description: 'AI-powered Media Kit, Rate Card and CV for Indian creators.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

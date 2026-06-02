@@ -1,28 +1,25 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
-  title: 'Identity Kit — One link for Indian creators',
-  description: 'Get your professional creator profile with Media Kit, Rate Card and CV in one shareable link. Built for Indian creators.',
-  keywords: ['creator media kit', 'influencer CV', 'rate card', 'Indian creator', 'content creator profile'],
-  openGraph: {
-    title: 'Identity Kit — One link for Indian creators',
-    description: 'Get your professional creator profile in one shareable link.',
-    url: 'https://identitykit.in',
-    siteName: 'Identity Kit',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Identity Kit — One link for Indian creators',
-    description: 'Get your professional creator profile in one shareable link.',
-  },
+  title: 'Identity Kit — One link for Indian Creators',
+  description: 'AI-powered Media Kit, Rate Card and CV for Indian creators. One beautiful shareable link.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, background: '#0A0A0F', color: '#fff' }}>{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   )
 }

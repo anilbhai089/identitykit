@@ -5,25 +5,18 @@ import { supabase } from '@/lib/supabase'
 
 export default function Landing() {
   const router = useRouter()
-  const [checking, setChecking] = useState(true)
+  // Don't block render — check auth in background
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
+    // Check auth silently — redirect if logged in, otherwise just show page
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (user) router.push('/dashboard')
-      else setChecking(false)
     })
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [router])
-
-  if (checking) return (
-    <div style={{ minHeight: '100vh', background: '#07070D', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: 32, height: 32, border: '2px solid #1a1a28', borderTopColor: '#FF6B2B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}></div>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-    </div>
-  )
 
   return (
     <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff', overflowX: 'hidden' }}>

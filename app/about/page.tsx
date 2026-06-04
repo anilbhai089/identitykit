@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff' }}>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+      
+      
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         a { text-decoration: none; color: inherit; }

@@ -5,7 +5,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: 'Identity Kit — One link for Indian Creators',
-  description: 'AI-powered Media Kit, Rate Card and CV for Indian creators.',
+  description: 'AI-powered Media Kit, Rate Card and CV for Indian creators. One beautiful shareable link.',
+  keywords: 'creator media kit, rate card, creator CV, Indian creators, content creator profile',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -14,6 +15,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+          media="print"
+          onLoad="this.media='all'"
+        />
       </head>
       <body>
         {children}

@@ -40,9 +40,18 @@ export default function PublicProfile() {
   }
 
   if (loading) return (
-    <div style={{ minHeight: '100vh', background: '#08080E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: 36, height: 36, border: '2px solid #1a1a28', borderTopColor: '#FF6B2B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}></div>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+    <div style={{ minHeight: '100vh', background: '#08080E' }}>
+      {/* Skeleton — shows instantly while data loads */}
+      <div style={{ height: 120, background: '#0e0e1c' }}></div>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 16px' }}>
+        <div style={{ width: 88, height: 88, borderRadius: '50%', background: '#1a1a2e', marginTop: -44, marginBottom: 16, border: '4px solid #08080E' }}></div>
+        <div style={{ height: 28, width: 200, background: '#1a1a2e', borderRadius: 8, marginBottom: 10 }}></div>
+        <div style={{ height: 16, width: 140, background: '#111120', borderRadius: 6, marginBottom: 20 }}></div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginBottom: 20 }}>
+          {[1,2,3,4].map(i => <div key={i} style={{ height: 80, background: '#111120', borderRadius: 12 }}></div>)}
+        </div>
+        <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      </div>
     </div>
   )
 

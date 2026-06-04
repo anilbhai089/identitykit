@@ -50,8 +50,8 @@ export default function Dashboard() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#0A0A0F', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff' }}>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+      
+      
       <style>{`*{box-sizing:border-box;margin:0;padding:0} .db-btn:hover{opacity:0.85} .db-card:hover{border-color:rgba(255,107,43,0.2)!important}`}</style>
 
       {/* NAV */}

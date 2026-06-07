@@ -29,6 +29,7 @@ export default function Onboarding() {
   const [loading, setLoading] = useState(false)
   const [generating, setGenerating] = useState(false)
   const [error, setError] = useState('')
+  const [savedStep, setSavedStep] = useState<number | null>(null) // tracks last auto-saved step
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [rawPhoto, setRawPhoto] = useState<string | null>(null)
@@ -69,6 +70,10 @@ export default function Onboarding() {
       const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
       if (!data) return
       if (data.photo_url) setPhotoPreview(data.photo_url)
+      // If they left mid-form, restore their step (but only if it's a draft, not a completed profile)
+      if (data.status === 'draft' && data.draft_step && data.draft_step > 0) {
+        setStep(data.draft_step)
+      }
       // Pre-fill existing portfolio URLs
       const existImgs = [data.portfolio_image1, data.portfolio_image2].filter(Boolean)
       const existVids = [data.portfolio_video1, data.portfolio_video2].filter(Boolean)
@@ -189,7 +194,35 @@ export default function Onboarding() {
     setError(''); return true
   }
 
-  function next() { if (validate()) setStep(s => s + 1) }
+  // Auto-save current form data to Supabase silently after each step
+  async function autoSave(currentStep: number) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const { bio_note, ...formWithoutBioNote } = form
+      void bio_note
+      await supabase.from('profiles').upsert({
+        id: user.id,
+        ...formWithoutBioNote,
+        platforms: form.platforms.join(', '),
+        skills: form.skills.join(', '),
+        status: 'draft',
+        draft_step: currentStep,
+      })
+      setSavedStep(currentStep)
+    } catch (e) {
+      // Auto-save failure is silent — never blocks the user
+      console.error('Auto-save failed (non-fatal):', e)
+    }
+  }
+
+  function next() {
+    if (validate()) {
+      const nextStep = step + 1
+      setStep(nextStep)
+      autoSave(step) // save current step data silently in background
+    }
+  }
   function back() { setError(''); setStep(s => s - 1) }
 
   // Upload profile photo → Supabase
@@ -375,7 +408,14 @@ export default function Onboarding() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
         <div style={{ maxWidth: 600, margin: '0 auto', padding: '40px 32px', width: '100%' }}>
           <div style={{ marginBottom: 32 }}>
-            <div style={{ fontSize: 12, color: 'var(--orange)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Step {step + 1} of {STEPS.length}</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+              <div style={{ fontSize: 12, color: 'var(--orange)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Step {step + 1} of {STEPS.length}</div>
+              {savedStep !== null && (
+                <div style={{ fontSize: 11, color: '#22c55e', display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <span>✓</span> Progress saved
+                </div>
+              )}
+            </div>
             <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 700, marginBottom: 6 }}>{STEPS[step].title}</h1>
             <p style={{ color: 'var(--text2)', fontSize: 14 }}>{STEPS[step].sub}</p>
           </div>

@@ -38,6 +38,8 @@ export default function BlogPost1() {
         .step-num { width: 40px; height: 40px; min-width: 40px; border-radius: 12px; background: rgba(255,107,43,0.12); color: #FF6B2B; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; }
         .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
         .tag-pill { background: rgba(255,107,43,0.1); color: #FF6B2B; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 100px; display: inline-block; }
+        .related-card div { transition: border-color 0.2s; }
+        .related-card:hover div { border-color: rgba(255,107,43,0.3) !important; }
         @media (max-width: 640px) {
           .nav-links { display: none !important; }
           .prose h2 { font-size: 22px !important; }
@@ -225,10 +227,8 @@ export default function BlogPost1() {
               { href: '/blog/influencer-rate-card-india', tag: 'Rate Card', title: 'How Much Should Indian Creators Charge Brands in 2025?' },
               { href: '/blog/what-is-creator-cv-india', tag: 'Creator CV', title: 'What is a Creator CV and Why Every Indian Influencer Needs One' },
             ].map(r => (
-              <Link key={r.href} href={r.href}>
-                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 20, transition: 'all 0.2s' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(255,107,43,0.3)')}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}>
+              <Link key={r.href} href={r.href} className="related-card">
+                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 20 }}>
                   <span style={{ background: 'rgba(255,107,43,0.1)', color: '#FF6B2B', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 100, display: 'inline-block', marginBottom: 10 }}>{r.tag}</span>
                   <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.5, margin: 0, fontWeight: 600 }}>{r.title}</p>
                 </div>

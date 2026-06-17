@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'How Much Should Indian Creators Charge Brands in 2025? Complete Rate Card Guide',
-  description: 'Exact INR rates for Indian influencers in 2025 — Instagram Reels, Stories, YouTube, and more. Nano to mega creator pricing by niche. Stop undercharging.',
-  keywords: 'influencer rate card India 2025, how much to charge brands India, Instagram creator rates India, influencer pricing India',
+  title: 'How Much Should Indian Creators Charge Brands in 2026? Complete Rate Card Guide',
+  description: 'Exact INR rates for Indian influencers in 2026 — Instagram Reels, Stories, YouTube, and more. Nano to mega creator pricing by niche. Stop undercharging.',
+  keywords: 'influencer rate card India 2026, how much to charge brands India, Instagram creator rates India, influencer pricing India',
   openGraph: {
-    title: 'How Much Should Indian Creators Charge Brands in 2025? Complete Rate Card Guide',
+    title: 'How Much Should Indian Creators Charge Brands in 2026? Complete Rate Card Guide',
     description: 'Exact INR rates for Indian influencers — nano to mega. Stop guessing what to charge brands.',
     url: 'https://identitykit.in/blog/influencer-rate-card-india',
     siteName: 'Identity Kit',
@@ -92,10 +92,10 @@ export default function BlogPost2() {
       <div className="hero-pad" style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 48px' }}>
         <div style={{ marginBottom: 16 }}>
           <span className="tag-pill">Rate Card</span>
-          <span style={{ marginLeft: 12, color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>8 min read · June 2025</span>
+          <span style={{ marginLeft: 12, color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>8 min read · June 2026</span>
         </div>
         <h1 className="hero-title" style={{ fontFamily: 'Syne, sans-serif', fontSize: 38, fontWeight: 800, lineHeight: 1.15, marginBottom: 20, letterSpacing: '-1px' }}>
-          How Much Should Indian Creators Charge Brands in 2025?
+          How Much Should Indian Creators Charge Brands in 2026?
           <span style={{ display: 'block', background: 'linear-gradient(135deg, #FF6B2B, #FF9A6B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Complete Rate Card Guide</span>
         </h1>
         <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
@@ -132,14 +132,14 @@ export default function BlogPost2() {
           Most creators either undercharge — saying yes to ₹2,000 for a Reel that deserves ₹20,000 — or quote rates so high that brands never reply. Both problems come from the same place: nobody talks about pricing openly in India.
         </p>
         <p>
-          Influencer marketing in India crossed ₹3,600 crore in 2025 and is projected to hit ₹5,500 crore by end of 2026. Brands have real budgets. The creators who get the best deals are the ones who come with clear, professional rates — not the ones who say &quot;DM for pricing.&quot;
+          Influencer marketing in India crossed ₹3,600 crore in 2025-26 and is projected to hit ₹5,500 crore by end of 2026. Brands have real budgets. The creators who get the best deals are the ones who come with clear, professional rates — not the ones who say &quot;DM for pricing.&quot;
         </p>
 
         <div className="callout">
           <p>💡 <strong>Key insight:</strong> Brands care more about engagement rate than follower count. A creator with 30K followers and 8% engagement can charge more than one with 100K followers and 1.2% engagement.</p>
         </div>
 
-        <h2>Instagram Rate Card for Indian Creators 2025</h2>
+        <h2>Instagram Rate Card for Indian Creators 2026</h2>
         <p>These are benchmark ranges based on current market data. Your actual rate depends on niche, engagement rate, and content quality.</p>
 
         <div className="table-wrap">
@@ -269,7 +269,7 @@ export default function BlogPost2() {
           <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, marginBottom: 20 }}>Read Next</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
-              { href: '/blog/how-to-make-media-kit-india', tag: 'Media Kit', title: 'How to Make a Media Kit for Indian Creators in 2025 (Free)' },
+              { href: '/blog/how-to-make-media-kit-india', tag: 'Media Kit', title: 'How to Make a Media Kit for Indian Creators in 2026 (Free)' },
               { href: '/blog/what-is-creator-cv-india', tag: 'Creator CV', title: 'What is a Creator CV and Why Every Indian Influencer Needs One' },
             ].map(r => (
               <Link key={r.href} href={r.href}>
@@ -292,7 +292,7 @@ export default function BlogPost2() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2025 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
     </div>
   )

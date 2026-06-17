@@ -63,6 +63,7 @@ export default function Landing() {
             <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 17, letterSpacing: '-0.01em' }}>Identity Kit</span>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <button onClick={() => router.push('/blog')} className="btn-ghost nav-blog-link" style={{ padding: '8px 16px', borderRadius: 9, fontSize: 13 }}>Blog</button>
             <button onClick={() => router.push('/auth')} className="btn-ghost" style={{ padding: '8px 16px', borderRadius: 9, fontSize: 13 }}>Log in</button>
             <button onClick={() => router.push('/auth?mode=signup')} className="btn-primary" style={{ padding: '8px 18px', borderRadius: 9, fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}>
               <span className="nav-cta-text">Get your link</span>
@@ -312,7 +313,7 @@ export default function Landing() {
               <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Identity Kit</span>
             </div>
             <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
-              {[['About', '/about'], ['Contact', '/contact'], ['Terms', '/terms'], ['Privacy', '/privacy']].map(([label, href]) => (
+              {[['Blog', '/blog'], ['About', '/about'], ['Contact', '/contact'], ['Terms', '/terms'], ['Privacy', '/privacy']].map(([label, href]) => (
                 <a key={label} href={href} style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
                   onMouseEnter={e => (e.currentTarget.style.color = '#FF6B2B')}
                   onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}>{label}</a>

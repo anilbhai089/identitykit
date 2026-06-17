@@ -17,26 +17,26 @@ const posts = [
   {
     slug: 'how-to-make-media-kit-india',
     tag: 'Media Kit',
-    title: 'How to Make a Media Kit for Indian Creators in 2025 (Free + No Canva Needed)',
+    title: 'How to Make a Media Kit for Indian Creators in 2026 (Free + No Canva Needed)',
     excerpt: 'Tired of making media kits in Canva every time a brand asks? Here\'s how Indian creators can build a professional media kit in 10 minutes — completely free.',
     readTime: '6 min read',
-    date: 'June 2025',
+    date: 'June 2026',
   },
   {
     slug: 'influencer-rate-card-india',
     tag: 'Rate Card',
-    title: 'How Much Should Indian Creators Charge Brands in 2025? (Complete Rate Card Guide)',
+    title: 'How Much Should Indian Creators Charge Brands in 2026? (Complete Rate Card Guide)',
     excerpt: 'From nano to mega — exact INR rates for Instagram Reels, Stories, YouTube videos, and more. Stop guessing what to charge brands.',
     readTime: '8 min read',
-    date: 'June 2025',
+    date: 'June 2026',
   },
   {
     slug: 'what-is-creator-cv-india',
     tag: 'Creator CV',
-    title: 'What is a Creator CV and Why Every Indian Influencer Needs One in 2025',
+    title: 'What is a Creator CV and Why Every Indian Influencer Needs One in 2026',
     excerpt: 'A Creator CV is different from a regular resume. Here\'s what it includes, why brands love it, and how to make one in minutes.',
     readTime: '5 min read',
-    date: 'June 2025',
+    date: 'June 2026',
   },
 ]
 
@@ -143,7 +143,7 @@ export default function BlogPage() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2025 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
     </div>
   )

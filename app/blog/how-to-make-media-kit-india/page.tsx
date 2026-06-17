@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'How to Make a Media Kit for Indian Creators in 2025 (Free + No Canva Needed)',
+  title: 'How to Make a Media Kit for Indian Creators in 2026 (Free + No Canva Needed)',
   description: 'Step-by-step guide to creating a professional media kit for Indian influencers. No Canva, no PDF, no design skills needed. Free tool included.',
-  keywords: 'media kit for Indian creators, influencer media kit India, free media kit India, how to make media kit India 2025',
+  keywords: 'media kit for Indian creators, influencer media kit India, free media kit India, how to make media kit India 2026',
   openGraph: {
-    title: 'How to Make a Media Kit for Indian Creators in 2025 (Free + No Canva Needed)',
+    title: 'How to Make a Media Kit for Indian Creators in 2026 (Free + No Canva Needed)',
     description: 'Step-by-step guide to creating a professional media kit for Indian influencers. Free, takes 10 minutes.',
     url: 'https://identitykit.in/blog/how-to-make-media-kit-india',
     siteName: 'Identity Kit',
@@ -82,10 +82,10 @@ export default function BlogPost1() {
       <div className="hero-pad" style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 48px' }}>
         <div style={{ marginBottom: 16 }}>
           <span className="tag-pill">Media Kit</span>
-          <span style={{ marginLeft: 12, color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>6 min read · June 2025</span>
+          <span style={{ marginLeft: 12, color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>6 min read · June 2026</span>
         </div>
         <h1 className="hero-title" style={{ fontFamily: 'Syne, sans-serif', fontSize: 38, fontWeight: 800, lineHeight: 1.15, marginBottom: 20, letterSpacing: '-1px' }}>
-          How to Make a Media Kit for Indian Creators in 2025
+          How to Make a Media Kit for Indian Creators in 2026
           <span style={{ display: 'block', background: 'linear-gradient(135deg, #FF6B2B, #FF9A6B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Free + No Canva Needed</span>
         </h1>
         <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
@@ -189,7 +189,7 @@ export default function BlogPost1() {
 
         <h2>Why Indian Creators Specifically Need a Good Media Kit</h2>
         <p>
-          India&apos;s influencer marketing industry crossed ₹3,600 crore in 2025 and is growing fast. Brands — especially D2C brands — are actively looking for creators to partner with. The difference between getting a deal and getting ignored often comes down to one thing: how professional you look in the first 60 seconds.
+          India&apos;s influencer marketing industry crossed ₹3,600 crore in 2025-26 and is growing fast. Brands — especially D2C brands — are actively looking for creators to partner with. The difference between getting a deal and getting ignored often comes down to one thing: how professional you look in the first 60 seconds.
         </p>
         <p>
           A polished media kit signals to brands that you take your work seriously. It also saves time for both sides — no back and forth asking for your stats, rates, and portfolio separately.
@@ -224,7 +224,7 @@ export default function BlogPost1() {
           <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, marginBottom: 20 }}>Read Next</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
-              { href: '/blog/influencer-rate-card-india', tag: 'Rate Card', title: 'How Much Should Indian Creators Charge Brands in 2025?' },
+              { href: '/blog/influencer-rate-card-india', tag: 'Rate Card', title: 'How Much Should Indian Creators Charge Brands in 2026?' },
               { href: '/blog/what-is-creator-cv-india', tag: 'Creator CV', title: 'What is a Creator CV and Why Every Indian Influencer Needs One' },
             ].map(r => (
               <Link key={r.href} href={r.href} className="related-card">
@@ -247,7 +247,7 @@ export default function BlogPost1() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2025 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
     </div>
   )

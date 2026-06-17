@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'What is a Creator CV and Why Every Indian Influencer Needs One in 2025',
+  title: 'What is a Creator CV and Why Every Indian Influencer Needs One in 2026',
   description: 'A Creator CV is not a regular resume. Learn what it includes, why brands love it, and how Indian influencers can create one for free in minutes.',
   keywords: 'creator CV India, influencer CV, content creator resume India, what is creator CV, creator portfolio India',
   openGraph: {
-    title: 'What is a Creator CV and Why Every Indian Influencer Needs One in 2025',
+    title: 'What is a Creator CV and Why Every Indian Influencer Needs One in 2026',
     description: 'A Creator CV is different from a regular resume. Here\'s what it includes and how to make one free.',
     url: 'https://identitykit.in/blog/what-is-creator-cv-india',
     siteName: 'Identity Kit',
@@ -81,11 +81,11 @@ export default function BlogPost3() {
       <div className="hero-pad" style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px 48px' }}>
         <div style={{ marginBottom: 16 }}>
           <span className="tag-pill">Creator CV</span>
-          <span style={{ marginLeft: 12, color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>5 min read · June 2025</span>
+          <span style={{ marginLeft: 12, color: 'rgba(255,255,255,0.3)', fontSize: 13 }}>5 min read · June 2026</span>
         </div>
         <h1 className="hero-title" style={{ fontFamily: 'Syne, sans-serif', fontSize: 38, fontWeight: 800, lineHeight: 1.15, marginBottom: 20, letterSpacing: '-1px' }}>
           What is a Creator CV and Why Every Indian Influencer
-          <span style={{ display: 'block', background: 'linear-gradient(135deg, #FF6B2B, #FF9A6B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Needs One in 2025</span>
+          <span style={{ display: 'block', background: 'linear-gradient(135deg, #FF6B2B, #FF9A6B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Needs One in 2026</span>
         </h1>
         <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
           A Creator CV is not a regular resume. It is the document that tells brands your complete professional story as a creator — and most Indian influencers don&apos;t have one.
@@ -242,8 +242,8 @@ export default function BlogPost3() {
           <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, marginBottom: 20 }}>Read Next</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
-              { href: '/blog/how-to-make-media-kit-india', tag: 'Media Kit', title: 'How to Make a Media Kit for Indian Creators in 2025 (Free)' },
-              { href: '/blog/influencer-rate-card-india', tag: 'Rate Card', title: 'How Much Should Indian Creators Charge Brands in 2025?' },
+              { href: '/blog/how-to-make-media-kit-india', tag: 'Media Kit', title: 'How to Make a Media Kit for Indian Creators in 2026 (Free)' },
+              { href: '/blog/influencer-rate-card-india', tag: 'Rate Card', title: 'How Much Should Indian Creators Charge Brands in 2026?' },
             ].map(r => (
               <Link key={r.href} href={r.href}>
                 <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 20 }}>
@@ -265,7 +265,7 @@ export default function BlogPost3() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2025 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
     </div>
   )

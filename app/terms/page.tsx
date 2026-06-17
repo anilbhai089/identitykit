@@ -43,6 +43,7 @@ export default function TermsPage() {
             Identity Kit
           </a>
           <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="nav-links-row">
+            <a href="/blog" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', fontWeight: '400', whiteSpace: 'nowrap', textDecoration: 'none' }}>Blog</a>
             <a href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', fontWeight: '400', whiteSpace: 'nowrap', textDecoration: 'none' }}>About</a>
             <a href="/contact" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', fontWeight: '400', whiteSpace: 'nowrap', textDecoration: 'none' }}>Contact</a>
             <a href="/auth" style={{ background: '#FF6B2B', color: '#fff', borderRadius: 8, padding: '8px 18px', fontSize: 14, fontWeight: 700, whiteSpace: 'nowrap', textDecoration: 'none' }}>Get Started</a>
@@ -187,6 +188,7 @@ export default function TermsPage() {
       {/* Footer */}
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 24px', textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 32, marginBottom: 16, flexWrap: 'wrap' }}>
+          <Link href="/blog" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Blog</Link>
           <Link href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>About</Link>
           <Link href="/contact" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contact</Link>
           <Link href="/terms" style={{ fontSize: 14, color: '#FF6B2B' }}>Terms</Link>

@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-pitch-brands-indian-influencer',
+    tag: 'Brand Deals',
+    title: 'How to Pitch Brands as an Indian Influencer in 2026 (Step-by-Step Guide)',
+    excerpt: 'Exact email templates, DM scripts, and a step-by-step system to land paid brand deals as an Indian creator — even with under 10K followers.',
+    readTime: '10 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-make-media-kit-india',
     tag: 'Media Kit',
     title: 'How to Make a Media Kit for Indian Creators in 2026 (Free + No Canva Needed)',
@@ -104,7 +112,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

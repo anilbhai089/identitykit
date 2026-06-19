@@ -117,5 +117,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+     {
+      url: `${baseUrl}/web-stories/brand-collab-scam-red-flags.html`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ]
 }

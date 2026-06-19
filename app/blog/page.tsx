@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'what-is-ugc-creator-india',
+    tag: 'UGC',
+    title: 'What is a UGC Creator in India? How to Start & Earn ₹50,000/Month (2026)',
+    excerpt: 'UGC creators earn ₹5,000–₹50,000 per video from brands without needing followers. Learn what UGC creation is, how much creators earn, and how to land your first deal.',
+    readTime: '12 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-become-influencer-india',
     tag: 'Creator Career',
     title: 'How to Become an Influencer in India in 2026 (Complete Beginner\'s Guide)',
@@ -120,7 +128,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

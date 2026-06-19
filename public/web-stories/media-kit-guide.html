@@ -10,13 +10,22 @@
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <style amp-custom>
     amp-story { font-family: 'Google Sans', Roboto, sans-serif; }
+
+    /* Overlays */
     .ov-purple { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,rgba(88,28,135,0.75) 0%,rgba(0,0,0,0.88) 100%); }
-    .ov-dark   { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to bottom,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85) 100%); }
+    .ov-dark   { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(to bottom,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.88) 100%); }
     .ov-blue   { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,rgba(15,23,42,0.8) 0%,rgba(88,28,135,0.65) 100%); }
     .ov-teal   { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,rgba(19,78,74,0.8) 0%,rgba(0,0,0,0.88) 100%); }
     .ov-amber  { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,rgba(120,53,15,0.8) 0%,rgba(0,0,0,0.88) 100%); }
     .ov-green  { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,rgba(6,78,59,0.8) 0%,rgba(0,0,0,0.88) 100%); }
     .ov-cta    { position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(88,28,135,0.88) 0%,rgba(6,78,59,0.75) 100%); }
+
+    /* Key trick: template="vertical" is a flex column.
+       A spacer div with flex-grow:1 as the FIRST direct child
+       pushes all subsequent siblings to the bottom. */
+    .spacer { flex-grow:1; }
+
+    /* Padding wrapper applied via the grid-layer style attribute */
 
     /* Typography */
     .ey  { font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#c4b5fd;margin:0 0 8px; }
@@ -36,7 +45,7 @@
     .pt   { font-size:13px;font-weight:500;color:rgba(255,255,255,0.88);margin:0; }
     .ptg  { font-size:13px;font-weight:600;color:#6ee7b7;margin:0; }
 
-    /* Feature 2-col grid */
+    /* Feature grid */
     .grid2 { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
     .bx  { background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:14px;padding:12px 14px; }
     .fe  { font-size:20px;margin-bottom:4px;display:block; }
@@ -49,7 +58,7 @@
     .st   { font-size:13px;font-weight:700;color:#fff;margin:0 0 2px; }
     .sd   { font-size:11px;color:rgba(255,255,255,0.6);margin:0; }
 
-    /* Stat row */
+    /* Stat boxes */
     .stats { display:flex;gap:8px; }
     .stat  { flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:14px;padding:10px 6px;text-align:center; }
     .sn    { font-size:40px;font-weight:800;color:#fff;line-height:1;margin:0; }
@@ -76,14 +85,15 @@
   poster-square-src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=640&q=80"
   poster-landscape-src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1280&q=80">
 
-  <!-- ══════════════════════════════ SLIDE 1 ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 1 ══════════════════ -->
   <amp-story-page id="s1" auto-advance-after="8s">
     <amp-story-grid-layer template="fill">
-      <amp-img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80" width="720" height="1280" layout="fill" alt="creator with phone"></amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80" width="720" height="1280" layout="fill" alt="creator"></amp-img>
       <div class="ov-purple"></div>
     </amp-story-grid-layer>
-    <!-- Each animated element is a DIRECT child of this layer -->
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 52px; justify-content:flex-end;">
+    <!-- template="vertical" = flex column. .spacer grows to fill top space, pushing content down -->
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 52px;">
+      <div class="spacer"></div>
       <p class="ey" animate-in="fade-in" animate-in-delay="0.2s" animate-in-duration="0.5s">For Indian Creators</p>
       <div class="dv" animate-in="fade-in" animate-in-delay="0.3s" animate-in-duration="0.4s"></div>
       <h1 class="h1" animate-in="fly-in-left" animate-in-delay="0.35s" animate-in-duration="0.5s">Brand ne<br>media kit<br>maanga...<br><span class="ap">ab kya?</span></h1>
@@ -91,13 +101,14 @@
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- ══════════════════════════════ SLIDE 2 ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 2 ══════════════════ -->
   <amp-story-page id="s2" auto-advance-after="9s">
     <amp-story-grid-layer template="fill">
       <amp-img src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=720&q=80" width="720" height="1280" layout="fill" alt="messy desk"></amp-img>
       <div class="ov-dark"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 44px; justify-content:flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 44px;">
+      <div class="spacer"></div>
       <p class="ey" animate-in="fade-in" animate-in-duration="0.5s">The real problem</p>
       <h2 class="h2" animate-in="fly-in-left" animate-in-delay="0.1s" animate-in-duration="0.5s">What creators<br>send brands today</h2>
       <div class="pb pbad" animate-in="fly-in-left" animate-in-delay="0.25s" animate-in-duration="0.4s"><span class="pi">✗</span><p class="pt">Messy Canva PDF from 6 months ago</p></div>
@@ -107,13 +118,14 @@
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- ══════════════════════════════ SLIDE 3 ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 3 ══════════════════ -->
   <amp-story-page id="s3" auto-advance-after="9s">
     <amp-story-grid-layer template="fill">
       <amp-img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=720&q=80" width="720" height="1280" layout="fill" alt="laptop work"></amp-img>
       <div class="ov-blue"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 44px; justify-content:flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 44px;">
+      <div class="spacer"></div>
       <p class="ey" animate-in="fade-in" animate-in-duration="0.5s">Introducing</p>
       <h1 class="h1" animate-in="fly-in-left" animate-in-delay="0.1s" animate-in-duration="0.5s">Identity Kit<br><span class="ag">ek link, sab kuch.</span></h1>
       <p class="bt" animate-in="fade-in" animate-in-delay="0.3s" animate-in-duration="0.5s">One free shareable link with everything a brand needs — built only for Indian creators.</p>
@@ -126,13 +138,14 @@
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- ══════════════════════════════ SLIDE 4 ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 4 ══════════════════ -->
   <amp-story-page id="s4" auto-advance-after="9s">
     <amp-story-grid-layer template="fill">
       <amp-img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=720&q=80" width="720" height="1280" layout="fill" alt="notebook planning"></amp-img>
       <div class="ov-teal"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 44px; justify-content:flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 44px;">
+      <div class="spacer"></div>
       <p class="ey" animate-in="fade-in" animate-in-duration="0.5s">How it works</p>
       <h2 class="h2" animate-in="fly-in-left" animate-in-delay="0.1s" animate-in-duration="0.5s">Ready in<br><span class="ag">10 minutes</span></h2>
       <div class="step" animate-in="fly-in-left" animate-in-delay="0.25s" animate-in-duration="0.4s">
@@ -147,13 +160,14 @@
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- ══════════════════════════════ SLIDE 5 ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 5 ══════════════════ -->
   <amp-story-page id="s5" auto-advance-after="8s">
     <amp-story-grid-layer template="fill">
       <amp-img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=720&q=80" width="720" height="1280" layout="fill" alt="team collaboration"></amp-img>
       <div class="ov-amber"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 44px; justify-content:flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 44px;">
+      <div class="spacer"></div>
       <p class="ey" animate-in="fade-in" animate-in-duration="0.5s">Already live</p>
       <h1 class="h1" animate-in="fly-in-left" animate-in-delay="0.1s" animate-in-duration="0.5s">A <span class="aa">1M+</span><br>creator just<br>did this</h1>
       <p class="bt" animate-in="fade-in" animate-in-delay="0.3s" animate-in-duration="0.5s">One Identity Kit link. Brands see everything instantly — no PDFs, no back-and-forth.</p>
@@ -165,13 +179,14 @@
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- ══════════════════════════════ SLIDE 6 ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 6 ══════════════════ -->
   <amp-story-page id="s6" auto-advance-after="8s">
     <amp-story-grid-layer template="fill">
-      <amp-img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=720&q=80" width="720" height="1280" layout="fill" alt="India map"></amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=720&q=80" width="720" height="1280" layout="fill" alt="India"></amp-img>
       <div class="ov-green"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 44px; justify-content:flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 44px;">
+      <div class="spacer"></div>
       <p class="ey" animate-in="fade-in" animate-in-duration="0.5s">Built for India</p>
       <h2 class="h2" animate-in="fly-in-left" animate-in-delay="0.1s" animate-in-duration="0.5s">The only tool<br>made for<br><span class="ag">Indian creators</span></h2>
       <div class="ir" animate-in="fly-in-left" animate-in-delay="0.3s" animate-in-duration="0.4s"><span class="ii">🇮🇳</span><p class="it">INR pricing, Indian platform stats</p></div>
@@ -181,13 +196,14 @@
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- ══════════════════════════════ SLIDE 7: CTA ══════════════════════════════ -->
+  <!-- ══════════════════ SLIDE 7: CTA ══════════════════ -->
   <amp-story-page id="s7">
     <amp-story-grid-layer template="fill">
       <amp-img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=720&q=80" width="720" height="1280" layout="fill" alt="success"></amp-img>
       <div class="ov-cta"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding:0 28px 80px; justify-content:flex-end; text-align:center;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 80px;text-align:center;">
+      <div class="spacer"></div>
       <p class="ey tc" animate-in="fade-in" animate-in-duration="0.5s">Free forever</p>
       <h1 class="h1 tc" animate-in="fly-in-left" animate-in-delay="0.15s" animate-in-duration="0.5s">Apna profile<br>banao aaj.<br><span class="ap">Bilkul free.</span></h1>
       <p class="bt tc" animate-in="fade-in" animate-in-delay="0.35s" animate-in-duration="0.5s">10 minutes. One link. Har brand deal sorted.</p>

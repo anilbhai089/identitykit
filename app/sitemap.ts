@@ -96,5 +96,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+    {
+      url: `${baseUrl}/web-stories/media-kit-checklist.html`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ]
 }

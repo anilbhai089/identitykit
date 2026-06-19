@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'How to Become an Influencer in India in 2026 (Complete Beginner's Guide)',
+  title: "How to Become an Influencer in India in 2026 (Complete Beginner's Guide)",
   description: 'Step-by-step guide to becoming an influencer in India from zero followers. Pick the right niche, grow on Instagram or YouTube, land your first brand deal, and start earning — even with under 1,000 followers.',
   keywords: 'how to become an influencer in India, become influencer India, how to become influencer on Instagram India, content creator India beginners, how to start influencer career India 2026',
   openGraph: {
-    title: 'How to Become an Influencer in India in 2026 (Complete Beginner\'s Guide)',
+    title: "How to Become an Influencer in India in 2026 (Complete Beginner's Guide)",
     description: 'Step-by-step guide to becoming an influencer in India from zero. Pick a niche, grow your audience, land brand deals, and start earning.',
     url: 'https://identitykit.in/blog/how-to-become-influencer-india',
     siteName: 'Identity Kit',

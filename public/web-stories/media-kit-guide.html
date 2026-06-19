@@ -1,135 +1,49 @@
-<!DOCTYPE html>
-<html amp lang="en">
+<!doctype html>
+<html ⚡ lang="en">
 <head>
   <meta charset="utf-8">
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <link rel="canonical" href="https://identitykit.in/web-stories/media-kit-guide.html">
   <title>Stop Losing Brand Deals | Identity Kit</title>
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
-  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <style amp-custom>
     amp-story { font-family: 'Google Sans', Roboto, sans-serif; }
-
-    .overlay-dark {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0.92) 100%);
-    }
-    .overlay-purple {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(160deg, rgba(88,28,135,0.7) 0%, rgba(0,0,0,0.85) 100%);
-    }
-    .overlay-green {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(160deg, rgba(6,78,59,0.75) 0%, rgba(0,0,0,0.88) 100%);
-    }
-    .overlay-blue {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(160deg, rgba(15,23,42,0.8) 0%, rgba(88,28,135,0.6) 100%);
-    }
-    .overlay-amber {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(160deg, rgba(120,53,15,0.75) 0%, rgba(0,0,0,0.88) 100%);
-    }
-    .overlay-teal {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(160deg, rgba(19,78,74,0.75) 0%, rgba(0,0,0,0.88) 100%);
-    }
-    .overlay-cta {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(88,28,135,0.85) 0%, rgba(6,78,59,0.7) 100%);
-    }
-
-    .eyebrow {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #c4b5fd;
-      margin: 0 0 10px;
-    }
-    .headline {
-      font-size: 38px;
-      font-weight: 800;
-      line-height: 1.1;
-      color: #ffffff;
-      margin: 0 0 16px;
-    }
-    .headline-sm {
-      font-size: 30px;
-      font-weight: 800;
-      line-height: 1.15;
-      color: #ffffff;
-      margin: 0 0 14px;
-    }
-    .accent-purple { color: #c4b5fd; }
-    .accent-green { color: #6ee7b7; }
-    .accent-amber { color: #fcd34d; }
-    .body-text {
-      font-size: 15px;
-      line-height: 1.65;
-      color: rgba(255,255,255,0.8);
-      margin: 0;
-    }
-    .badge {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 14px;
-      padding: 14px 16px;
-      backdrop-filter: blur(4px);
-    }
-    .pill {
-      display: inline-block;
-      background: rgba(196,181,253,0.18);
-      border: 1px solid rgba(196,181,253,0.35);
-      border-radius: 100px;
-      padding: 5px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #c4b5fd;
-      letter-spacing: 0.05em;
-    }
-    .stat-num {
-      font-size: 48px;
-      font-weight: 800;
-      color: #ffffff;
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      margin-top: 4px;
-      letter-spacing: 0.04em;
-    }
-    .feature-emoji { font-size: 24px; margin-bottom: 6px; display: block; }
-    .feature-title { font-size: 14px; font-weight: 700; color: #fff; margin: 0 0 3px; }
-    .feature-desc { font-size: 12px; color: rgba(255,255,255,0.6); margin: 0; line-height: 1.4; }
-    .pain-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 12px;
-    }
-    .pain-bad { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25); }
-    .pain-good { background: rgba(110,231,183,0.12); border: 1px solid rgba(110,231,183,0.3); }
-    .pain-icon { font-size: 18px; flex-shrink: 0; }
-    .pain-text { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85); margin: 0; }
-    .divider {
-      width: 40px;
-      height: 3px;
-      background: #c4b5fd;
-      border-radius: 100px;
-      margin: 0 0 16px;
-    }
+    .overlay-purple { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(160deg,rgba(88,28,135,0.75) 0%,rgba(0,0,0,0.88) 100%); }
+    .overlay-dark { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(to bottom,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85) 100%); }
+    .overlay-blue { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(160deg,rgba(15,23,42,0.8) 0%,rgba(88,28,135,0.65) 100%); }
+    .overlay-teal { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(160deg,rgba(19,78,74,0.8) 0%,rgba(0,0,0,0.88) 100%); }
+    .overlay-amber { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(160deg,rgba(120,53,15,0.8) 0%,rgba(0,0,0,0.88) 100%); }
+    .overlay-green { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(160deg,rgba(6,78,59,0.8) 0%,rgba(0,0,0,0.88) 100%); }
+    .overlay-cta { position: absolute; top:0;left:0;right:0;bottom:0; background: linear-gradient(135deg,rgba(88,28,135,0.88) 0%,rgba(6,78,59,0.75) 100%); }
+    .eyebrow { font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#c4b5fd; margin:0 0 10px; }
+    .headline { font-size:38px; font-weight:800; line-height:1.1; color:#fff; margin:0 0 14px; }
+    .headline-sm { font-size:30px; font-weight:800; line-height:1.15; color:#fff; margin:0 0 12px; }
+    .accent-purple { color:#c4b5fd; }
+    .accent-green { color:#6ee7b7; }
+    .accent-amber { color:#fcd34d; }
+    .body-text { font-size:15px; line-height:1.65; color:rgba(255,255,255,0.8); margin:0; }
+    .badge { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); border-radius:14px; padding:13px 15px; }
+    .divider { width:40px; height:3px; background:#c4b5fd; border-radius:100px; margin:0 0 14px; }
+    .pain-row { display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:12px; }
+    .pain-bad { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25); }
+    .pain-good { background:rgba(110,231,183,0.12); border:1px solid rgba(110,231,183,0.3); }
+    .pain-icon { font-size:17px; flex-shrink:0; }
+    .pain-text { font-size:14px; font-weight:500; color:rgba(255,255,255,0.88); margin:0; }
+    .feat-emoji { font-size:22px; margin-bottom:5px; display:block; }
+    .feat-title { font-size:13px; font-weight:700; color:#fff; margin:0 0 2px; }
+    .feat-desc { font-size:12px; color:rgba(255,255,255,0.6); margin:0; line-height:1.4; }
+    .step-num-purple { font-size:21px; font-weight:800; color:#c4b5fd; flex-shrink:0; }
+    .step-num-green { font-size:21px; font-weight:800; color:#6ee7b7; flex-shrink:0; }
+    .step-num-amber { font-size:21px; font-weight:800; color:#fcd34d; flex-shrink:0; }
+    .step-title { font-size:14px; font-weight:700; color:#fff; margin:0 0 2px; }
+    .step-desc { font-size:12px; color:rgba(255,255,255,0.6); margin:0; }
+    .stat-num { font-size:46px; font-weight:800; color:#fff; line-height:1; }
+    .stat-label { font-size:11px; color:rgba(255,255,255,0.55); margin-top:4px; }
+    .india-row { display:flex; gap:12px; align-items:center; padding:11px 14px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.14); }
+    .india-icon { font-size:19px; flex-shrink:0; }
+    .india-text { font-size:13px; font-weight:500; color:rgba(255,255,255,0.88); margin:0; }
   </style>
 </head>
 <body>
@@ -138,251 +52,137 @@
   title="Stop Losing Brand Deals — Identity Kit"
   publisher="Identity Kit"
   publisher-logo-src="https://identitykit.in/favicon.ico"
-  poster-portrait-src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80">
+  poster-portrait-src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80"
+  poster-square-src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80"
+  poster-landscape-src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1280&q=80">
 
   <!-- SLIDE 1: HOOK -->
-  <amp-story-page id="slide-1" auto-advance-after="8s">
+  <amp-story-page id="s1" auto-advance-after="8s">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-up" animate-in-duration="8s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-purple"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 48px; justify-content: flex-end;">
-      <div>
-        <p class="eyebrow" animate-in="fade-in" animate-in-delay="0.2s">For Indian Creators 🇮🇳</p>
-        <div class="divider" animate-in="fade-in" animate-in-delay="0.3s"></div>
-        <h1 class="headline" animate-in="slide-up" animate-in-delay="0.3s">
-          Brand ne<br>media kit<br>maanga...<br>
-          <span class="accent-purple">ab kya?</span>
-        </h1>
-        <p class="body-text" animate-in="fade-in" animate-in-delay="0.6s">
-          Most Indian creators lose the deal right here. There's a better way.
-        </p>
-      </div>
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 52px; justify-content:flex-end;">
+      <p class="eyebrow" animate-in="fade-in" animate-in-delay="0.2s">For Indian Creators 🇮🇳</p>
+      <div class="divider" animate-in="fade-in" animate-in-delay="0.3s"></div>
+      <h1 class="headline" animate-in="slide-up" animate-in-delay="0.3s">Brand ne<br>media kit<br>maanga...<br><span class="accent-purple">ab kya?</span></h1>
+      <p class="body-text" animate-in="fade-in" animate-in-delay="0.6s">Most Indian creators lose the deal right here. There's a better way.</p>
     </amp-story-grid-layer>
   </amp-story-page>
 
   <!-- SLIDE 2: THE PAIN -->
-  <amp-story-page id="slide-2" auto-advance-after="9s">
+  <amp-story-page id="s2" auto-advance-after="9s">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-right" animate-in-duration="9s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-dark"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 48px; gap: 14px; justify-content: flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 48px; gap:12px; justify-content:flex-end;">
       <p class="eyebrow" animate-in="fade-in">The real problem</p>
-      <h2 class="headline-sm" animate-in="slide-up" animate-in-delay="0.1s">
-        What creators<br>send brands today
-      </h2>
-      <div style="display: flex; flex-direction: column; gap: 10px;" animate-in="slide-up" animate-in-delay="0.25s">
-        <div class="pain-row pain-bad">
-          <span class="pain-icon">❌</span>
-          <p class="pain-text">Messy Canva PDF from 6 months ago</p>
-        </div>
-        <div class="pain-row pain-bad" animate-in="slide-up" animate-in-delay="0.4s">
-          <span class="pain-icon">❌</span>
-          <p class="pain-text">3 different Google Drive links</p>
-        </div>
-        <div class="pain-row pain-bad" animate-in="slide-up" animate-in-delay="0.55s">
-          <span class="pain-icon">❌</span>
-          <p class="pain-text">Rates copy-pasted into DMs</p>
-        </div>
-        <div class="pain-row pain-good" animate-in="slide-up" animate-in-delay="0.7s">
-          <span class="pain-icon">✅</span>
-          <p class="pain-text" style="color:#6ee7b7; font-weight:600;">One clean professional link</p>
-        </div>
+      <h2 class="headline-sm" animate-in="slide-up" animate-in-delay="0.1s">What creators<br>send brands today</h2>
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <div class="pain-row pain-bad" animate-in="slide-up" animate-in-delay="0.2s"><span class="pain-icon">❌</span><p class="pain-text">Messy Canva PDF from 6 months ago</p></div>
+        <div class="pain-row pain-bad" animate-in="slide-up" animate-in-delay="0.35s"><span class="pain-icon">❌</span><p class="pain-text">3 different Google Drive links</p></div>
+        <div class="pain-row pain-bad" animate-in="slide-up" animate-in-delay="0.5s"><span class="pain-icon">❌</span><p class="pain-text">Rates copy-pasted into DMs</p></div>
+        <div class="pain-row pain-good" animate-in="slide-up" animate-in-delay="0.65s"><span class="pain-icon">✅</span><p class="pain-text" style="color:#6ee7b7; font-weight:600;">One clean professional link</p></div>
       </div>
     </amp-story-grid-layer>
   </amp-story-page>
 
   <!-- SLIDE 3: SOLUTION -->
-  <amp-story-page id="slide-3" auto-advance-after="9s">
+  <amp-story-page id="s3" auto-advance-after="9s">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-left" animate-in-duration="9s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-blue"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 48px; gap: 12px; justify-content: flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 48px; gap:11px; justify-content:flex-end;">
       <p class="eyebrow" animate-in="fade-in">Introducing</p>
-      <h2 class="headline" animate-in="slide-up" animate-in-delay="0.1s">
-        Identity Kit<br><span class="accent-green">— ek link,<br>sab kuch.</span>
-      </h2>
-      <p class="body-text" animate-in="fade-in" animate-in-delay="0.3s">
-        One free shareable link with everything a brand needs to say yes — built only for Indian creators.
-      </p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.4s">
-          <span class="feature-emoji">📋</span>
-          <p class="feature-title">Media Kit</p>
-          <p class="feature-desc">Stats, niche & past collabs</p>
-        </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.5s">
-          <span class="feature-emoji">💰</span>
-          <p class="feature-title">Rate Card</p>
-          <p class="feature-desc">Clear pricing, no back-and-forth</p>
-        </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.6s">
-          <span class="feature-emoji">📄</span>
-          <p class="feature-title">Creator CV</p>
-          <p class="feature-desc">Professional background</p>
-        </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.7s">
-          <span class="feature-emoji">🤖</span>
-          <p class="feature-title">AI Bio</p>
-          <p class="feature-desc">Written for you instantly</p>
-        </div>
+      <h2 class="headline" animate-in="slide-up" animate-in-delay="0.1s">Identity Kit<br><span class="accent-green">ek link, sab kuch.</span></h2>
+      <p class="body-text" animate-in="fade-in" animate-in-delay="0.3s">One free shareable link with everything a brand needs — built only for Indian creators.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:4px;">
+        <div class="badge" animate-in="slide-up" animate-in-delay="0.4s"><span class="feat-emoji">📋</span><p class="feat-title">Media Kit</p><p class="feat-desc">Stats, niche &amp; past collabs</p></div>
+        <div class="badge" animate-in="slide-up" animate-in-delay="0.5s"><span class="feat-emoji">💰</span><p class="feat-title">Rate Card</p><p class="feat-desc">Clear pricing, no back-and-forth</p></div>
+        <div class="badge" animate-in="slide-up" animate-in-delay="0.6s"><span class="feat-emoji">📄</span><p class="feat-title">Creator CV</p><p class="feat-desc">Professional background</p></div>
+        <div class="badge" animate-in="slide-up" animate-in-delay="0.7s"><span class="feat-emoji">🤖</span><p class="feat-title">AI Bio</p><p class="feat-desc">Written for you instantly</p></div>
       </div>
     </amp-story-grid-layer>
   </amp-story-page>
 
   <!-- SLIDE 4: HOW IT WORKS -->
-  <amp-story-page id="slide-4" auto-advance-after="9s">
+  <amp-story-page id="s4" auto-advance-after="9s">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-up" animate-in-duration="9s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-teal"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 48px; gap: 14px; justify-content: flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 48px; gap:12px; justify-content:flex-end;">
       <p class="eyebrow" animate-in="fade-in">How it works</p>
-      <h2 class="headline-sm" animate-in="slide-up" animate-in-delay="0.1s">
-        Ready in<br><span class="accent-green">10 minutes</span>
-      </h2>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.25s" style="display:flex; align-items:center; gap:14px;">
-          <span style="font-size:22px; font-weight:800; color:#c4b5fd; flex-shrink:0;">01</span>
-          <div>
-            <p class="feature-title">Answer a few questions</p>
-            <p class="feature-desc">Your niche, platforms, audience size, rates</p>
-          </div>
+      <h2 class="headline-sm" animate-in="slide-up" animate-in-delay="0.1s">Ready in<br><span class="accent-green">10 minutes</span></h2>
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <div class="badge" style="display:flex; align-items:center; gap:13px;" animate-in="slide-up" animate-in-delay="0.25s">
+          <span class="step-num-purple">01</span>
+          <div><p class="step-title">Answer a few questions</p><p class="step-desc">Your niche, platforms, audience size, rates</p></div>
         </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.4s" style="display:flex; align-items:center; gap:14px;">
-          <span style="font-size:22px; font-weight:800; color:#6ee7b7; flex-shrink:0;">02</span>
-          <div>
-            <p class="feature-title">AI builds your profile</p>
-            <p class="feature-desc">Bio, media kit, rate card — all generated</p>
-          </div>
+        <div class="badge" style="display:flex; align-items:center; gap:13px;" animate-in="slide-up" animate-in-delay="0.4s">
+          <span class="step-num-green">02</span>
+          <div><p class="step-title">AI builds your profile</p><p class="step-desc">Bio, media kit, rate card — generated for you</p></div>
         </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.55s" style="display:flex; align-items:center; gap:14px;">
-          <span style="font-size:22px; font-weight:800; color:#fcd34d; flex-shrink:0;">03</span>
-          <div>
-            <p class="feature-title">Share one link</p>
-            <p class="feature-desc">identitykit.in/yourname — send to every brand</p>
-          </div>
+        <div class="badge" style="display:flex; align-items:center; gap:13px;" animate-in="slide-up" animate-in-delay="0.55s">
+          <span class="step-num-amber">03</span>
+          <div><p class="step-title">Share one link</p><p class="step-desc">identitykit.in/yourname — send to every brand</p></div>
         </div>
       </div>
     </amp-story-grid-layer>
   </amp-story-page>
 
   <!-- SLIDE 5: SOCIAL PROOF -->
-  <amp-story-page id="slide-5" auto-advance-after="8s">
+  <amp-story-page id="s5" auto-advance-after="8s">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-right" animate-in-duration="8s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-amber"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 48px; gap: 16px; justify-content: flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 48px; gap:14px; justify-content:flex-end;">
       <p class="eyebrow" animate-in="fade-in">Already live</p>
-      <h2 class="headline" animate-in="slide-up" animate-in-delay="0.1s">
-        A <span class="accent-amber">1M+</span><br>creator just<br>did this
-      </h2>
-      <p class="body-text" animate-in="fade-in" animate-in-delay="0.3s">
-        One Identity Kit link. Brands see everything they need — media kit, rates, CV — instantly.
-      </p>
-      <div style="display: flex; gap: 12px; margin-top: 4px;">
-        <div class="badge" style="flex:1; text-align:center;" animate-in="slide-up" animate-in-delay="0.4s">
-          <p class="stat-num">10</p>
-          <p class="stat-label">Minutes to build</p>
-        </div>
-        <div class="badge" style="flex:1; text-align:center;" animate-in="slide-up" animate-in-delay="0.5s">
-          <p class="stat-num" style="color:#6ee7b7;">₹0</p>
-          <p class="stat-label">Always free</p>
-        </div>
-        <div class="badge" style="flex:1; text-align:center;" animate-in="slide-up" animate-in-delay="0.6s">
-          <p class="stat-num" style="color:#fcd34d;">1</p>
-          <p class="stat-label">Link for all</p>
-        </div>
+      <h2 class="headline" animate-in="slide-up" animate-in-delay="0.1s">A <span class="accent-amber">1M+</span><br>creator just<br>did this</h2>
+      <p class="body-text" animate-in="fade-in" animate-in-delay="0.3s">One Identity Kit link. Brands see everything instantly — no PDFs, no back-and-forth.</p>
+      <div style="display:flex; gap:10px; margin-top:4px;">
+        <div class="badge" style="flex:1; text-align:center;" animate-in="slide-up" animate-in-delay="0.4s"><p class="stat-num">10</p><p class="stat-label">Minutes to build</p></div>
+        <div class="badge" style="flex:1; text-align:center;" animate-in="slide-up" animate-in-delay="0.5s"><p class="stat-num" style="color:#6ee7b7;">₹0</p><p class="stat-label">Always free</p></div>
+        <div class="badge" style="flex:1; text-align:center;" animate-in="slide-up" animate-in-delay="0.6s"><p class="stat-num" style="color:#fcd34d;">1</p><p class="stat-label">Link for all</p></div>
       </div>
     </amp-story-grid-layer>
   </amp-story-page>
 
-  <!-- SLIDE 6: WHY INDIA -->
-  <amp-story-page id="slide-6" auto-advance-after="8s">
+  <!-- SLIDE 6: BUILT FOR INDIA -->
+  <amp-story-page id="s6" auto-advance-after="8s">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-left" animate-in-duration="8s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-green"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 48px; gap: 14px; justify-content: flex-end;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 48px; gap:12px; justify-content:flex-end;">
       <p class="eyebrow" animate-in="fade-in">Built for India</p>
-      <h2 class="headline-sm" animate-in="slide-up" animate-in-delay="0.1s">
-        The only tool<br>made for<br><span class="accent-green">Indian creators</span>
-      </h2>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.3s" style="display:flex; gap:12px; align-items:center;">
-          <span style="font-size:20px;">🇮🇳</span>
-          <p class="pain-text">INR pricing, Indian platform stats</p>
-        </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.45s" style="display:flex; gap:12px; align-items:center;">
-          <span style="font-size:20px;">🤝</span>
-          <p class="pain-text">Understood by Indian brands & agencies</p>
-        </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.6s" style="display:flex; gap:12px; align-items:center;">
-          <span style="font-size:20px;">⚡</span>
-          <p class="pain-text">Works on mobile — how India browses</p>
-        </div>
-        <div class="badge" animate-in="slide-up" animate-in-delay="0.75s" style="display:flex; gap:12px; align-items:center;">
-          <span style="font-size:20px;">🎯</span>
-          <p class="pain-text">For nano, micro & macro creators</p>
-        </div>
+      <h2 class="headline-sm" animate-in="slide-up" animate-in-delay="0.1s">The only tool<br>made for<br><span class="accent-green">Indian creators</span></h2>
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <div class="india-row" animate-in="slide-up" animate-in-delay="0.3s"><span class="india-icon">🇮🇳</span><p class="india-text">INR pricing, Indian platform stats</p></div>
+        <div class="india-row" animate-in="slide-up" animate-in-delay="0.45s"><span class="india-icon">🤝</span><p class="india-text">Understood by Indian brands and agencies</p></div>
+        <div class="india-row" animate-in="slide-up" animate-in-delay="0.6s"><span class="india-icon">⚡</span><p class="india-text">Works on mobile — how India browses</p></div>
+        <div class="india-row" animate-in="slide-up" animate-in-delay="0.75s"><span class="india-icon">🎯</span><p class="india-text">For nano, micro and macro creators</p></div>
       </div>
     </amp-story-grid-layer>
   </amp-story-page>
 
   <!-- SLIDE 7: CTA -->
-  <amp-story-page id="slide-7">
+  <amp-story-page id="s7">
     <amp-story-grid-layer template="fill">
-      <amp-img
-        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=720&q=80"
-        width="720" height="1280" layout="fill" object-fit="cover"
-        animate-in="pan-up" animate-in-duration="10s">
-      </amp-img>
+      <amp-img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=720&q=80" width="720" height="1280" layout="fill"></amp-img>
       <div class="overlay-cta"></div>
     </amp-story-grid-layer>
-    <amp-story-grid-layer template="vertical" style="padding: 56px 28px 64px; justify-content: flex-end; text-align: center; gap: 16px;">
+    <amp-story-grid-layer template="vertical" style="padding:56px 28px 72px; justify-content:flex-end; text-align:center; gap:14px;">
       <p class="eyebrow" style="text-align:center;" animate-in="fade-in">Free forever 🎁</p>
-      <h2 class="headline" style="text-align:center;" animate-in="slide-up" animate-in-delay="0.15s">
-        Apna profile<br>banao aaj.<br><span class="accent-purple">Bilkul free.</span>
-      </h2>
-      <p class="body-text" style="text-align:center;" animate-in="fade-in" animate-in-delay="0.35s">
-        10 minutes. One link. Har brand deal sorted.
-      </p>
-      <div animate-in="slide-up" animate-in-delay="0.5s" style="margin-top: 8px;">
-        <a href="https://identitykit.in"
-          style="display:inline-block; background:#c4b5fd; color:#1e0a3c; border-radius:100px; padding:16px 44px; font-size:17px; font-weight:800; text-decoration:none; letter-spacing:0.02em;">
-          identitykit.in →
-        </a>
+      <h2 class="headline" style="text-align:center;" animate-in="slide-up" animate-in-delay="0.15s">Apna profile<br>banao aaj.<br><span class="accent-purple">Bilkul free.</span></h2>
+      <p class="body-text" style="text-align:center;" animate-in="fade-in" animate-in-delay="0.35s">10 minutes. One link. Har brand deal sorted.</p>
+      <div animate-in="slide-up" animate-in-delay="0.5s" style="margin-top:8px;">
+        <a href="https://identitykit.in" style="display:inline-block; background:#c4b5fd; color:#1e0a3c; border-radius:100px; padding:15px 42px; font-size:17px; font-weight:800; text-decoration:none;">identitykit.in →</a>
       </div>
-      <p style="font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px;" animate-in="fade-in" animate-in-delay="0.7s">
-        Made in India 🇮🇳 by a 19-year-old founder
-      </p>
+      <p style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px;" animate-in="fade-in" animate-in-delay="0.7s">Made in India 🇮🇳 by a 19-year-old founder</p>
     </amp-story-grid-layer>
     <amp-story-page-outlink layout="nodisplay">
       <a href="https://identitykit.in">Create your free profile</a>

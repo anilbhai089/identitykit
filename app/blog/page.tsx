@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-become-influencer-india',
+    tag: 'Creator Career',
+    title: 'How to Become an Influencer in India in 2026 (Complete Beginner\'s Guide)',
+    excerpt: 'Step-by-step system to go from zero to your first brand deal as an Indian creator — niche selection, content strategy, growth tactics, and earning your first ₹10,000.',
+    readTime: '15 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-pitch-brands-indian-influencer',
     tag: 'Brand Deals',
     title: 'How to Pitch Brands as an Indian Influencer in 2026 (Step-by-Step Guide)',
@@ -112,7 +120,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

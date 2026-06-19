@@ -96,6 +96,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+    {
+      url: `${baseUrl}/blog/instagram-engagement-rate-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
     // Web Stories
     {
       url: `${baseUrl}/web-stories/media-kit-guide.html`,

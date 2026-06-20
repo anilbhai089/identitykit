@@ -145,5 +145,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+    {
+      url: `${baseUrl}/web-stories/best-creator-niches-2026.html`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/web-stories/how-much-influencers-earn-india.html`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ]
 }

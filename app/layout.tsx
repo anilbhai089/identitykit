@@ -27,16 +27,53 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect for faster font loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Fonts — loaded ONCE here, not in every page */}
+
+        {/*
+          FIX 1 — Fonts: preload then swap to stylesheet so it never blocks render.
+          The <noscript> fallback handles browsers with JS disabled.
+        */}
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+          media="print"
+          // @ts-expect-error — onLoad on link is valid HTML, TS types don't include it
+          onLoad="this.media='all'"
         />
-        {/* Tabler Icons — loaded ONCE here, not in every page */}
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+          />
+        </noscript>
+
+        {/*
+          FIX 1 — Tabler Icons: same deferred pattern.
+          Icons are decorative — a brief FOUT is acceptable and far better than
+          blocking the entire render for 5+ seconds on slow mobile connections.
+        */}
+        <link
+          rel="preload"
+          as="style"
+          href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css"
+        />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css"
+          media="print"
+          // @ts-expect-error — onLoad on link is valid HTML, TS types don't include it
+          onLoad="this.media='all'"
         />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.8.0/dist/tabler-icons.min.css"
+          />
+        </noscript>
       </head>
       <body>
         {children}

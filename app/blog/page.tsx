@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-grow-instagram-followers-india',
+    tag: 'Growth',
+    title: 'How to Grow Instagram Followers in India in 2026 (15 Proven Strategies)',
+    excerpt: 'Backed by real 2026 algorithm data — 15 India-specific strategies to grow Instagram followers organically. DM sends, Trial Reels, Hindi content, Collab feature and more.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'instagram-engagement-rate-india',
     tag: 'Analytics',
     title: 'Instagram Engagement Rate for Indian Creators: 2026 Benchmarks + Free Calculator',
@@ -144,7 +152,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

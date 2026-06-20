@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'youtube-monetization-india-2026',
+    tag: 'YouTube',
+    title: 'YouTube Monetization India 2026: Complete Guide (YPP, CPM, RPM + All 6 Revenue Streams)',
+    excerpt: 'Real CPM and RPM rates by niche, YPP requirements, and all 6 YouTube revenue streams explained. Finance channels earn ₹80–₹250 RPM. Entertainment earns ₹22–₹60 RPM. The complete India guide.',
+    readTime: '17 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'creator-economy-india-2026',
     tag: 'Creator Economy',
     title: "India's Creator Economy in 2026: ₹3,375 Crore Market, 10 Crore Creators, $1 Trillion by 2030",
@@ -160,7 +168,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

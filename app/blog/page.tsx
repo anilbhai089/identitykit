@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'creator-economy-india-2026',
+    tag: 'Creator Economy',
+    title: "India's Creator Economy in 2026: ₹3,375 Crore Market, 10 Crore Creators, $1 Trillion by 2030",
+    excerpt: "BCG, EY, and Budget 2026 confirm it — India's creator economy is a mainstream economic engine. The complete picture: market size, earnings data, platform breakdown, opportunities, and what it means for you.",
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-grow-instagram-followers-india',
     tag: 'Growth',
     title: 'How to Grow Instagram Followers in India in 2026 (15 Proven Strategies)',
@@ -152,7 +160,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

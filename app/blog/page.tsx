@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'side-hustles-for-students-india-2026',
+    tag: 'Student Income',
+    title: 'Side Hustles for Students in India 2026: 12 Ways to Earn ₹10,000–₹1,00,000/Month',
+    excerpt: 'Complete guide with real earning ranges, zero-investment options, and creator economy opportunities for Indian students. From UGC creation (₹5K–₹50K/video) to AI freelancing (low competition, starts in 1–3 weeks) — pick the one that fits your schedule.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-build-personal-brand-india',
     tag: 'Personal Branding',
     title: 'How to Build a Personal Brand in India in 2026 (Complete Step-by-Step Guide)',
@@ -192,7 +200,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

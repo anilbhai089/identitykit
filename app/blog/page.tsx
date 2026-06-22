@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-become-finfluencer-india',
+    tag: 'Finfluencer',
+    title: 'How to Become a Finfluencer in India in 2026: SEBI Rules, Income, and Step-by-Step Guide',
+    excerpt: 'Finance is the highest-paying creator niche in India — top finfluencers earn ₹5L–₹30L/month. Complete SEBI rules breakdown, 5 safe sub-niches, real income data, and a 6-step guide to building a trusted finance creator career.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'instagram-vs-youtube-india-2026',
     tag: 'Platform',
     title: 'Instagram vs YouTube India 2026: Which Platform Pays Indian Creators More?',
@@ -176,7 +184,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

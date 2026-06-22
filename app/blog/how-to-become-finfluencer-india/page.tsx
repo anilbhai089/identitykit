@@ -387,22 +387,22 @@ export default function BlogPost13() {
           Finance creators consistently earn 2–4x more than lifestyle creators at equivalent follower counts. A finance micro-creator with 30,000 followers earns what a lifestyle macro-creator with 150,000 followers earns. The reason is simple: <strong>the audience for finance content has money to spend and is actively looking to spend it.</strong>
         </p>
         <p>
-          <cite index="216-1">Finance creators often charge more because their niche has higher purchasing power, with earnings ranging from ₹5 lakh to ₹30 lakh per month.</cite> Brands selling financial products — demat accounts, insurance, credit cards, mutual funds, savings apps — pay premium rates to reach audiences actively interested in managing their money.
+          Finance creators often charge more because their niche has higher purchasing power, with earnings ranging from ₹5 lakh to ₹30 lakh per month. Brands selling financial products — demat accounts, insurance, credit cards, mutual funds, savings apps — pay premium rates to reach audiences actively interested in managing their money.
         </p>
         <p>
-          <cite index="211-1">The top finfluencers can charge anything between ₹5 lakh and ₹10 lakh per video to appear on the channel of a broking firm, with annual contracts for a specified number of videos potentially going up to a crore.</cite> Even without SEBI registration, personal finance creators are pulling extraordinary brand deal rates.
+          The top finfluencers can charge anything between ₹5 lakh and ₹10 lakh per video to appear on the channel of a broking firm, with annual contracts for a specified number of videos potentially going up to a crore. Even without SEBI registration, personal finance creators are pulling extraordinary brand deal rates.
         </p>
 
         <div className="callout">
-          <p>⚠️ <strong>Important context for 2026:</strong> <cite index="205-1">Stock-related brand deals dropped significantly after SEBI regulations, with earnings for finfluencers offering live market updates and trading advice dropping 40–60%, forcing brands to pivot towards long-term financial products and educational content.</cite> The opportunity has shifted — not disappeared. Personal finance education is now the fastest-growing and most sustainable finfluencer niche in India.</p>
+          <p>⚠️ <strong>Important context for 2026:</strong> Stock-related brand deals dropped significantly after SEBI regulations, with earnings for finfluencers offering live market updates and trading advice dropping 40–60%, forcing brands to pivot towards long-term financial products and educational content. The opportunity has shifted — not disappeared. Personal finance education is now the fastest-growing and most sustainable finfluencer niche in India.</p>
         </div>
 
         <h2 className="section-title">The SEBI Finfluencer Rules India 2026 — What You Must Know Before Posting</h2>
         <p>
-          <cite index="201-1">SEBI and RBI are moving fast to regulate India&apos;s influencers. From disclosures to licences, 2026 is redefining how finance is shared online.</cite> Understanding these rules is not optional — it is the foundation of a sustainable finfluencer career.
+          SEBI and RBI are moving fast to regulate India&apos;s influencers. From disclosures to licences, 2026 is redefining how finance is shared online. Understanding these rules is not optional — it is the foundation of a sustainable finfluencer career.
         </p>
         <p>
-          <cite index="202-1">ASCI has made it clear that influencers can speak about general financial topics like saving tips or benefits of insurance without needing licences. But when it comes to offering technical or specific advice — such as recommending stocks, SIPs, or funds — proper registration with SEBI is mandatory.</cite>
+          ASCI has made it clear that influencers can speak about general financial topics like saving tips or benefits of insurance without needing licences. But when it comes to offering technical or specific advice — such as recommending stocks, SIPs, or funds — proper registration with SEBI is mandatory.
         </p>
 
         <div className="sebi-grid">
@@ -423,7 +423,7 @@ export default function BlogPost13() {
         </div>
 
         <div className="callout">
-          <p>📌 <strong>The 3 legal routes for registered finfluencers:</strong> <cite index="207-1">Finance creators now essentially have three structured routes available: (1) becoming a Registered Investment Adviser (RIA), (2) becoming a SEBI Research Analyst (RA), or (3) building subscription-based financial education platforms that do not involve specific investment advice.</cite> Sharan Hegde chose the RIA route through The 1% Club. Shashank Udupa chose the Research Analyst model via Vayu Capital.</p>
+          <p>📌 <strong>The 3 legal routes for registered finfluencers:</strong> Finance creators now essentially have three structured routes available: (1) becoming a Registered Investment Adviser (RIA), (2) becoming a SEBI Research Analyst (RA), or (3) building subscription-based financial education platforms that do not involve specific investment advice. Sharan Hegde chose the RIA route through The 1% Club. Shashank Udupa chose the Research Analyst model via Vayu Capital.</p>
         </div>
 
         <h2 className="section-title">5 Safe Finfluencer Niches in India (No SEBI Registration Needed)</h2>
@@ -483,7 +483,7 @@ export default function BlogPost13() {
 
         <h2 className="section-title">Finfluencer Income in India 2026 — Real Numbers by Tier</h2>
         <p>
-          <cite index="213-1">The income sources for finfluencers are more than one — they monetize via YouTube ad revenue, brand collaborations, fintech sponsorships, paid masterclasses, and personal finance online programs.</cite> Here is what Indian finfluencers actually earn at each stage:
+          The income sources for finfluencers are more than one — they monetize via YouTube ad revenue, brand collaborations, fintech sponsorships, paid masterclasses, and personal finance online programs. Here is what Indian finfluencers actually earn at each stage:
         </p>
 
         <div className="table-wrap">
@@ -514,14 +514,14 @@ export default function BlogPost13() {
           The clearest example of what a finfluencer career in India can become is Finance with Sharan. Sharan Hegde started creating personal finance content on Instagram explaining concepts like SIPs, index funds, and budgeting in simple terms — without any SEBI registration, without recommending specific stocks.
         </p>
         <p>
-          <cite index="207-1">Sharan Hegde, founder of The 1% Club, became one of the first finfluencer-led platforms to secure a Registered Investment Adviser (RIA) licence. His platform represents a broader industry shift toward subscription-based financial education and advisory services.</cite>
+          Sharan Hegde, founder of The 1% Club, became one of the first finfluencer-led platforms to secure a Registered Investment Adviser (RIA) licence. His platform represents a broader industry shift toward subscription-based financial education and advisory services.
         </p>
         <p>
           The trajectory: Instagram finance education → massive following → brand deals → The 1% Club subscription platform → RIA licence → structured financial advisory business. This is the roadmap that SEBI regulations have pushed serious finfluencers toward — and it is a more sustainable and higher-earning model than the old affiliate-and-stock-tips approach.
         </p>
 
         <div className="callout">
-          <p>💡 <strong>The mindset shift that matters most:</strong> <cite index="210-1">Being a finfluencer in India is not about degrees or jargon — it is about being consistent, clear, and real with your message. The most memorable finfluencers in India do not just share money tips — they do it in a way that feels genuine. A strong brand is less about how it looks and more about how it feels.</cite></p>
+          <p>💡 <strong>The mindset shift that matters most:</strong> Being a finfluencer in India is not about degrees or jargon — it is about being consistent, clear, and real with your message. The most memorable finfluencers in India do not just share money tips — they do it in a way that feels genuine. A strong brand is less about how it looks and more about how it feels.</p>
         </div>
 
         {/* FAQ */}

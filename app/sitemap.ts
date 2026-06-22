@@ -138,6 +138,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+    {
+      url: `${baseUrl}/blog/how-to-build-personal-brand-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/side-hustles-for-students-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+
     // Web Stories
     {
       url: `${baseUrl}/web-stories/media-kit-guide.html`,

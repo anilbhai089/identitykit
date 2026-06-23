@@ -170,6 +170,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       
 
 
+    // Tools
+    {
+      url: `${baseUrl}/tools`,
+      lastModified: today,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/tools/instagram-engagement-calculator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
     // Web Stories
     {
       url: `${baseUrl}/web-stories/media-kit-guide.html`,

@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-get-brand-deals-india',
+    tag: 'Brand Deals',
+    title: 'How to Get Brand Deals in India in 2026: Complete Guide for Creators (Any Follower Count)',
+    excerpt: 'India\'s influencer marketing crossed $2.8 billion in 2026. 8-step system to land brand deals: what brands actually check, winning pitch email template, rate card by tier (₹2K–₹59L per Reel), 6 influencer platforms, and how to get re-booked automatically.',
+    readTime: '15 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'side-hustles-for-students-india-2026',
     tag: 'Student Income',
     title: 'Side Hustles for Students in India 2026: 12 Ways to Earn ₹10,000–₹1,00,000/Month',

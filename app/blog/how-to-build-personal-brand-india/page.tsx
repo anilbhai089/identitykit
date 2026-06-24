@@ -181,6 +181,7 @@ export default function PersonalBrandIndiaPage() {
         </Link>
         <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
           <Link href="/blog" style={{ color: '#9999BB', textDecoration: 'none', fontSize: 14 }}>Blog</Link>
+          <Link href="/tools" style={{ color: '#9999BB', textDecoration: 'none', fontSize: 14 }}>Tools</Link>
           <Link href="/auth" style={{ background: 'linear-gradient(135deg, #6C63FF, #8B5CF6)', color: '#fff', padding: '8px 18px', borderRadius: 8, textDecoration: 'none', fontSize: 14, fontWeight: 600 }}>Get Started Free</Link>
         </div>
       </nav>
@@ -457,6 +458,8 @@ export default function PersonalBrandIndiaPage() {
           <Link href="/" style={{ color: '#6C63FF', textDecoration: 'none', fontWeight: 600 }}>Identity Kit</Link>
           {' · '}
           <Link href="/blog" style={{ color: '#666688', textDecoration: 'none' }}>Blog</Link>
+          {' · '}
+          <Link href="/tools" style={{ color: '#666688', textDecoration: 'none' }}>Tools</Link>
           {' · '}
           <Link href="/about" style={{ color: '#666688', textDecoration: 'none' }}>About</Link>
           {' · '}

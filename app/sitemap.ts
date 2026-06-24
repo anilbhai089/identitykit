@@ -184,6 +184,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
 
+    {
+      url: `${baseUrl}/tools/influencer-rate-calculator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    
+
     // Web Stories
     {
       url: `${baseUrl}/web-stories/media-kit-guide.html`,

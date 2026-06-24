@@ -495,15 +495,19 @@ export default function BlogPost8() {
       </div>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 24px', textAlign: 'center' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 16, flexWrap: 'wrap' }}>
-          <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B' }}>Blog</Link>
-          <Link href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>About</Link>
-          <Link href="/contact" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contact</Link>
-          <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
-          <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
+       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 24px', textAlign: 'center', color: '#444466', fontSize: 13 }}>
+        <div style={{ maxWidth: 820, margin: '0 auto' }}>
+          <Link href="/" style={{ color: '#6C63FF', textDecoration: 'none', fontWeight: 600 }}>Identity Kit</Link>
+          {' · '}
+          <Link href="/blog" style={{ color: '#666688', textDecoration: 'none' }}>Blog</Link>
+          {' · '}
+          <Link href="/tools" style={{ color: '#666688', textDecoration: 'none' }}>Tools</Link>
+          {' · '}
+          <Link href="/about" style={{ color: '#666688', textDecoration: 'none' }}>About</Link>
+          {' · '}
+          <Link href="/contact" style={{ color: '#666688', textDecoration: 'none' }}>Contact</Link>
+          <div style={{ marginTop: 8 }}>© 2026 Identity Kit · India&apos;s creator profile platform · identitykit.in</div>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
     </div>
   )

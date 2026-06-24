@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://identitykit.in/blog/what-is-ugc-creator-india',
     siteName: 'Identity Kit',
     type: 'article',
-  },
+  }, 
   alternates: {
     canonical: 'https://identitykit.in/blog/what-is-ugc-creator-india',
   },

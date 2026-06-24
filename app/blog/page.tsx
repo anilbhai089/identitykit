@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Blog | Identity Kit — Tips for Indian Creators',
     description: 'Media kit tips, rate card guides, and creator tools for Indian influencers.',
-    url: 'https://identitykit.in/blog',
+    url: 'https://identitykit.in/blog', 
     siteName: 'Identity Kit',
     type: 'website',
   },

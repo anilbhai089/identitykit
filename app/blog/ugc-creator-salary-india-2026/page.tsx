@@ -164,7 +164,7 @@ export default function UgcCreatorSalaryIndiaPage() {
               { tier: 'Intermediate (3–12 months portfolio)', per_video: '₹8,000–₹25,000/video', monthly: '₹30,000–₹80,000/month', color: '#FF9800' },
               { tier: 'Expert (1+ year, proven results)', per_video: '₹25,000–₹80,000/video', monthly: '₹80,000–₹3,00,000/month', color: '#6C63FF' },
             ].map((row, i) => (
-              <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '10px 16px', flexWrap: 'wrap', gap: 8 }}>
+              <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '10px 16px', flexWrap: 'wrap' }}>
                 <span style={{ color: '#BBBBCC', fontSize: 13 }}>{row.tier}</span>
                 <div style={{ display: 'flex', gap: 16 }}>
                   <span style={{ color: row.color, fontWeight: 700, fontSize: 13 }}>{row.per_video}</span>

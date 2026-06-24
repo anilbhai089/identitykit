@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'freelance-contract-india-2026',
+    tag: 'Legal',
+    title: 'Freelance Contract India 2026: Complete Guide + Free Template for Creators',
+    excerpt: 'India has 15M+ freelancers and most work without a proper contract. 8 essential clauses explained with India-specific legal context — TDS (Section 194J), GST, Copyright Act 1957, ASCI disclosure rules — plus a free copy-paste template for brand deals.',
+    readTime: '14 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-make-money-on-instagram-india-2026',
     tag: 'Instagram Income',
     title: 'How to Make Money on Instagram in India 2026: 10 Ways (Any Follower Count)',

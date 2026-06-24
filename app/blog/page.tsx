@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'ugc-creator-salary-india-2026',
+    tag: 'UGC',
+    title: 'How Much Do UGC Creators Earn in India in 2026? (Real Salary + Rate Data)',
+    excerpt: 'Zero followers required. UGC creators in India earn ₹2,000–₹80,000 per video. Real income data by experience tier, niche-wise rates (finance pays 4–6x more than lifestyle), video type pricing, and a 5-step system to land your first paid UGC deal this week.',
+    readTime: '12 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'freelance-contract-india-2026',
     tag: 'Legal',
     title: 'Freelance Contract India 2026: Complete Guide + Free Template for Creators',

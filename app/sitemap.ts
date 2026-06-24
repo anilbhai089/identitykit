@@ -166,6 +166,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+     {
+      url: `${baseUrl}/blog/how-to-make-money-on-instagram-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
       {
       url: `${baseUrl}/blog/freelance-contract-india-2026/`,
       lastModified: today,

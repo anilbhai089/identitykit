@@ -244,8 +244,8 @@ export default function GSTInvoiceGenerator() {
       doc.text('#', margin + 3, y + 6)
       doc.text('Description of Services', margin + 10, y + 6)
       doc.text('Qty', W - margin - 60, y + 6)
-      doc.text('Rate (₹)', W - margin - 42, y + 6)
-      doc.text('Amount (₹)', W - margin - 18, y + 6, { align: 'right' })
+      doc.text('Rate (Rs)', W - margin - 42, y + 6)
+      doc.text('Amount (Rs)', W - margin - 18, y + 6, { align: 'right' })
       y += 9
 
       // Service rows
@@ -313,7 +313,7 @@ export default function GSTInvoiceGenerator() {
       // Bank details
       if (bankName || accountNo || ifsc) {
         doc.setFillColor(...lightGray)
-        doc.roundedRect(margin, y, (W - margin * 2) * 0.55, 32, 3, 3, 'F')
+        doc.roundedRect(margin, y, W - margin * 2, 42, 3, 3, 'F')
         doc.setFont('helvetica', 'bold')
         doc.setFontSize(9)
         doc.setTextColor(...orange)
@@ -321,11 +321,13 @@ export default function GSTInvoiceGenerator() {
         doc.setFont('helvetica', 'normal')
         doc.setFontSize(8)
         doc.setTextColor(...dark)
-        if (accountHolder) doc.text(`Account Name: ${accountHolder}`, margin + 5, y + 15)
-        if (bankName) doc.text(`Bank: ${bankName}`, margin + 5, y + 21)
-        if (accountNo) doc.text(`Account No: ${accountNo}`, margin + 5, y + 27)
-        if (ifsc) doc.text(`IFSC: ${ifsc}`, margin + 5, y + 33)
-        y += 38
+        // Two column layout inside bank box
+        const bCol2 = margin + (W - margin * 2) / 2
+        if (accountHolder) doc.text(`Account Name: ${accountHolder}`, margin + 5, y + 18)
+        if (bankName) doc.text(`Bank: ${bankName}`, margin + 5, y + 26)
+        if (accountNo) doc.text(`Account No: ${accountNo}`, bCol2, y + 18)
+        if (ifsc) doc.text(`IFSC Code: ${ifsc}`, bCol2, y + 26)
+        y += 50
       }
 
       // Notes

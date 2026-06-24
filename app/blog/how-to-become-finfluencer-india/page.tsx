@@ -309,6 +309,7 @@ export default function BlogPost13() {
           <Link href="/" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, color: '#FF6B2B', letterSpacing: '-0.5px' }}>Identity Kit</Link>
           <div className="nav-links" style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
             <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B', fontWeight: 600 }}>Blog</Link>
+            <Link href="/tools" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Tools</Link>
             <Link href="/about" className="nav-link" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>About</Link>
             <Link href="/contact" className="nav-link" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Contact</Link>
             <Link href="/auth" style={{ background: '#FF6B2B', color: '#fff', borderRadius: 8, padding: '8px 18px', fontSize: 14, fontWeight: 700 }}>Get Started</Link>
@@ -324,6 +325,7 @@ export default function BlogPost13() {
           <Link href="/" style={{ color: 'rgba(255,255,255,0.35)' }}>Home</Link>
           <span>/</span>
           <Link href="/blog" style={{ color: 'rgba(255,255,255,0.35)' }}>Blog</Link>
+            <Link href="/tools" style={{ color: 'rgba(255,255,255,0.35)' }}>Tools</Link>
           <span>/</span>
           <span style={{ color: 'rgba(255,255,255,0.6)' }}>How to Become a Finfluencer India 2026</span>
         </div>

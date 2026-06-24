@@ -558,6 +558,8 @@ export default function StudentSideHustlesPage() {
           {' · '}
           <Link href="/blog" style={{ color: '#666688', textDecoration: 'none' }}>Blog</Link>
           {' · '}
+          <Link href="/tools" style={{ color: '#666688', textDecoration: 'none' }}>Tools</Link>
+          {' · '}
           <Link href="/about" style={{ color: '#666688', textDecoration: 'none' }}>About</Link>
           {' · '}
           <Link href="/contact" style={{ color: '#666688', textDecoration: 'none' }}>Contact</Link>

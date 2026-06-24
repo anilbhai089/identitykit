@@ -7,13 +7,21 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Blog | Identity Kit — Tips for Indian Creators',
     description: 'Media kit tips, rate card guides, and creator tools for Indian influencers.',
-    url: 'https://identitykit.in/blog', 
+    url: 'https://identitykit.in/blog',
     siteName: 'Identity Kit',
     type: 'website',
   },
 }
 
 const posts = [
+  {
+    slug: 'how-to-make-money-on-instagram-india-2026',
+    tag: 'Instagram Income',
+    title: 'How to Make Money on Instagram in India 2026: 10 Ways (Any Follower Count)',
+    excerpt: 'Meta expanded full monetisation to India in 2026. 10 methods ranked by income: brand deals (₹2K–₹59L/post), UGC (zero followers needed), digital products (100% margin), Subscriptions, Gifts, Live Badges, Creator Marketplace — real rupee rates and step-by-step instructions for each.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
   {
     slug: 'best-niche-for-content-creators-india-2026',
     tag: 'Niche Strategy',
@@ -181,7 +189,6 @@ export default function BlogPage() {
           </Link>
           <div className="nav-links" style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
             <Link href="/blog" className="nav-link" style={{ color: '#FF6B2B', fontWeight: 600, fontSize: 14 }}>Blog</Link>
-            <Link href="/tools" className="nav-link">Tools</Link>
             <Link href="/about" className="nav-link">About</Link>
             <Link href="/contact" className="nav-link">Contact</Link>
             <Link href="/auth" style={{ background: '#FF6B2B', color: '#fff', borderRadius: 8, padding: '8px 18px', fontSize: 14, fontWeight: 700 }}>Get Started</Link>
@@ -217,7 +224,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>
@@ -248,19 +255,15 @@ export default function BlogPage() {
       </div>
 
       {/* Footer */}
-       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 24px', textAlign: 'center', color: '#444466', fontSize: 13 }}>
-        <div style={{ maxWidth: 820, margin: '0 auto' }}>
-          <Link href="/" style={{ color: '#6C63FF', textDecoration: 'none', fontWeight: 600 }}>Identity Kit</Link>
-          {' · '}
-          <Link href="/blog" style={{ color: '#666688', textDecoration: 'none' }}>Blog</Link>
-          {' · '}
-          <Link href="/tools" style={{ color: '#666688', textDecoration: 'none' }}>Tools</Link>
-          {' · '}
-          <Link href="/about" style={{ color: '#666688', textDecoration: 'none' }}>About</Link>
-          {' · '}
-          <Link href="/contact" style={{ color: '#666688', textDecoration: 'none' }}>Contact</Link>
-          <div style={{ marginTop: 8 }}>© 2026 Identity Kit · India&apos;s creator profile platform · identitykit.in</div>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 24px', textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 16, flexWrap: 'wrap' }}>
+          <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B' }}>Blog</Link>
+          <Link href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>About</Link>
+          <Link href="/contact" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contact</Link>
+          <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
+          <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
     </div>
   )

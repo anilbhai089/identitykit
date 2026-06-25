@@ -70,14 +70,14 @@ const tools = [
     live: true,
   },
   {
-    href: '#',
+    href: '/tools/brand-deal-contract-template',
     emoji: '📋',
-    tag: 'Coming Soon',
-    tagColor: 'rgba(255,255,255,0.25)',
+    tag: 'Live Now',
+    tagColor: '#4CAF50',
     title: 'Brand Deal Contract Template',
-    desc: 'Free brand deal contract template for Indian creators — lawyer-reviewed, ASCI-compliant, ready to customise and send.',
-    cta: 'Coming soon',
-    live: false,
+    desc: 'Free brand deal contract template for Indian creators — ASCI-compliant, 10 clauses, ready to customise and download as PDF instantly.',
+    cta: 'Generate contract →',
+    live: true,
   },
 ]
 

@@ -64,7 +64,6 @@ export default function Landing() {
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <button onClick={() => router.push('/tools')} className="btn-ghost" style={{ padding: '8px 16px', borderRadius: 9, fontSize: 13 }}>Tools</button>
-            <button onClick={() => router.push('/blog')} className="btn-ghost nav-blog-link" style={{ padding: '8px 16px', borderRadius: 9, fontSize: 13 }}>Blog</button>
             <button onClick={() => router.push('/auth')} className="btn-ghost" style={{ padding: '8px 16px', borderRadius: 9, fontSize: 13 }}>Log in</button>
             <button onClick={() => router.push('/auth?mode=signup')} className="btn-primary" style={{ padding: '8px 18px', borderRadius: 9, fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}>
               <span className="nav-cta-text">Get your link</span>

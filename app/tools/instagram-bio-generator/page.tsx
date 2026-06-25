@@ -136,20 +136,15 @@ Return ONLY a JSON array with exactly 3 strings, no other text, no markdown, no 
 ["bio one here", "bio two here", "bio three here"]`
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/generate-bio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }],
-        }),
+        body: JSON.stringify({ name, niche, city, tone, goal, uniqueAngle, followers, email }),
       })
 
       const data = await response.json()
-      const text = data.content?.[0]?.text ?? ''
-      const clean = text.replace(/```json|```/g, '').trim()
-      const parsed: string[] = JSON.parse(clean)
+      if (!data.bios) throw new Error('No bios returned')
+      const parsed: string[] = data.bios
       setBios(parsed)
       setCharCounts(parsed.map(b => b.replace(/\\n/g, '\n').length))
     } catch {

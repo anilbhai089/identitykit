@@ -235,11 +235,14 @@ export default function GSTInvoiceGenerator() {
 
       y += 60
 
-      // ── Column X positions (from right edge) ──
-      const COL_AMT   = W - margin          // Amount — right-aligned
-      const COL_RATE  = W - margin - 28     // Rate
-      const COL_QTY   = W - margin - 52     // Qty
-      const COL_DESC  = margin + 10         // Description
+      // ── Column X positions (absolute mm on A4 = 210mm, margin = 15mm) ──
+      // |# |DESCRIPTION...................|QTY|  RATE (RS)|AMOUNT (RS)|
+      // 15  22                            130  145        168        195
+      const COL_NUM   = margin            // 15mm  — #
+      const COL_DESC  = margin + 7        // 22mm  — Description
+      const COL_QTY   = 130              // 130mm — Qty (right-align label here)
+      const COL_RATE  = 158              // 158mm — Rate (right-aligned)
+      const COL_AMT   = W - margin       // 195mm — Amount (right-aligned)
 
       // Table header
       doc.setFillColor(...dark)
@@ -247,10 +250,10 @@ export default function GSTInvoiceGenerator() {
       doc.setFont('helvetica', 'bold')
       doc.setFontSize(8)
       doc.setTextColor(...white)
-      doc.text('#', margin + 3, y + 6)
+      doc.text('#', COL_NUM + 2, y + 6)
       doc.text('DESCRIPTION OF SERVICES', COL_DESC, y + 6)
-      doc.text('QTY', COL_QTY, y + 6)
-      doc.text('RATE (RS)', COL_RATE, y + 6)
+      doc.text('QTY', COL_QTY, y + 6, { align: 'right' })
+      doc.text('RATE (RS)', COL_RATE, y + 6, { align: 'right' })
       doc.text('AMOUNT (RS)', COL_AMT, y + 6, { align: 'right' })
       y += 9
 
@@ -262,11 +265,11 @@ export default function GSTInvoiceGenerator() {
         doc.setFont('helvetica', 'normal')
         doc.setFontSize(8)
         doc.setTextColor(...dark)
-        doc.text(String(i + 1), margin + 3, y + 6)
-        const descLines = doc.splitTextToSize((s.description || 'Service').toUpperCase(), COL_QTY - COL_DESC - 4)
+        doc.text(String(i + 1), COL_NUM + 2, y + 6)
+        const descLines = doc.splitTextToSize((s.description || 'Service').toUpperCase(), COL_QTY - COL_DESC - 6)
         doc.text(descLines[0], COL_DESC, y + 6)
-        doc.text(String(s.qty), COL_QTY, y + 6)
-        doc.text(s.rate.toLocaleString('en-IN'), COL_RATE, y + 6)
+        doc.text(String(s.qty), COL_QTY, y + 6, { align: 'right' })
+        doc.text(s.rate.toLocaleString('en-IN'), COL_RATE, y + 6, { align: 'right' })
         doc.text((s.qty * s.rate).toLocaleString('en-IN'), COL_AMT, y + 6, { align: 'right' })
         y += 9
       })

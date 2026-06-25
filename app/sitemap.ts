@@ -187,6 +187,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+    {
+      url: `${baseUrl}/blog/youtube-rpm-india-niche-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/influencer-marketing-cost-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
        
       
 
@@ -221,6 +235,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
      {
       url: `${baseUrl}/tools/gst-invoice-generator/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/tools/instagram-bio-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+      {
+      url: `${baseUrl}/tools/brand-deal-contract-template`,
       lastModified: today,
       changeFrequency: 'monthly',
       priority: 0.9,

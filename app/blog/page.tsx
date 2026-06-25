@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'influencer-marketing-cost-india-2026',
+    tag: 'Brand Guide',
+    title: 'Influencer Marketing Cost in India 2026: Complete Pricing Guide for Brands',
+    excerpt: 'Real rates by tier: Nano ₹1K–₹12K, Micro ₹8K–₹50K, Mid-tier ₹50K–₹2L, Macro ₹2L–₹7L per Reel. 6 hidden costs that inflate every campaign, 4 budget templates (₹25K to ₹15L+), negotiation scripts, and ROI measurement methods that actually work in India.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'youtube-rpm-india-niche-2026',
     tag: 'YouTube',
     title: 'YouTube RPM in India 2026: Real Rates by Niche (Finance, Tech, Education & More)',

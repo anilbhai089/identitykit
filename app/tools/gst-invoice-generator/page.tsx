@@ -203,16 +203,16 @@ export default function GSTInvoiceGenerator() {
       doc.text('FROM', margin + 5, y + 8)
       doc.setTextColor(...dark)
       doc.setFontSize(11)
-      doc.text(creatorName || 'Your Name', margin + 5, y + 16)
+      doc.text((creatorName || 'Your Name').toUpperCase(), margin + 5, y + 16)
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(8)
       doc.setTextColor(...gray)
-      const creatorAddressLines = doc.splitTextToSize(creatorAddress || 'Your Address', colW - 10)
+      const creatorAddressLines = doc.splitTextToSize((creatorAddress || 'Your Address').toUpperCase(), colW - 10)
       doc.text(creatorAddressLines, margin + 5, y + 22)
-      doc.text(creatorState, margin + 5, y + 32)
-      if (creatorGSTIN) doc.text(`GSTIN: ${creatorGSTIN}`, margin + 5, y + 38)
-      if (creatorPAN) doc.text(`PAN: ${creatorPAN}`, margin + 5, y + 44)
-      if (creatorEmail) doc.text(creatorEmail, margin + 5, y + 50)
+      doc.text(creatorState.toUpperCase(), margin + 5, y + 32)
+      if (creatorGSTIN) doc.text(`GSTIN: ${creatorGSTIN.toUpperCase()}`, margin + 5, y + 38)
+      if (creatorPAN) doc.text(`PAN: ${creatorPAN.toUpperCase()}`, margin + 5, y + 44)
+      if (creatorEmail) doc.text(creatorEmail.toUpperCase(), margin + 5, y + 50)
 
       // TO box
       const col2x = margin + colW + 8
@@ -224,28 +224,34 @@ export default function GSTInvoiceGenerator() {
       doc.text('BILL TO', col2x + 5, y + 8)
       doc.setTextColor(...dark)
       doc.setFontSize(11)
-      doc.text(brandName || 'Brand Name', col2x + 5, y + 16)
+      doc.text((brandName || 'Brand Name').toUpperCase(), col2x + 5, y + 16)
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(8)
       doc.setTextColor(...gray)
-      const brandAddressLines = doc.splitTextToSize(brandAddress || 'Brand Address', colW - 10)
+      const brandAddressLines = doc.splitTextToSize((brandAddress || 'Brand Address').toUpperCase(), colW - 10)
       doc.text(brandAddressLines, col2x + 5, y + 22)
-      doc.text(brandState, col2x + 5, y + 32)
-      if (brandGSTIN) doc.text(`GSTIN: ${brandGSTIN}`, col2x + 5, y + 38)
+      doc.text(brandState.toUpperCase(), col2x + 5, y + 32)
+      if (brandGSTIN) doc.text(`GSTIN: ${brandGSTIN.toUpperCase()}`, col2x + 5, y + 38)
 
       y += 60
 
-      // Services table header
+      // ── Column X positions (from right edge) ──
+      const COL_AMT   = W - margin          // Amount — right-aligned
+      const COL_RATE  = W - margin - 28     // Rate
+      const COL_QTY   = W - margin - 52     // Qty
+      const COL_DESC  = margin + 10         // Description
+
+      // Table header
       doc.setFillColor(...dark)
       doc.rect(margin, y, W - margin * 2, 9, 'F')
       doc.setFont('helvetica', 'bold')
       doc.setFontSize(8)
       doc.setTextColor(...white)
       doc.text('#', margin + 3, y + 6)
-      doc.text('Description of Services', margin + 10, y + 6)
-      doc.text('Qty', W - margin - 60, y + 6)
-      doc.text('Rate (Rs)', W - margin - 42, y + 6)
-      doc.text('Amount (Rs)', W - margin - 18, y + 6, { align: 'right' })
+      doc.text('DESCRIPTION OF SERVICES', COL_DESC, y + 6)
+      doc.text('QTY', COL_QTY, y + 6)
+      doc.text('RATE (RS)', COL_RATE, y + 6)
+      doc.text('AMOUNT (RS)', COL_AMT, y + 6, { align: 'right' })
       y += 9
 
       // Service rows
@@ -257,11 +263,11 @@ export default function GSTInvoiceGenerator() {
         doc.setFontSize(8)
         doc.setTextColor(...dark)
         doc.text(String(i + 1), margin + 3, y + 6)
-        const descLines = doc.splitTextToSize(s.description || 'Service', W - margin * 2 - 75)
-        doc.text(descLines[0], margin + 10, y + 6)
-        doc.text(String(s.qty), W - margin - 57, y + 6)
-        doc.text(s.rate.toLocaleString('en-IN'), W - margin - 39, y + 6)
-        doc.text((s.qty * s.rate).toLocaleString('en-IN'), W - margin - 2, y + 6, { align: 'right' })
+        const descLines = doc.splitTextToSize((s.description || 'Service').toUpperCase(), COL_QTY - COL_DESC - 4)
+        doc.text(descLines[0], COL_DESC, y + 6)
+        doc.text(String(s.qty), COL_QTY, y + 6)
+        doc.text(s.rate.toLocaleString('en-IN'), COL_RATE, y + 6)
+        doc.text((s.qty * s.rate).toLocaleString('en-IN'), COL_AMT, y + 6, { align: 'right' })
         y += 9
       })
 
@@ -323,10 +329,10 @@ export default function GSTInvoiceGenerator() {
         doc.setTextColor(...dark)
         // Two column layout inside bank box
         const bCol2 = margin + (W - margin * 2) / 2
-        if (accountHolder) doc.text(`Account Name: ${accountHolder}`, margin + 5, y + 18)
-        if (bankName) doc.text(`Bank: ${bankName}`, margin + 5, y + 26)
-        if (accountNo) doc.text(`Account No: ${accountNo}`, bCol2, y + 18)
-        if (ifsc) doc.text(`IFSC Code: ${ifsc}`, bCol2, y + 26)
+        if (accountHolder) doc.text(`ACCOUNT NAME: ${accountHolder.toUpperCase()}`, margin + 5, y + 18)
+        if (bankName) doc.text(`BANK: ${bankName.toUpperCase()}`, margin + 5, y + 26)
+        if (accountNo) doc.text(`ACCOUNT NO: ${accountNo}`, bCol2, y + 18)
+        if (ifsc) doc.text(`IFSC CODE: ${ifsc.toUpperCase()}`, bCol2, y + 26)
         y += 50
       }
 

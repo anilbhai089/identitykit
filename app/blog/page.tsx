@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'youtube-rpm-india-niche-2026',
+    tag: 'YouTube',
+    title: 'YouTube RPM in India 2026: Real Rates by Niche (Finance, Tech, Education & More)',
+    excerpt: 'Verified RPM data for every Indian YouTube niche in 2026. Finance earns ₹80–₹250 RPM (₹8K–₹25K per lakh views). Tech ₹60–₹180. Entertainment ₹10–₹40. CPM vs RPM explained, YPP requirements, earnings table by views, and 6 proven ways to increase your RPM.',
+    readTime: '15 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'ugc-creator-salary-india-2026',
     tag: 'UGC',
     title: 'How Much Do UGC Creators Earn in India in 2026? (Real Salary + Rate Data)',

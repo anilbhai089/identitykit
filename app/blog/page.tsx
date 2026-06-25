@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'social-media-calendar-india-2026',
+    tag: 'Content Planning',
+    title: 'Social Media Calendar India 2026: Month-Wise Festival & Content Planning Guide for Creators',
+    excerpt: '78% of Indian consumers buy more from brands that acknowledge their festivals. Complete month-by-month calendar with key dates, content ideas, brand campaign windows, and posting strategy — from Makar Sankranti to Diwali to New Year. Never miss a trending moment again.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'influencer-marketing-cost-india-2026',
     tag: 'Brand Guide',
     title: 'Influencer Marketing Cost in India 2026: Complete Pricing Guide for Brands',

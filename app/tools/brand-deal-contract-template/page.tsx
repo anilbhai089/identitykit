@@ -80,7 +80,7 @@ function fmtDate(d: string) {
 }
 
 function fmtINR(n: number) {
-  return '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: 0 })
+  return 'Rs. ' + n.toLocaleString('en-IN', { minimumFractionDigits: 0 })
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────

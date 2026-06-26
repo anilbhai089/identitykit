@@ -79,6 +79,16 @@ const tools = [
     cta: 'Generate contract →',
     live: true,
   },
+  {
+    href: '/tools/brand-pitch-email-generator',
+    emoji: '📧',
+    tag: 'Live Now',
+    tagColor: '#4CAF50',
+    title: 'Brand Pitch Email Generator',
+    desc: 'AI-powered pitch email generator for Indian creators. Get a personalized email + 2 follow-ups in seconds — short enough to actually get read.',
+    cta: 'Generate pitch →',
+    live: true,
+  },
 ]
 
 export default function ToolsIndex() {

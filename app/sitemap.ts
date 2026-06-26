@@ -260,7 +260,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+
     
+      {
+      url: `${baseUrl}/tools/brand-pitch-email-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+  
 
     // Web Stories
     {

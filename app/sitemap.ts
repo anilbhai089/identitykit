@@ -222,6 +222,48 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+    {
+      url: `${baseUrl}/blog/instagram-engagement-rate-calculator-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/influencer-rate-calculator-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/youtube-money-calculator-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/gst-invoice-generator-free-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/instagram-bio-ideas-creators-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/brand-deal-contract-template-india/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
        
       
 

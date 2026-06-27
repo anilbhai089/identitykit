@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'youtube-shorts-monetization-india-2026',
+    tag: 'YouTube',
+    title: 'YouTube Shorts Monetisation India 2026: Complete Guide to Earning from Shorts',
+    excerpt: 'Indian creators earn ₹5–₹30 per 1K Shorts views from ads (finance: ₹20–₹60). YPP tiers explained (500 vs 1,000 subscribers), how the revenue pool model works, Shorts vs long-form earnings table, and 7 income streams to stack — brand deals, affiliate, memberships, Super Thanks, digital products.',
+    readTime: '17 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-grow-on-linkedin-india-2026',
     tag: 'LinkedIn Growth',
     title: 'How to Grow on LinkedIn in India in 2026 (From 0 to 10K Followers Guide)',

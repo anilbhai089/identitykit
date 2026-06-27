@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-grow-on-linkedin-india-2026',
+    tag: 'LinkedIn Growth',
+    title: 'How to Grow on LinkedIn in India in 2026 (From 0 to 10K Followers Guide)',
+    excerpt: 'India is LinkedIn\'s #2 market with 130M+ users — but only 3% post weekly. Carousels earn 3.4% engagement (highest format), video growing 36% YoY. 6 top niches ranked by growth rate and brand deal income, 6-step growth system, 5 monetisation paths from ₹15K sponsored posts to ₹5L consulting retainers.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'brand-deal-contract-template-india',
     tag: 'Legal',
     title: 'Brand Deal Contract Template India 2026: Free Download for Influencers & Creators',
@@ -328,7 +336,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

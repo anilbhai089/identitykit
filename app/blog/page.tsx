@@ -15,6 +15,54 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'brand-deal-contract-template-india',
+    tag: 'Legal',
+    title: 'Brand Deal Contract Template India 2026: Free Download for Influencers & Creators',
+    excerpt: 'Free India-specific brand deal contract with all 8 clauses — scope, payment, IP rights, kill fee, ASCI disclosure, GST/TDS. Copy-paste template + free tool to customise your contract in 60 seconds.',
+    readTime: '10 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'instagram-bio-ideas-creators-india',
+    tag: 'Profile Tips',
+    title: 'Instagram Bio Ideas for Creators India 2026: Examples, Formula & Free Generator',
+    excerpt: 'The 5-line bio formula that gets brand deals. 12+ real examples by niche — finance, fitness, beauty, tech, food. What brands look for in your bio, what to avoid, and a free AI generator.',
+    readTime: '8 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'gst-invoice-generator-free-india',
+    tag: 'GST & Tax',
+    title: 'GST Invoice Generator for Freelancers India 2026: Free Tool + Complete Guide',
+    excerpt: '11 mandatory invoice fields, GST threshold rules (₹20L), TDS Section 194J explained with example calculation, common invoice mistakes — plus a free tool to generate compliant invoices in 60 seconds.',
+    readTime: '10 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'youtube-money-calculator-india',
+    tag: 'YouTube',
+    title: 'YouTube Money Calculator India 2026: How Much Can You Earn From Your Channel?',
+    excerpt: 'Finance earns ₹8,000–₹25,000 per lakh views. Entertainment earns ₹1,000–₹4,000. CPM vs RPM explained, YPP requirements, earnings by niche table, 5 ways to increase income — plus free calculator.',
+    readTime: '10 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'influencer-rate-calculator-india',
+    tag: 'Rate Card',
+    title: 'Influencer Rate Calculator India 2026: How Much Should You Charge Brands?',
+    excerpt: 'Stop undercharging. Real 2026 rates by tier: Nano ₹2K–₹12K, Micro ₹8K–₹50K, Mid-tier ₹50K–₹2L per Reel. Niche premiums, negotiation rules, and a free calculator for your exact number.',
+    readTime: '10 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'instagram-engagement-rate-calculator-india',
+    tag: 'Analytics',
+    title: 'Instagram Engagement Rate Calculator India 2026: Formula, Benchmarks & Free Tool',
+    excerpt: '3 engagement rate formulas explained. India benchmarks by tier: Nano 4–8%, Micro 2.5–5%, Mid-tier 1.5–3%. What brands check, 8 ways to improve your rate — plus free instant calculator.',
+    readTime: '10 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'affiliate-marketing-india-creators-2026',
     tag: 'Passive Income',
     title: 'Affiliate Marketing for Creators in India 2026: Complete Earning Guide (₹25K–₹2L/Month)',
@@ -280,7 +328,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

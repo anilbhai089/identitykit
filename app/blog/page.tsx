@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-become-micro-influencer-india',
+    tag: 'Influencer Marketing',
+    title: 'How to Become a Micro Influencer in India in 2026 (Step-by-Step Guide)',
+    excerpt: '40% of India\'s brand influencer budget now goes to micro influencers. Tier-by-tier earnings (Nano ₹5K–₹30K/month → Micro ₹30K–₹2L → Mid-tier ₹2L–₹10L), 6 highest-paying niches, 6-step system from zero followers to first paid deal, and exactly what brands check before hiring you.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'social-media-calendar-india-2026',
     tag: 'Content Planning',
     title: 'Social Media Calendar India 2026: Month-Wise Festival & Content Planning Guide for Creators',
@@ -264,7 +272,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

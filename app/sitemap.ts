@@ -264,6 +264,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+     {
+      url: `${baseUrl}/blog/how-to-grow-on-linkedin-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+     {
+      url: `${baseUrl}/blog/youtube-shorts-monetization-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+      {
+      url: `${baseUrl}/blog/how-to-become-content-creator-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+      {
+      url: `${baseUrl}/blog/instagram-reels-vs-youtube-shorts-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    
+
        
       
 
@@ -320,6 +350,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     
       {
       url: `${baseUrl}/tools/brand-pitch-email-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+      {
+      url: `${baseUrl}/tools/influencer-roi-calculator`,
       lastModified: today,
       changeFrequency: 'monthly',
       priority: 0.9,

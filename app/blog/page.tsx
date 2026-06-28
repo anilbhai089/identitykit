@@ -15,6 +15,22 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'influencer-rate-card-india-2026',
+    tag: 'Rate Card',
+    title: 'Influencer Rate Card India 2026: What to Charge Brands (Complete Pricing Guide)',
+    excerpt: '68% of Indian creators accept the first offer and undercharge by 35% on average. Full rate card by tier: Nano ₹1K–₹10K/Reel, Micro ₹5K–₹75K, Mid-tier ₹50K–₹3.5L, Macro ₹2L–₹7.9L. Niche multipliers (finance 2–4×), 6 deal premiums (usage rights +30–50%, exclusivity +25–40%), and 5 negotiation scripts.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'how-to-grow-instagram-followers-india-2026',
+    tag: 'Growth',
+    title: 'How to Grow Instagram Followers in India in 2026 (0 to 10K Organic Guide)',
+    excerpt: 'Accounts posting 5 Reels/week in India grow 2x faster. Reels get 36% more reach than any other format. 7 strategies ranked by impact (profile optimisation, Reels hook formula, carousels, hashtag tactics, Stories), best posting times for India (8–10 AM + 7–10 PM IST), 6 niche timelines to 10K, and how to convert followers into brand deals.',
+    readTime: '17 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'how-to-pitch-brands-india-influencer-2026',
     tag: 'Brand Deals',
     title: 'How to Pitch Brands as an Influencer in India 2026 (Templates + Scripts That Get Replies)',

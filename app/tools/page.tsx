@@ -89,6 +89,16 @@ const tools = [
     cta: 'Generate pitch →',
     live: true,
   },
+  {
+    href: '/tools/influencer-roi-calculator',
+    emoji: '📈',
+    tag: 'Live Now',
+    tagColor: '#4CAF50',
+    title: 'Influencer ROI Calculator',
+    desc: 'Calculate Earned Media Value, Cost Per Engagement and campaign ROI — with India-specific benchmarks. Built for both brands and creators.',
+    cta: 'Calculate ROI →',
+    live: true,
+  },
 ]
 
 export default function ToolsIndex() {

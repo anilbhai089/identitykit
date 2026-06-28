@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-become-content-creator-india-2026',
+    tag: 'Creator Career',
+    title: 'How to Become a Content Creator in India in 2026 (Zero to ₹1 Lakh/Month Roadmap)',
+    excerpt: 'India has 100M+ creators but only 150,000 earn livable income. 7-step roadmap: niche selection, platform comparison (Instagram vs YouTube vs LinkedIn), ₹0 equipment setup, income timeline month-by-month, first brand deal at 1,000 followers, and 6 free tools every Indian creator needs.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'youtube-shorts-monetization-india-2026',
     tag: 'YouTube',
     title: 'YouTube Shorts Monetisation India 2026: Complete Guide to Earning from Shorts',

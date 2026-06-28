@@ -15,6 +15,22 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-pitch-brands-india-influencer-2026',
+    tag: 'Brand Deals',
+    title: 'How to Pitch Brands as an Influencer in India 2026 (Templates + Scripts That Get Replies)',
+    excerpt: 'Generic pitches get 5–10% replies. Personalised ones get 30–40%. 5 pitch channels ranked by reply rate (WhatsApp 35–60%, email 25–40%, LinkedIn 20–35%), 4 copy-paste templates (cold email, large brand, follow-up, Instagram DM), how to find brand contacts, 5 negotiation scripts, and 6 deal-killing mistakes.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'influencer-media-kit-india-2026',
+    tag: 'Media Kit',
+    title: 'Influencer Media Kit India 2026: What to Include, Free Template & How to Get Brand Deals',
+    excerpt: '78% of Indian brands expect a media kit before discussing partnerships. 6 must-have sections in exact order (creator identity, audience demographics, content samples, past collabs, rate card, contact), India-specific tips for each, rate card benchmarks by tier, brand pitch email template, and 6 mistakes that cost Indian creators deals.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'instagram-reels-vs-youtube-shorts-india-2026',
     tag: 'Platform Comparison',
     title: 'Instagram Reels vs YouTube Shorts India 2026: Which Pays More? (Data Comparison)',

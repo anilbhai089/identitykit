@@ -99,6 +99,26 @@ const tools = [
     cta: 'Calculate ROI →',
     live: true,
   },
+  {
+    href: '/tools/campaign-brief-generator',
+    emoji: '📝',
+    tag: 'Live Now',
+    tagColor: '#4CAF50',
+    title: 'Campaign Brief Generator',
+    desc: 'AI-powered campaign brief generator for Indian brands. Generate a professional, ASCI-compliant brief in seconds — copy and send to creators instantly.',
+    cta: 'Generate brief →',
+    live: true,
+  },
+  {
+    href: '/tools/campaign-report-generator',
+    emoji: '📊',
+    tag: 'Live Now',
+    tagColor: '#4CAF50',
+    title: 'Campaign Report Generator',
+    desc: 'Enter your campaign stats and get a professional post-campaign report to send brands in seconds. Creators who send reports get rebooked 5x more often.',
+    cta: 'Generate report →',
+    live: true,
+  },
 ]
 
 export default function ToolsIndex() {

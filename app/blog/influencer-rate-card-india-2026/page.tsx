@@ -467,7 +467,7 @@ export default function InfluencerRateCardIndiaPage() {
           </section>
 
           {/* Identity Kit CTA */}
-          <div style={{ background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', border: '1px solid rgba(255,107,43,0.25)', borderRadius: 20, padding: '36px 32px', marginBottom: 56, textAlign: 'center' }}>
+          <div style={{ background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', border: '1px solid rgba(255,107,43,0.25)', borderRadius: 20, padding: '36px 32px', marginBottom: 24, textAlign: 'center' }}>
             <div style={{ fontSize: 36, marginBottom: 12 }}>💼</div>
             <div style={{ fontWeight: 800, fontSize: 22, marginBottom: 10 }}>Put your rate card in your media kit — free</div>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, lineHeight: 1.7, maxWidth: 480, margin: '0 auto 22px' }}>Identity Kit builds your complete rate card, media kit, and creator CV in one shareable professional link. Brands open it, see your rates, and reply faster. Free, takes 10 minutes.</p>
@@ -480,6 +480,20 @@ export default function InfluencerRateCardIndiaPage() {
               Build My Free Rate Card →
             </Link>
             <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 13, marginTop: 12 }}>identitykit.in · Free forever · No credit card</div>
+          </div>
+
+          {/* ROI + Campaign Report inline tools */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14, marginBottom: 56 }}>
+            <div style={{ background: 'rgba(108,99,255,0.06)', border: '1px solid rgba(108,99,255,0.18)', borderRadius: 14, padding: '18px 22px' }}>
+              <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6 }}>📊 Prove your ROI — not just your rate</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, marginBottom: 14 }}>Calculate your Earned Media Value and Cost Per Engagement with India-specific benchmarks. Add this to your rate card to justify premium pricing.</div>
+              <Link href="/tools/influencer-roi-calculator" style={{ background: 'rgba(108,99,255,0.15)', color: '#6C63FF', border: '1px solid rgba(108,99,255,0.25)', padding: '9px 16px', borderRadius: 8, fontWeight: 700, fontSize: 13, display: 'inline-block' }}>ROI Calculator Free →</Link>
+            </div>
+            <div style={{ background: 'rgba(76,175,80,0.05)', border: '1px solid rgba(76,175,80,0.18)', borderRadius: 14, padding: '18px 22px' }}>
+              <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6 }}>📈 After delivery: send a campaign report</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, marginBottom: 14 }}>Creators who send post-campaign reports get rebooked 5x more often. Generate a professional report with your stats in 2 minutes — free.</div>
+              <Link href="/tools/campaign-report-generator" style={{ background: 'rgba(76,175,80,0.12)', color: '#4CAF50', border: '1px solid rgba(76,175,80,0.25)', padding: '9px 16px', borderRadius: 8, fontWeight: 700, fontSize: 13, display: 'inline-block' }}>Campaign Report Free →</Link>
+            </div>
           </div>
 
           {/* FAQ */}
@@ -546,6 +560,8 @@ export default function InfluencerRateCardIndiaPage() {
         <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 16, flexWrap: 'wrap' }}>
           <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B' }}>Blog</Link>
           <Link href="/tools/influencer-rate-calculator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Rate Calculator</Link>
+          <Link href="/tools/influencer-roi-calculator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>ROI Calculator</Link>
+          <Link href="/tools/campaign-report-generator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Campaign Report</Link>
           <Link href="/tools/brand-deal-contract-template" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contract Template</Link>
           <Link href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>About</Link>
         </div>

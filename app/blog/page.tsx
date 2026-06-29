@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-become-ugc-creator-india-2026',
+    tag: 'UGC',
+    title: 'How to Become a UGC Creator in India 2026 (Zero Followers, ₹50K–₹1L/Month)',
+    excerpt: 'UGC creators earn ₹3,000–₹50,000/video with zero followers required. 6 UGC formats Indian brands pay for (problem-solution highest at ₹6K–₹30K), 6-step system from spec portfolio to retainer clients, income timeline by stage, top Indian brands buying UGC (Mamaearth, Groww, boAt), and 6 mistakes keeping creators stuck at ₹10K/month.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'influencer-rate-card-india-2026',
     tag: 'Rate Card',
     title: 'Influencer Rate Card India 2026: What to Charge Brands (Complete Pricing Guide)',

@@ -396,7 +396,7 @@ export default function UGCCreatorIndiaPage() {
           </section>
 
           {/* Identity Kit CTA */}
-          <div style={{ background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', border: '1px solid rgba(255,107,43,0.25)', borderRadius: 20, padding: '32px 28px', marginBottom: 56, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
+          <div style={{ background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', border: '1px solid rgba(255,107,43,0.25)', borderRadius: 20, padding: '32px 28px', marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 8 }}>Build your UGC creator profile — free</div>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, lineHeight: 1.7 }}>Identity Kit builds your UGC creator profile with your portfolio link, niche categories, rates, and contact details in one shareable link. Every brand pitch you send should include this link. Free, takes 10 minutes, built for Indian creators.</p>
@@ -404,6 +404,20 @@ export default function UGCCreatorIndiaPage() {
             <Link href="/auth" style={{ background: '#FF6B2B', color: '#fff', padding: '14px 24px', borderRadius: 12, fontWeight: 700, fontSize: 15, flexShrink: 0, whiteSpace: 'nowrap' }}>
               Build My UGC Profile Free →
             </Link>
+          </div>
+
+          {/* New tool CTAs — pitch email + campaign report */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14, marginBottom: 56 }}>
+            <div style={{ background: 'rgba(255,107,43,0.06)', border: '1px solid rgba(255,107,43,0.18)', borderRadius: 14, padding: '18px 22px' }}>
+              <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6 }}>⚡ Generate your brand pitch email in 30 seconds</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, marginBottom: 14 }}>Our AI Brand Pitch Email Generator writes your personalised UGC pitch + 2 follow-ups based on your niche and the specific brand you&apos;re targeting. Free, India-specific.</div>
+              <Link href="/tools/brand-pitch-email-generator" style={{ background: 'rgba(255,107,43,0.15)', color: '#FF6B2B', border: '1px solid rgba(255,107,43,0.25)', padding: '9px 16px', borderRadius: 8, fontWeight: 700, fontSize: 13, display: 'inline-block' }}>Generate Pitch Email →</Link>
+            </div>
+            <div style={{ background: 'rgba(76,175,80,0.05)', border: '1px solid rgba(76,175,80,0.18)', borderRadius: 14, padding: '18px 22px' }}>
+              <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 6 }}>📊 After delivery: send a report and get rebooked</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, marginBottom: 14 }}>Creators who send post-campaign performance reports get rebooked 5x more often. Generate a professional one with your UGC stats in 2 minutes — free.</div>
+              <Link href="/tools/campaign-report-generator" style={{ background: 'rgba(76,175,80,0.12)', color: '#4CAF50', border: '1px solid rgba(76,175,80,0.25)', padding: '9px 16px', borderRadius: 8, fontWeight: 700, fontSize: 13, display: 'inline-block' }}>Generate Campaign Report →</Link>
+            </div>
           </div>
 
           {/* 6 Mistakes */}
@@ -487,6 +501,8 @@ export default function UGCCreatorIndiaPage() {
           <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B' }}>Blog</Link>
           <Link href="/tools" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Tools</Link>
           <Link href="/tools/influencer-rate-calculator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Rate Calculator</Link>
+          <Link href="/tools/brand-pitch-email-generator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Pitch Email Generator</Link>
+          <Link href="/tools/campaign-report-generator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Campaign Report</Link>
           <Link href="/tools/brand-deal-contract-template" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contract Template</Link>
         </div>
         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit · Made with ❤️ for Indian creators · identitykit.in</p>

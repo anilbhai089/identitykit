@@ -403,6 +403,17 @@ export default function PitchBrandsIndiaInfluencerPage() {
             </div>
           </section>
 
+          {/* Brand Pitch Email Generator CTA */}
+          <div style={{ background: 'rgba(255,107,43,0.06)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 14, padding: '22px 26px', marginBottom: 48, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 16, marginBottom: 6 }}>⚡ Skip the template — generate your personalised pitch in 30 seconds</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>Our free AI Brand Pitch Email Generator writes your personalised pitch email + 2 follow-ups based on your niche, platform, and the specific brand you&apos;re targeting. India-specific, under 120 words, ready to send.</div>
+            </div>
+            <Link href="/tools/brand-pitch-email-generator" style={{ background: '#FF6B2B', color: '#fff', padding: '12px 22px', borderRadius: 10, fontWeight: 700, fontSize: 14, flexShrink: 0, whiteSpace: 'nowrap' }}>
+              Generate My Pitch Email Free →
+            </Link>
+          </div>
+
           {/* How to find contacts */}
           <section style={{ marginBottom: 56 }}>
             <h2 style={{ fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.3px' }}>How to Find Indian Brand Marketing Contacts in 2026</h2>
@@ -451,6 +462,17 @@ export default function PitchBrandsIndiaInfluencerPage() {
             </div>
             <Link href="/tools/influencer-rate-calculator" style={{ background: 'rgba(255,107,43,0.15)', color: '#FF6B2B', border: '1px solid rgba(255,107,43,0.3)', padding: '10px 18px', borderRadius: 10, fontWeight: 700, fontSize: 14, flexShrink: 0, whiteSpace: 'nowrap' }}>
               Calculate My Rate →
+            </Link>
+          </div>
+
+          {/* Campaign Report Generator CTA */}
+          <div style={{ background: 'rgba(76,175,80,0.05)', border: '1px solid rgba(76,175,80,0.18)', borderRadius: 14, padding: '22px 26px', marginBottom: 48, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 16, marginBottom: 6 }}>📊 After every deal: send a campaign report and get rebooked 5x more often</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>Most Indian creators deliver content and disappear. A professional post-campaign report sent 7 days after going live shows ROI, builds trust, and seeds the next deal. Generate yours free in 2 minutes.</div>
+            </div>
+            <Link href="/tools/campaign-report-generator" style={{ background: 'rgba(76,175,80,0.15)', color: '#4CAF50', border: '1px solid rgba(76,175,80,0.3)', padding: '12px 20px', borderRadius: 10, fontWeight: 700, fontSize: 14, flexShrink: 0, whiteSpace: 'nowrap' }}>
+              Generate Campaign Report Free →
             </Link>
           </div>
 
@@ -535,6 +557,8 @@ export default function PitchBrandsIndiaInfluencerPage() {
           <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B' }}>Blog</Link>
           <Link href="/tools" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Tools</Link>
           <Link href="/tools/influencer-rate-calculator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Rate Calculator</Link>
+          <Link href="/tools/brand-pitch-email-generator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Pitch Email Generator</Link>
+          <Link href="/tools/campaign-report-generator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Campaign Report</Link>
           <Link href="/tools/brand-deal-contract-template" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contract Template</Link>
         </div>
         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit · Free media kit for Indian creators · identitykit.in</p>

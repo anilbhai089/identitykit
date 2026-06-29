@@ -5,6 +5,8 @@ import Script from 'next/script'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface CreatorData {
+  // Photo
+  photo: string // base64
   // Personal
   name: string
   handle: string
@@ -55,6 +57,23 @@ const PRICES = {
   bundle: 99,
 }
 
+// ── Image helper ──────────────────────────────────────────────────────────────
+function addProfileImage(doc: InstanceType<typeof import('jspdf').jsPDF>, photo: string, x: number, y: number, size: number) {
+  if (!photo) return
+  try {
+    // Detect format from base64 header
+    const format = photo.startsWith('data:image/png') ? 'PNG' : 'JPEG'
+    const base64 = photo.split(',')[1] || photo
+    doc.addImage(base64, format, x, y, size, size)
+    // Circle clip effect — draw white arc over corners (simple approach)
+    doc.setDrawColor(255, 107, 43)
+    doc.setLineWidth(1.2)
+    doc.circle(x + size / 2, y + size / 2, size / 2, 'S')
+  } catch (e) {
+    console.warn('Could not add profile image to PDF:', e)
+  }
+}
+
 // ── PDF Generators ────────────────────────────────────────────────────────────
 async function generateCVPdf(data: CreatorData) {
   const { jsPDF } = await import('jspdf')
@@ -71,6 +90,10 @@ async function generateCVPdf(data: CreatorData) {
   // Header
   doc.setFillColor(...orange)
   doc.rect(0, 0, W, 48, 'F')
+  // Profile photo
+  if (data.photo) {
+    addProfileImage(doc, data.photo, W - M - 32, y + 4, 32)
+  }
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(24)
   doc.setTextColor(...white)
@@ -196,6 +219,10 @@ async function generateMediaKitPdf(data: CreatorData) {
   doc.setFontSize(26)
   doc.setTextColor(255, 255, 255)
   doc.text(data.name, M, y + 22)
+  // Profile photo in media kit header
+  if (data.photo) {
+    addProfileImage(doc, data.photo, W - M - 36, y + 4, 36)
+  }
   doc.setFontSize(10)
   doc.setFont('helvetica', 'normal')
   doc.setTextColor(200, 200, 200)
@@ -326,6 +353,10 @@ async function generateRateCardPdf(data: CreatorData) {
   // Header
   doc.setFillColor(...orange)
   doc.rect(0, 0, W, 44, 'F')
+  // Profile photo
+  if (data.photo) {
+    addProfileImage(doc, data.photo, W - M - 32, y + 4, 32)
+  }
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(9)
   doc.setTextColor(...white)
@@ -483,6 +514,7 @@ declare global {
 export default function CreatorKitGenerator() {
   const [step, setStep] = useState<'form' | 'preview' | 'download'>('form')
   const [data, setData] = useState<CreatorData>({
+    photo: '',
     name: '', handle: '', email: '', phone: '', city: '', bio: '',
     platform: 'Instagram', followers: '', engagementRate: '', avgViews: '',
     niche: 'Lifestyle', subNiche: '', reelRate: '', staticRate: '', storyRate: '',
@@ -708,6 +740,36 @@ export default function CreatorKitGenerator() {
             <div style={card}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 17, marginBottom: 5 }}>Personal Details</div>
               <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', marginBottom: 20 }}>Basic info that appears across all 3 documents.</p>
+
+              {/* Photo upload */}
+              <div style={{ marginBottom: 20, display: 'flex', gap: 20, alignItems: 'center' }}>
+                <div style={{ width: 80, height: 80, borderRadius: '50%', border: '2px dashed rgba(255,107,43,0.4)', background: 'rgba(255,107,43,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden', position: 'relative' }}>
+                  {data.photo
+                    ? <img src={data.photo} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    : <span style={{ fontSize: 28 }}>📷</span>
+                  }
+                </div>
+                <div>
+                  <label style={{ ...labelStyle, marginBottom: 8 }}>Profile Photo *</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="photo-upload"
+                    onChange={e => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      const reader = new FileReader()
+                      reader.onload = ev => setData(prev => ({ ...prev, photo: ev.target?.result as string }))
+                      reader.readAsDataURL(file)
+                    }}
+                  />
+                  <label htmlFor="photo-upload" style={{ display: 'inline-block', background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.3)', color: '#FF8C5A', borderRadius: 9, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+                    {data.photo ? '✓ Photo uploaded — change' : 'Upload photo'}
+                  </label>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 6 }}>Appears in the header of all 3 documents. Square photo works best.</div>
+                </div>
+              </div>
               <div className="g2" style={{ marginBottom: 12 }}>
                 <div><label style={labelStyle}>Full Name *</label><input style={inputStyle} placeholder="Priya Sharma" value={data.name} onChange={upd('name')} /></div>
                 <div><label style={labelStyle}>Handle / Username</label><input style={inputStyle} placeholder="@priyasharma" value={data.handle} onChange={upd('handle')} /></div>

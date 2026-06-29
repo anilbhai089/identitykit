@@ -410,6 +410,28 @@ export default function InfluencerMediaKitIndiaPage() {
             </div>
           </section>
 
+          {/* Brand Pitch Email Generator CTA */}
+          <div style={{ background: 'rgba(255,107,43,0.06)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 14, padding: '22px 26px', marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 6 }}>⚡ Rather than edit a template — generate a personalised pitch in 30 seconds</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>Our free AI Brand Pitch Email Generator writes your personalised email + 2 follow-ups based on your niche, platform, followers, and the exact brand you&apos;re targeting. India-specific, short enough to get read.</div>
+            </div>
+            <Link href="/tools/brand-pitch-email-generator" style={{ background: '#FF6B2B', color: '#fff', padding: '11px 18px', borderRadius: 10, fontWeight: 700, fontSize: 14, flexShrink: 0, whiteSpace: 'nowrap' }}>
+              Generate My Pitch Email →
+            </Link>
+          </div>
+
+          {/* ROI Calculator CTA */}
+          <div style={{ background: 'rgba(108,99,255,0.06)', border: '1px solid rgba(108,99,255,0.18)', borderRadius: 14, padding: '22px 26px', marginBottom: 48, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 6 }}>📊 Prove your ROI to brands — with numbers, not promises</div>
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>Use our free Influencer ROI Calculator to calculate your Earned Media Value and Cost Per Engagement — India-specific benchmarks by niche. Add this data to your media kit to justify premium rates.</div>
+            </div>
+            <Link href="/tools/influencer-roi-calculator" style={{ background: 'rgba(108,99,255,0.15)', color: '#6C63FF', border: '1px solid rgba(108,99,255,0.3)', padding: '11px 18px', borderRadius: 10, fontWeight: 700, fontSize: 14, flexShrink: 0, whiteSpace: 'nowrap' }}>
+              Calculate My ROI Free →
+            </Link>
+          </div>
+
           {/* 6 Mistakes */}
           <section style={{ marginBottom: 56 }}>
             <h2 style={{ fontSize: 26, fontWeight: 800, marginBottom: 20, letterSpacing: '-0.3px' }}>6 Media Kit Mistakes That Cost Indian Creators Brand Deals</h2>
@@ -491,6 +513,8 @@ export default function InfluencerMediaKitIndiaPage() {
           <Link href="/blog" style={{ fontSize: 14, color: '#FF6B2B' }}>Blog</Link>
           <Link href="/tools" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Tools</Link>
           <Link href="/tools/influencer-rate-calculator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Rate Calculator</Link>
+          <Link href="/tools/brand-pitch-email-generator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Pitch Email Generator</Link>
+          <Link href="/tools/influencer-roi-calculator" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>ROI Calculator</Link>
           <Link href="/tools/brand-deal-contract-template" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contract Template</Link>
         </div>
         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit · Free media kit for Indian creators · identitykit.in</p>

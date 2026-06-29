@@ -554,15 +554,28 @@ export default function CreatorKitGenerator() {
     if (selected.size === 0) return
     const price = getPrice()
 
-    // Initiate Razorpay
     setPaying(true)
     try {
-      // Create order via API
+      // Ensure Razorpay script is loaded before opening checkout
+      if (!window.Razorpay) {
+        await new Promise<void>((resolve, reject) => {
+          const existing = document.querySelector('script[src*="razorpay"]')
+          if (existing) { resolve(); return }
+          const script = document.createElement('script')
+          script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+          script.onload = () => resolve()
+          script.onerror = () => reject(new Error('Razorpay failed to load'))
+          document.head.appendChild(script)
+        })
+      }
+
+      // Create Razorpay order via API
       const orderRes = await fetch('/api/creator-kit-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: price * 100, docs: [...selected] }),
       })
+      if (!orderRes.ok) throw new Error('Order creation failed — check Razorpay keys in Vercel env vars')
       const { orderId, key } = await orderRes.json()
 
       const options = {
@@ -588,7 +601,7 @@ export default function CreatorKitGenerator() {
     } catch (e) {
       console.error(e)
       setPaying(false)
-      alert('Payment setup failed. Please try again.')
+      alert('Payment failed. Make sure RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are set in Vercel env vars.')
     }
   }
 
@@ -661,9 +674,7 @@ export default function CreatorKitGenerator() {
 
   return (
     <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff' }}>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
-      {/* jszip for bundling */}
-      <Script id="jszip-load" strategy="lazyOnload" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" />
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
 
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -904,9 +915,96 @@ export default function CreatorKitGenerator() {
               </div>
             </div>
 
-            {/* Preview panels */}
-            <div style={{ background: 'rgba(255,107,43,0.05)', border: '1px solid rgba(255,107,43,0.15)', borderRadius: 14, padding: '16px 20px', marginBottom: 24, fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>
-              💡 <strong style={{ color: '#FF9A6B' }}>Your documents will include:</strong> Name ({data.name}), Handle ({data.handle || '—'}), Niche ({data.niche}), Platform ({data.platform}), Followers ({data.followers || '—'}), Engagement ({data.engagementRate || '—'}%), and all rates you entered.
+            {/* Preview panels — visual document previews */}
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Document Previews</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }} className="doc-grid">
+
+                {/* CV Preview */}
+                <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
+                  <div style={{ background: '#FF6B2B', padding: '12px 10px 10px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                    {data.photo && <img src={data.photo} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)', flexShrink: 0 }} />}
+                    <div>
+                      <div style={{ color: '#fff', fontWeight: 800, fontSize: 11, fontFamily: 'sans-serif', lineHeight: 1.2 }}>{data.name || 'YOUR NAME'}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 8, fontFamily: 'sans-serif', marginTop: 2 }}>{data.niche} · {data.platform}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 7, fontFamily: 'sans-serif', marginTop: 1 }}>{data.handle || '@handle'} · {data.city || 'City'}</div>
+                    </div>
+                  </div>
+                  <div style={{ padding: '8px 10px', background: '#f8f8f8' }}>
+                    {[['Followers', data.followers || '—'],['Engagement', data.engagementRate ? data.engagementRate+'%' : '—'],['Avg Views', data.avgViews || '—'],['Experience', data.yearsActive ? data.yearsActive+'yr' : '—']].map(([l,v]) => (
+                      <div key={l} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', padding: '3px 0', fontSize: 7, fontFamily: 'sans-serif', color: '#333' }}>
+                        <span style={{ color: '#777' }}>{l}</span><span style={{ fontWeight: 700 }}>{v}</span>
+                      </div>
+                    ))}
+                    {data.pastBrands && <div style={{ marginTop: 6, fontSize: 7, fontFamily: 'sans-serif', color: '#FF6B2B', fontWeight: 700 }}>PAST BRANDS</div>}
+                    {data.pastBrands && <div style={{ fontSize: 6.5, fontFamily: 'sans-serif', color: '#555', marginTop: 2, lineHeight: 1.4 }}>{data.pastBrands.slice(0,60)}</div>}
+                    <div style={{ marginTop: 6, fontSize: 6, textAlign: 'center', color: '#aaa', fontFamily: 'sans-serif' }}>identitykit.in</div>
+                  </div>
+                  <div style={{ background: '#FF6B2B', padding: '4px 10px', textAlign: 'center' }}>
+                    <div style={{ color: '#fff', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>📄 Creator CV</div>
+                  </div>
+                </div>
+
+                {/* Media Kit Preview */}
+                <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
+                  <div style={{ background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', padding: '12px 10px 10px' }}>
+                    {data.photo && <img src={data.photo} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fff', display: 'block', margin: '0 auto 6px' }} />}
+                    <div style={{ color: '#fff', fontWeight: 800, fontSize: 11, fontFamily: 'sans-serif', textAlign: 'center' }}>{data.name || 'YOUR NAME'}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 7.5, fontFamily: 'sans-serif', textAlign: 'center', marginTop: 2 }}>{data.niche} Content Creator</div>
+                    <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 7, fontFamily: 'sans-serif', textAlign: 'center', marginTop: 1 }}>{data.handle || '@handle'}</div>
+                  </div>
+                  <div style={{ padding: '8px 10px', background: '#f8f8f8' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginBottom: 6 }}>
+                      {[['👥',data.followers||'—','Followers'],['💥',data.engagementRate?(data.engagementRate+'%'):'—','Engagement'],['👁',data.avgViews||'—','Avg Views'],['📱',data.platform,'Platform']].map(([icon,val,lbl]) => (
+                        <div key={lbl as string} style={{ background: '#fff', borderRadius: 6, padding: '4px 6px', textAlign: 'center', border: '1px solid #eee' }}>
+                          <div style={{ fontSize: 9 }}>{icon as string}</div>
+                          <div style={{ fontSize: 8, fontWeight: 800, fontFamily: 'sans-serif', color: '#FF6B2B' }}>{val as string}</div>
+                          <div style={{ fontSize: 6, fontFamily: 'sans-serif', color: '#888' }}>{lbl as string}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ background: '#FF6B2B', borderRadius: 5, padding: '3px 6px', fontSize: 7, color: '#fff', fontWeight: 700, fontFamily: 'sans-serif', textAlign: 'center' }}>CONTENT FORMATS & RATES →</div>
+                    <div style={{ marginTop: 4, fontSize: 6, textAlign: 'center', color: '#aaa', fontFamily: 'sans-serif' }}>identitykit.in</div>
+                  </div>
+                  <div style={{ background: '#FF6B2B', padding: '4px 10px', textAlign: 'center' }}>
+                    <div style={{ color: '#fff', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>🎨 Media Kit</div>
+                  </div>
+                </div>
+
+                {/* Rate Card Preview */}
+                <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
+                  <div style={{ background: '#FF6B2B', padding: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ color: '#fff', fontWeight: 800, fontSize: 10, fontFamily: 'sans-serif' }}>{data.name || 'YOUR NAME'}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 7, fontFamily: 'sans-serif', marginTop: 1 }}>RATE CARD 2026</div>
+                    </div>
+                    {data.photo && <img src={data.photo} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} />}
+                  </div>
+                  <div style={{ padding: '8px 10px', background: '#f8f8f8' }}>
+                    <div style={{ fontSize: 7, fontWeight: 700, color: '#FF6B2B', fontFamily: 'sans-serif', marginBottom: 4 }}>DELIVERABLE RATES</div>
+                    {[
+                      ['Instagram Reel', data.reelRate ? 'Rs.'+data.reelRate : '—'],
+                      ['Static Post', data.staticRate ? 'Rs.'+data.staticRate : '—'],
+                      ['Story (3 frames)', data.storyRate ? 'Rs.'+data.storyRate : '—'],
+                      ['YouTube Video', data.youtubeRate ? 'Rs.'+data.youtubeRate : '—'],
+                      ['YouTube Shorts', data.shortsRate ? 'Rs.'+data.shortsRate : '—'],
+                    ].map(([item,price]) => (
+                      <div key={item} style={{ display: 'flex', justifyContent: 'space-between', padding: '2.5px 0', borderBottom: '1px solid #eee', fontSize: 7, fontFamily: 'sans-serif', color: '#333' }}>
+                        <span>{item}</span><span style={{ fontWeight: 700, color: price === '—' ? '#ccc' : '#FF6B2B' }}>{price}</span>
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 5, fontSize: 6, fontFamily: 'sans-serif', color: '#888' }}>50% advance · TDS applicable</div>
+                    <div style={{ marginTop: 4, fontSize: 6, textAlign: 'center', color: '#aaa', fontFamily: 'sans-serif' }}>identitykit.in</div>
+                  </div>
+                  <div style={{ background: '#FF6B2B', padding: '4px 10px', textAlign: 'center' }}>
+                    <div style={{ color: '#fff', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>💰 Rate Card</div>
+                  </div>
+                </div>
+
+              </div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center', marginTop: 10 }}>
+                ↑ Visual preview of your documents based on the details you entered
+              </div>
             </div>
 
             {/* Checkout */}

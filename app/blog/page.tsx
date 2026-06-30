@@ -15,6 +15,30 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'influencer-tax-gst-india-2026',
+    tag: 'Tax & GST',
+    title: 'Influencer Tax & GST Guide India 2026: TDS, Section 194R, ITR Filing Explained',
+    excerpt: 'Free gifts over ₹20,000 are taxable under Section 194R — even hampers from brands. GST mandatory at ₹20L turnover (gifts count too). 4 TDS sections explained with real examples (194R, 194J, 194C, GST), which ITR form to file, 8 deductible expenses, 7-step filing process, and 6 costly mistakes to avoid.',
+    readTime: '17 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'faceless-youtube-channel-ideas-india-2026',
+    tag: 'Faceless YouTube',
+    title: 'Faceless YouTube Channel Ideas India 2026: 12 Niches That Actually Pay',
+    excerpt: 'Faceless channels are 38% of all new creator monetisation ventures, up from 12% in 2022. 12 India-specific niches ranked by RPM: finance (₹150–₹250), tech/AI tools, career tips, book summaries, true crime — with content ideas, tools needed, and exactly how faceless channels monetise the same way as on-camera ones.',
+    readTime: '18 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'how-to-make-money-content-creator-india-2026',
+    tag: 'Creator Income',
+    title: 'How to Make Money as a Content Creator in India in 2026 (10 Income Streams)',
+    excerpt: 'Indian creators earning ₹1L+/month combine 3–5 income streams. All 10 ranked by accessibility: affiliate marketing (day 1), UGC (₹3K–₹50K/video, zero followers), brand deals, YouTube ad revenue, digital products, consulting, courses, memberships, speaking, newsletters. Real rupee numbers, income timeline by stage, and 8 free tools.',
+    readTime: '19 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'influencer-marketing-roi-india-2026',
     tag: 'ROI & Analytics',
     title: 'Influencer Marketing ROI India 2026: How Creators Prove Value & Brands Measure Results',
@@ -408,7 +432,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

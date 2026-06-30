@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf'
 
-type Rate = { name: string; desc: string; price: string; color: string }
+type Rate = { name: string; desc: string; price: string; color: string; icon?: string }
 type Term = { label: string }
 
 type RateCardInput = {
@@ -142,15 +142,15 @@ function render(doc: jsPDF, input: RateCardInput, measureOnly: boolean): number 
 
   // ---- RATE SECTIONS ----
   if (input.igRates.length) {
-    y = drawRateSection(doc, y, 'Instagram', [225, 48, 108], input.igHandle, input.igFollowers, input.igRates)
+    y = drawRateSection(doc, y, 'Instagram', [225, 48, 108], 'instagram', input.igHandle, input.igFollowers, input.igRates)
     y += 6
   }
   if (input.ytRates.length) {
-    y = drawRateSection(doc, y, 'YouTube', [255, 0, 0], input.ytHandle, input.ytSubs, input.ytRates)
+    y = drawRateSection(doc, y, 'YouTube', [255, 0, 0], 'youtube', input.ytHandle, input.ytSubs, input.ytRates)
     y += 6
   }
   if (input.otherRates.length) {
-    y = drawRateSection(doc, y, 'Other Platforms', [255, 107, 43], '', '', input.otherRates)
+    y = drawRateSection(doc, y, 'Other Platforms', [255, 107, 43], 'world', '', '', input.otherRates)
     y += 6
   }
 
@@ -207,14 +207,15 @@ function render(doc: jsPDF, input: RateCardInput, measureOnly: boolean): number 
   return y
 
   // ----- inner helper that needs closure over doc/y bookkeeping for rate sections -----
-  function drawRateSection(doc: jsPDF, startY: number, title: string, iconColor: [number, number, number], handle: string, followers: string, rates: Rate[]): number {
+  function drawRateSection(doc: jsPDF, startY: number, title: string, iconColor: [number, number, number], headerIcon: string, handle: string, followers: string, rates: Rate[]): number {
     const rowH = 11
     const sectionH = 18.5 + rates.length * rowH
     drawCard(doc, MARGIN, startY, CONTENT_W, sectionH)
 
     // icon box
-    doc.setFillColor(iconColor[0], iconColor[1], iconColor[2], )
+    doc.setFillColor(iconColor[0], iconColor[1], iconColor[2])
     doc.roundedRect(MARGIN + 6, startY + 6, 8, 8, 2, 2, 'F')
+    drawGlyph(doc, headerIcon, MARGIN + 6, startY + 6, 8, 8)
 
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(10)
@@ -235,10 +236,11 @@ function render(doc: jsPDF, input: RateCardInput, measureOnly: boolean): number 
       if (i > 0) {
         doc.setDrawColor(28, 28, 40)
         doc.setLineWidth(0.15)
-        doc.line(MARGIN + 6, ry - 3.5, MARGIN + CONTENT_W - 6, ry - 3.5)
+        doc.line(MARGIN + 6, ry - 6, MARGIN + CONTENT_W - 6, ry - 6)
       }
-      doc.setFillColor(iconColor[0], iconColor[1], iconColor[2], )
+      doc.setFillColor(iconColor[0], iconColor[1], iconColor[2])
       doc.roundedRect(MARGIN + 6, ry - 4, 6, 6, 1.5, 1.5, 'F')
+      drawGlyph(doc, r.icon || 'default', MARGIN + 6, ry - 4, 6, 6)
 
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(9)
@@ -259,6 +261,91 @@ function render(doc: jsPDF, input: RateCardInput, measureOnly: boolean): number 
     })
 
     return startY + sectionH
+  }
+}
+
+function drawGlyph(doc: jsPDF, key: string, x: number, y: number, w: number, h: number) {
+  const cx = x + w / 2
+  const cy = y + h / 2
+  doc.setFillColor(255, 255, 255)
+  doc.setDrawColor(255, 255, 255)
+  doc.setLineWidth(Math.max(0.35, w * 0.06))
+
+  switch (key) {
+    case 'instagram': {
+      const s = w * 0.62
+      doc.roundedRect(cx - s / 2, cy - s / 2, s, s, s * 0.3, s * 0.3, 'S')
+      doc.circle(cx, cy, s * 0.22, 'S')
+      doc.circle(cx + s * 0.28, cy - s * 0.28, s * 0.06, 'F')
+      break
+    }
+    case 'youtube':
+    case 'reel':
+    case 'ytDedicated':
+    case 'ytIntegration':
+    case 'ytShort': {
+      const s = w * 0.34
+      doc.triangle(cx - s * 0.45, cy - s * 0.62, cx - s * 0.45, cy + s * 0.62, cx + s * 0.65, cy, 'F')
+      break
+    }
+    case 'post': {
+      const s = w * 0.46
+      doc.roundedRect(cx - s / 2, cy - s / 2, s, s, s * 0.18, s * 0.18, 'S')
+      doc.circle(cx, cy + s * 0.05, s * 0.18, 'S')
+      break
+    }
+    case 'carousel': {
+      const sq = w * 0.16
+      const gap = sq + w * 0.07
+      ;[-1, 0, 1].forEach(i => doc.roundedRect(cx + i * gap - sq / 2, cy - sq / 2, sq, sq, sq * 0.25, sq * 0.25, 'F'))
+      break
+    }
+    case 'stories': {
+      doc.circle(cx, cy, w * 0.22, 'S')
+      break
+    }
+    case 'storyLink': {
+      const r = w * 0.13
+      doc.circle(cx - w * 0.09, cy, r, 'S')
+      doc.circle(cx + w * 0.09, cy, r, 'S')
+      break
+    }
+    case 'twitter': {
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(Math.max(w * 0.62, 5.2))
+      doc.setTextColor(255, 255, 255)
+      doc.text('X', cx, cy + w * 0.22, { align: 'center' })
+      break
+    }
+    case 'linkedin': {
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(Math.max(w * 0.42, 4.4))
+      doc.setTextColor(255, 255, 255)
+      doc.text('in', cx, cy + w * 0.18, { align: 'center' })
+      break
+    }
+    case 'blog': {
+      ;[-1, 0, 1].forEach(i => {
+        const lw = i === 1 ? w * 0.3 : w * 0.42
+        doc.line(cx - w * 0.22, cy + i * w * 0.16, cx - w * 0.22 + lw, cy + i * w * 0.16)
+      })
+      break
+    }
+    case 'podcast': {
+      const s = w * 0.5
+      doc.roundedRect(cx - s * 0.18, cy - s * 0.32, s * 0.36, s * 0.5, s * 0.18, s * 0.18, 'S')
+      doc.line(cx, cy + s * 0.2, cx, cy + s * 0.36)
+      break
+    }
+    case 'world': {
+      doc.circle(cx, cy, w * 0.26, 'S')
+      doc.line(cx - w * 0.26, cy, cx + w * 0.26, cy)
+      doc.ellipse(cx, cy, w * 0.11, w * 0.26, 'S')
+      break
+    }
+    default: {
+      doc.circle(cx, cy, w * 0.12, 'F')
+    }
   }
 }
 

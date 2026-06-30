@@ -11,6 +11,7 @@ type RateCardInput = {
   whatsapp: string
   validTillLabel: string
   customPackage: string
+  bundlePrice: string
   igHandle: string
   igFollowers: string
   ytHandle: string
@@ -133,7 +134,8 @@ function render(doc: jsPDF, input: RateCardInput, measureOnly: boolean): number 
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(11)
     doc.setTextColor(...COLORS.orange)
-    doc.text('Best value', MARGIN + CONTENT_W - 6, y + 13, { align: 'right' })
+    const priceLabel = input.bundlePrice ? `Rs.${Number(input.bundlePrice).toLocaleString('en-IN')}` : 'Best value'
+    doc.text(priceLabel, MARGIN + CONTENT_W - 6, y + 13, { align: 'right' })
 
     y += bundleH + 6
   }

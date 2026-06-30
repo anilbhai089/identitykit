@@ -293,6 +293,7 @@ export default function RateCardGenerator() {
     <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff', position: 'relative', overflow: 'hidden' }}>
       <style>{`
         *,*::before,*::after{box-sizing:border-box}
+        a{text-decoration:none;color:inherit}
         input::placeholder{color:rgba(255,255,255,0.2)}
         input:focus,select:focus{border-color:#FF6B2B!important;box-shadow:0 0 0 3px rgba(255,107,43,0.12)}
         select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23FF8C5A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
@@ -621,7 +622,7 @@ export default function RateCardGenerator() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 4px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                 {data.email && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{data.email} {data.whatsapp && `· ${data.whatsapp}`}</span>}
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.15)', padding: '3px 10px', borderRadius: 6, fontWeight: 700 }}>IDENTITY KIT</span>
+                <span style={{ fontSize: 11, color: '#FF8C5A', background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.15)', padding: '3px 10px', borderRadius: 6, fontWeight: 700 }}>IDENTITY KIT</span>
               </div>
             </div>
 

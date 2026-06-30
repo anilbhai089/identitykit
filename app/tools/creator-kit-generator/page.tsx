@@ -1082,95 +1082,162 @@ export default function CreatorKitGenerator() {
               </div>
             </div>
 
-            {/* Preview panels — visual document previews */}
+            {/* Preview panels — exact Identity Kit profile theme: dark bg, orange accents */}
             <div style={{ marginBottom: 28 }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Document Previews</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }} className="doc-grid">
 
-                {/* CV Preview */}
-                <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
-                  <div style={{ background: '#FF6B2B', padding: '12px 10px 10px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                    {data.photo && <img src={data.photo} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)', flexShrink: 0 }} />}
-                    <div>
-                      <div style={{ color: '#fff', fontWeight: 800, fontSize: 11, fontFamily: 'sans-serif', lineHeight: 1.2 }}>{data.name || 'YOUR NAME'}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 8, fontFamily: 'sans-serif', marginTop: 2 }}>{data.niche} · {data.platform}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 7, fontFamily: 'sans-serif', marginTop: 1 }}>{data.handle || '@handle'} · {data.city || 'City'}</div>
+                {/* ───────── CV Preview — matches profile CV tab exactly ───────── */}
+                <div style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {/* CV header — #111120 row with photo + name */}
+                  <div style={{ background: '#111120', padding: '10px 8px', display: 'flex', gap: 7, alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ width: 26, height: 26, borderRadius: '50%', border: '1.5px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                      {data.photo ? <img src={data.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#FF6B2B', fontWeight: 800, fontSize: 9, fontFamily: 'sans-serif' }}>{(data.name||'C')[0]}</span>}
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ color: '#FF6B2B', fontWeight: 700, fontSize: 6, fontFamily: 'sans-serif', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Creator CV</div>
+                      <div style={{ color: '#fff', fontWeight: 800, fontSize: 10, fontFamily: 'sans-serif', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.name || 'Your Name'}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 6.5, fontFamily: 'sans-serif', marginTop: 1 }}>{data.niche} · {data.platform}</div>
                     </div>
                   </div>
-                  <div style={{ padding: '8px 10px', background: '#f8f8f8' }}>
-                    {[['Followers', data.followers || '—'],['Engagement', data.engagementRate ? data.engagementRate+'%' : '—'],['Avg Views', data.avgViews || '—'],['Experience', data.yearsActive ? data.yearsActive+'yr' : '—']].map(([l,v]) => (
-                      <div key={l} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #eee', padding: '3px 0', fontSize: 7, fontFamily: 'sans-serif', color: '#333' }}>
-                        <span style={{ color: '#777' }}>{l}</span><span style={{ fontWeight: 700 }}>{v}</span>
-                      </div>
-                    ))}
-                    {data.pastBrands && <div style={{ marginTop: 6, fontSize: 7, fontFamily: 'sans-serif', color: '#FF6B2B', fontWeight: 700 }}>PAST BRANDS</div>}
-                    {data.pastBrands && <div style={{ fontSize: 6.5, fontFamily: 'sans-serif', color: '#555', marginTop: 2, lineHeight: 1.4 }}>{data.pastBrands.slice(0,60)}</div>}
-                    <div style={{ marginTop: 6, fontSize: 6, textAlign: 'center', color: '#aaa', fontFamily: 'sans-serif' }}>identitykit.in</div>
-                  </div>
-                  <div style={{ background: '#FF6B2B', padding: '4px 10px', textAlign: 'center' }}>
-                    <div style={{ color: '#fff', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>📄 Creator CV</div>
-                  </div>
-                </div>
-
-                {/* Media Kit Preview */}
-                <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
-                  <div style={{ background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', padding: '12px 10px 10px' }}>
-                    {data.photo && <img src={data.photo} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', border: '2px solid #fff', display: 'block', margin: '0 auto 6px' }} />}
-                    <div style={{ color: '#fff', fontWeight: 800, fontSize: 11, fontFamily: 'sans-serif', textAlign: 'center' }}>{data.name || 'YOUR NAME'}</div>
-                    <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 7.5, fontFamily: 'sans-serif', textAlign: 'center', marginTop: 2 }}>{data.niche} Content Creator</div>
-                    <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 7, fontFamily: 'sans-serif', textAlign: 'center', marginTop: 1 }}>{data.handle || '@handle'}</div>
-                  </div>
-                  <div style={{ padding: '8px 10px', background: '#f8f8f8' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginBottom: 6 }}>
-                      {[['👥',data.followers||'—','Followers'],['💥',data.engagementRate?(data.engagementRate+'%'):'—','Engagement'],['👁',data.avgViews||'—','Avg Views'],['📱',data.platform,'Platform']].map(([icon,val,lbl]) => (
-                        <div key={lbl as string} style={{ background: '#fff', borderRadius: 6, padding: '4px 6px', textAlign: 'center', border: '1px solid #eee' }}>
-                          <div style={{ fontSize: 9 }}>{icon as string}</div>
-                          <div style={{ fontSize: 8, fontWeight: 800, fontFamily: 'sans-serif', color: '#FF6B2B' }}>{val as string}</div>
-                          <div style={{ fontSize: 6, fontFamily: 'sans-serif', color: '#888' }}>{lbl as string}</div>
+                  {/* Two-col body: #111120 sidebar / #0C0C18 content */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '38% 62%' }}>
+                    <div style={{ background: '#111120', padding: '8px 6px', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ fontSize: 5.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5, paddingBottom: 3, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Key Stats</div>
+                      {[['Followers', data.followers || '—'],['Engagement', data.engagementRate ? data.engagementRate+'%' : '—'],['Avg Views', data.avgViews || '—'],['Experience', data.yearsActive ? data.yearsActive+'yr' : '—']].map(([l,v]) => (
+                        <div key={l} style={{ background: '#08080E', borderRadius: 4, padding: '3px 5px', marginBottom: 3 }}>
+                          <div style={{ fontWeight: 800, fontSize: 7, fontFamily: 'sans-serif', color: '#FF6B2B' }}>{v}</div>
+                          <div style={{ fontSize: 5, fontFamily: 'sans-serif', color: 'rgba(255,255,255,0.25)' }}>{l}</div>
                         </div>
                       ))}
                     </div>
-                    <div style={{ background: '#FF6B2B', borderRadius: 5, padding: '3px 6px', fontSize: 7, color: '#fff', fontWeight: 700, fontFamily: 'sans-serif', textAlign: 'center' }}>CONTENT FORMATS & RATES →</div>
-                    <div style={{ marginTop: 4, fontSize: 6, textAlign: 'center', color: '#aaa', fontFamily: 'sans-serif' }}>identitykit.in</div>
+                    <div style={{ background: '#0C0C18', padding: '8px 7px' }}>
+                      <div style={{ fontSize: 5.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4, paddingBottom: 3, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>About</div>
+                      <div style={{ fontSize: 6, color: 'rgba(255,255,255,0.45)', lineHeight: 1.5, marginBottom: 6 }}>
+                        {(data.bio || `${data.niche} creator with ${data.followers||'strong'} followers, known for authentic content.`).slice(0, 90)}
+                      </div>
+                      {data.pastBrands && (
+                        <>
+                          <div style={{ fontSize: 5.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4, paddingBottom: 3, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Brands</div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                            {data.pastBrands.split(',').slice(0,3).map((b: string) => (
+                              <span key={b} style={{ fontSize: 5, padding: '2px 5px', borderRadius: 99, border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)', background: '#1a1a2a' }}>{b.trim().slice(0,10)}</span>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div style={{ background: '#FF6B2B', padding: '4px 10px', textAlign: 'center' }}>
-                    <div style={{ color: '#fff', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>🎨 Media Kit</div>
+                  {/* Footer */}
+                  <div style={{ background: '#111120', padding: '4px 8px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 5, color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>identitykit.in</span>
+                  </div>
+                  <div style={{ background: 'rgba(255,107,43,0.1)', borderTop: '1px solid rgba(255,107,43,0.2)', padding: '4px 10px', textAlign: 'center' }}>
+                    <div style={{ color: '#FF8C5A', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>Creator CV</div>
                   </div>
                 </div>
 
-                {/* Rate Card Preview */}
-                <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}>
-                  <div style={{ background: '#FF6B2B', padding: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ color: '#fff', fontWeight: 800, fontSize: 10, fontFamily: 'sans-serif' }}>{data.name || 'YOUR NAME'}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 7, fontFamily: 'sans-serif', marginTop: 1 }}>RATE CARD 2026</div>
+                {/* ───────── Media Kit Preview — matches profile Media Kit tab exactly ───────── */}
+                <div style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {/* Gradient dark header like IK media kit */}
+                  <div style={{ background: 'linear-gradient(135deg,#1a0800,#0e0e1c)', borderBottom: '1px solid rgba(255,107,43,0.15)', padding: '10px 8px', position: 'relative' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      <div style={{ width: 24, height: 24, borderRadius: '50%', border: '1.5px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                        {data.photo ? <img src={data.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#FF6B2B', fontWeight: 800, fontSize: 8, fontFamily: 'sans-serif' }}>{(data.name||'C')[0]}</span>}
+                      </div>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontSize: 6, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>Media Kit</div>
+                        <div style={{ fontWeight: 800, fontSize: 9.5, color: '#fff', fontFamily: 'sans-serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.name || 'Your Name'}</div>
+                        <div style={{ fontSize: 6, color: 'rgba(255,255,255,0.3)' }}>{data.niche} · {data.city || 'India'}</div>
+                      </div>
                     </div>
-                    {data.photo && <img src={data.photo} alt="" style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.5)' }} />}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.07)', marginTop: 8, paddingTop: 7, gap: 2 }}>
+                      {[[data.followers||'—','Followers'],[data.engagementRate?(data.engagementRate+'%'):'—','Engagement'],[data.avgViews||'—','Views'],[(data.yearsActive||'1')+'yr','Active']].map(([n,l]) => (
+                        <div key={l as string} style={{ textAlign: 'center' }}>
+                          <div style={{ fontWeight: 800, fontSize: 7.5, color: '#FF6B2B', fontFamily: 'sans-serif' }}>{n as string}</div>
+                          <div style={{ fontSize: 4.5, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase' }}>{l as string}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div style={{ padding: '8px 10px', background: '#f8f8f8' }}>
-                    <div style={{ fontSize: 7, fontWeight: 700, color: '#FF6B2B', fontFamily: 'sans-serif', marginBottom: 4 }}>DELIVERABLE RATES</div>
-                    {[
-                      ['Instagram Reel', data.reelRate ? 'Rs.'+data.reelRate : '—'],
-                      ['Static Post', data.staticRate ? 'Rs.'+data.staticRate : '—'],
-                      ['Story (3 frames)', data.storyRate ? 'Rs.'+data.storyRate : '—'],
-                      ['YouTube Video', data.youtubeRate ? 'Rs.'+data.youtubeRate : '—'],
-                      ['YouTube Shorts', data.shortsRate ? 'Rs.'+data.shortsRate : '—'],
-                    ].map(([item,price]) => (
-                      <div key={item} style={{ display: 'flex', justifyContent: 'space-between', padding: '2.5px 0', borderBottom: '1px solid #eee', fontSize: 7, fontFamily: 'sans-serif', color: '#333' }}>
-                        <span>{item}</span><span style={{ fontWeight: 700, color: price === '—' ? '#ccc' : '#FF6B2B' }}>{price}</span>
+                  {/* Body — dark cards */}
+                  <div style={{ background: '#08080E', padding: '7px 8px' }}>
+                    <div style={{ fontSize: 5.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>Content I Create</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 3, marginBottom: 7 }}>
+                      {[data.reelRate&&'Reels', data.staticRate&&'Posts', data.storyRate&&'Stories', data.youtubeRate&&'YouTube', data.shortsRate&&'Shorts'].filter(Boolean).slice(0,3).map((f) => (
+                        <div key={f as string} style={{ background: '#111120', borderRadius: 5, padding: '5px 2px', textAlign: 'center' }}>
+                          <div style={{ fontSize: 5.5, color: 'rgba(255,255,255,0.45)', fontFamily: 'sans-serif' }}>{f as string}</div>
+                        </div>
+                      ))}
+                    </div>
+                    {data.pastBrands && (
+                      <>
+                        <div style={{ fontSize: 5.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>Brand Collabs</div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                          {data.pastBrands.split(',').slice(0,3).map((b: string) => (
+                            <span key={b} style={{ fontSize: 5, padding: '2px 6px', borderRadius: 6, background: '#111120', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.5)' }}>{b.trim().slice(0,10)}</span>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div style={{ background: '#111120', padding: '4px 8px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                    <span style={{ fontSize: 5, color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>identitykit.in</span>
+                  </div>
+                  <div style={{ background: 'rgba(255,107,43,0.1)', borderTop: '1px solid rgba(255,107,43,0.2)', padding: '4px 10px', textAlign: 'center' }}>
+                    <div style={{ color: '#FF8C5A', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>Media Kit</div>
+                  </div>
+                </div>
+
+                {/* ───────── Rate Card Preview — matches profile Rate Card tab exactly ───────── */}
+                <div style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  {/* Header — #111120 card like profile rate card */}
+                  <div style={{ background: '#111120', padding: '10px 8px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 6, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 2 }}>Rate Card</div>
+                      <div style={{ fontWeight: 800, fontSize: 9.5, color: '#fff', fontFamily: 'sans-serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.name || 'Your Name'}</div>
+                      <div style={{ fontSize: 6, color: 'rgba(255,255,255,0.3)', marginTop: 1 }}>{data.niche}</div>
+                    </div>
+                    <div style={{ width: 22, height: 22, borderRadius: '50%', border: '1.5px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                      {data.photo ? <img src={data.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#FF6B2B', fontWeight: 800, fontSize: 8, fontFamily: 'sans-serif' }}>{(data.name||'C')[0]}</span>}
+                    </div>
+                  </div>
+                  {/* Stats row */}
+                  <div style={{ background: '#08080E', padding: '6px 8px', display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 4 }}>
+                    {[[data.followers||'—','Followers'],[data.engagementRate?(data.engagementRate+'%'):'—','Engagement'],[data.avgViews||'—','Views']].map(([v,l]) => (
+                      <div key={l as string} style={{ background: '#111120', borderRadius: 5, padding: '4px 2px', textAlign: 'center' }}>
+                        <div style={{ fontWeight: 800, fontSize: 7, color: '#FF6B2B', fontFamily: 'sans-serif' }}>{v as string}</div>
+                        <div style={{ fontSize: 4.5, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase' }}>{l as string}</div>
                       </div>
                     ))}
-                    <div style={{ marginTop: 5, fontSize: 6, fontFamily: 'sans-serif', color: '#888' }}>50% advance · TDS applicable</div>
-                    <div style={{ marginTop: 4, fontSize: 6, textAlign: 'center', color: '#aaa', fontFamily: 'sans-serif' }}>identitykit.in</div>
                   </div>
-                  <div style={{ background: '#FF6B2B', padding: '4px 10px', textAlign: 'center' }}>
-                    <div style={{ color: '#fff', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>💰 Rate Card</div>
+                  {/* Rate rows — dark with orange price, like IK RateTable */}
+                  <div style={{ background: '#08080E', padding: '6px 8px 8px' }}>
+                    {[
+                      ['Instagram Reel', data.reelRate],
+                      ['Static Post', data.staticRate],
+                      ['Story Pack', data.storyRate],
+                      ['YouTube Video', data.youtubeRate],
+                      ['YT Shorts', data.shortsRate],
+                    ].filter(([,r]) => r).slice(0,5).map(([item,price]) => (
+                      <div key={item as string} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '3px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                        <span style={{ fontSize: 6, color: 'rgba(255,255,255,0.6)', fontFamily: 'sans-serif' }}>{item as string}</span>
+                        <span style={{ fontSize: 6.5, fontWeight: 700, color: '#FF6B2B', fontFamily: 'sans-serif' }}>Rs.{price as string}</span>
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 4, fontSize: 5, color: 'rgba(255,255,255,0.25)' }}>50% advance · TDS applicable</div>
+                  </div>
+                  <div style={{ background: '#111120', padding: '4px 8px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                    <span style={{ fontSize: 5, color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>identitykit.in</span>
+                  </div>
+                  <div style={{ background: 'rgba(255,107,43,0.1)', borderTop: '1px solid rgba(255,107,43,0.2)', padding: '4px 10px', textAlign: 'center' }}>
+                    <div style={{ color: '#FF8C5A', fontSize: 7, fontWeight: 700, fontFamily: 'sans-serif' }}>Rate Card</div>
                   </div>
                 </div>
 
               </div>
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center', marginTop: 10 }}>
-                ↑ Visual preview of your documents based on the details you entered
+                ↑ Same dark theme as your Identity Kit profile — preview based on details you entered
               </div>
             </div>
 

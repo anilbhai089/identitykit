@@ -119,16 +119,6 @@ const tools = [
     cta: 'Generate report →',
     live: true,
   },
-  {
-    href: '/tools/creator-kit-generator',
-    emoji: '✨',
-    tag: 'New · Paid',
-    tagColor: '#FFD700',
-    title: 'Creator Kit Generator',
-    desc: 'Generate your Creator CV, Media Kit and Rate Card as professional PDFs. Preview free — download from ₹49 each or ₹99 for all 3.',
-    cta: 'Generate my kit →',
-    live: true,
-  },
 ]
 
 export default function ToolsIndex() {

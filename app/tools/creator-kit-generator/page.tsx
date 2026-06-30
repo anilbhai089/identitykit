@@ -95,30 +95,22 @@ async function generateCVPdf(data: CreatorData) {
   const { jsPDF } = await import('jspdf')
   const W = 210, M = 12
 
-  // Color palette matching Identity Kit exactly
-  const BG:    [number,number,number] = [8,  8,  14]   // #08080E
-  const CARD:  [number,number,number] = [17, 17, 32]   // #111120
-  const CARD2: [number,number,number] = [12, 12, 24]   // #0C0C18
-  const OG:    [number,number,number] = [255,107,43]   // #FF6B2B
+  const BG:    [number,number,number] = [8,  8,  14]
+  const CARD:  [number,number,number] = [17, 17, 32]
+  const CARD2: [number,number,number] = [12, 12, 24]
+  const OG:    [number,number,number] = [255,107,43]
   const WHITE: [number,number,number] = [255,255,255]
-  const DIM:   [number,number,number] = [195,195,210]  // body text
-  const DIM2:  [number,number,number] = [130,130,150]  // secondary
-  const DIM3:  [number,number,number] = [75, 75, 95]   // tertiary / labels
-  const GRID:  [number,number,number] = [22, 18, 14]   // faint header grid lines
+  const DIM:   [number,number,number] = [195,195,210]
+  const DIM2:  [number,number,number] = [130,130,150]
+  const DIM3:  [number,number,number] = [75, 75, 95]
+  const GRID:  [number,number,number] = [22, 18, 14]
 
   const leftW = 58, gap = 6, rightX = M + leftW + gap, rightW = W - rightX - M
+  const headerH = 50, footerH = 14
 
-  // ── Pre-measure content using a throwaway doc so the page height fits exactly, no dead space ──
-  const measure = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-  measure.setFont('helvetica', 'normal'); measure.setFontSize(9)
   const bioText = data.bio || `${data.name} is a ${data.niche} creator based in ${data.city} with ${data.followers} followers on ${data.platform}. Known for authentic, high-engagement content that connects with Indian audiences.`
-  const bioLines = measure.splitTextToSize(bioText, rightW - 12)
-
   const brands = data.pastBrands ? data.pastBrands.split(',').map(b => b.trim()).filter(Boolean) : []
   const brandRows = Math.ceil(brands.length / 3)
-
-  const achLines = data.achievements ? measure.splitTextToSize(data.achievements, rightW - 24) : []
-
   const rateItems = [
     data.reelRate && ['Instagram Reel', 'Rs.' + parseInt(data.reelRate).toLocaleString('en-IN')],
     data.staticRate && ['Static Post', 'Rs.' + parseInt(data.staticRate).toLocaleString('en-IN')],
@@ -126,7 +118,6 @@ async function generateCVPdf(data: CreatorData) {
     data.youtubeRate && ['YouTube Video', 'Rs.' + parseInt(data.youtubeRate).toLocaleString('en-IN')],
     data.shortsRate && ['YT Shorts', 'Rs.' + parseInt(data.shortsRate).toLocaleString('en-IN')],
   ].filter(Boolean) as [string, string][]
-
   const socials = [
     data.instagram && ['Instagram', data.instagram],
     data.youtube && ['YouTube', data.youtube],
@@ -135,211 +126,216 @@ async function generateCVPdf(data: CreatorData) {
     data.website && ['Website', data.website],
   ].filter(Boolean) as [string, string][]
 
-  // Right column height
-  let rightH = 10
-  rightH += 6 + bioLines.length * 4.6 + 8
-  if (brands.length) rightH += 6 + brandRows * 11 + 8
-  if (achLines.length) rightH += 6 + Math.max(achLines.length * 4.6 + 6, 12) + 8
-  if (rateItems.length) rightH += 6 + rateItems.length * 10 + 4
-  if (socials.length) rightH += 7 + Math.ceil(socials.length / 2) * 11
-  rightH += 8
+  // ── Single source of truth: a draw() function that renders onto a given jsPDF instance
+  // and returns the final Y positions reached in both columns. We call it ONCE on a
+  // measuring doc at a generous height to learn the true content height, then call it
+  // AGAIN on the correctly-sized final doc. No duplicate height formulas to drift apart.
+  function draw(d: InstanceType<typeof jsPDF>, bodyH: number) {
+    const achLines = data.achievements ? d.splitTextToSize(data.achievements, rightW - 24) : []
+    const bioLines = d.splitTextToSize(bioText, rightW - 12)
 
-  // Left column height
-  let leftH = 10 + 6 + 4 * 17 + 4
-  if (data.platform) leftH += 6 + data.platform.split(',').length * 5 + 4
-  if (data.languages) leftH += 6 + 6 + 4
-  if (data.subNiche) {
-    measure.setFontSize(7.5)
-    const niL = measure.splitTextToSize(data.niche + ' · ' + data.subNiche, leftW - 12)
-    leftH += 6 + niL.length * 4.5
-  }
-  leftH += 8
+    d.setFillColor(...BG); d.rect(0, 0, W, headerH + bodyH + footerH + 8, 'F')
 
-  const bodyH = Math.max(leftH, rightH, 130)
-  const headerH = 50
-  const footerH = 14
-  const H = headerH + bodyH + footerH + 8
+    // Header
+    d.setFillColor(14, 14, 28); d.rect(0, 0, W, headerH, 'F')
+    d.setFillColor(26, 14, 6); d.ellipse(W * 0.7, headerH / 2, 70, 26, 'F')
+    d.setFillColor(14, 14, 28); d.ellipse(W * 0.7, headerH / 2, 52, 19, 'F')
+    d.setDrawColor(...GRID); d.setLineWidth(0.12)
+    for (let gx = 0; gx < W; gx += 10) d.line(gx, 0, gx, headerH)
+    for (let gy = 0; gy < headerH; gy += 10) d.line(0, gy, W, gy)
 
-  // Final doc sized exactly to content — no leftover white/dark space at the bottom
-  const d = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [W, H] })
+    const photoSize = 26, photoX = M, photoY = (headerH - photoSize) / 2
+    if (data.photo) {
+      addProfileImage(d, data.photo, photoX, photoY, photoSize)
+    } else {
+      d.setFillColor(30, 30, 46)
+      d.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'F')
+      d.setFont('helvetica', 'bold'); d.setFontSize(12); d.setTextColor(...OG)
+      d.text((data.name || 'CK')[0].toUpperCase(), photoX + photoSize/2, photoY + photoSize/2 + 4, { align: 'center' })
+      d.setDrawColor(...OG); d.setLineWidth(1.2)
+      d.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'S')
+    }
 
-  // Full page dark background
-  d.setFillColor(...BG)
-  d.rect(0, 0, W, H, 'F')
+    const tx = M + photoSize + 8
+    d.setFont('helvetica', 'bold'); d.setFontSize(7.5); d.setTextColor(...OG)
+    d.text('CREATOR CV', tx, photoY + 4)
+    d.setFont('helvetica', 'bold'); d.setFontSize(19); d.setTextColor(...WHITE)
+    d.text(data.name || 'Creator Name', tx, photoY + 13)
+    d.setFont('helvetica', 'normal'); d.setFontSize(9.5); d.setTextColor(...DIM2)
+    d.text(`${data.niche} Creator · ${data.platform}`, tx, photoY + 19.5)
+    const contacts = [data.city, data.email, data.handle].filter(Boolean)
+    d.setFontSize(7.5); d.setTextColor(...DIM3)
+    d.text(contacts.join('   ·   '), tx, photoY + 25)
 
-  // ── HEADER BANNER ──
-  d.setFillColor(14, 14, 28)
-  d.rect(0, 0, W, headerH, 'F')
-  d.setFillColor(26, 14, 6)
-  d.ellipse(W * 0.7, headerH / 2, 70, 26, 'F')
-  d.setFillColor(14, 14, 28)
-  d.ellipse(W * 0.7, headerH / 2, 52, 19, 'F')
-  d.setDrawColor(...GRID)
-  d.setLineWidth(0.12)
-  for (let gx = 0; gx < W; gx += 10) d.line(gx, 0, gx, headerH)
-  for (let gy = 0; gy < headerH; gy += 10) d.line(0, gy, W, gy)
+    d.setFillColor(10, 50, 20)
+    d.roundedRect(W - M - 42, 13, 42, 9, 4, 4, 'F')
+    d.setDrawColor(34, 197, 94); d.setLineWidth(0.3)
+    d.roundedRect(W - M - 42, 13, 42, 9, 4, 4, 'S')
+    d.setFillColor(34, 197, 94); d.circle(W - M - 37.5, 17.5, 1.4, 'F')
+    d.setFont('helvetica', 'bold'); d.setFontSize(6.5); d.setTextColor(34, 197, 94)
+    d.text('Open for collabs', W - M - 34.5, 18.2)
 
-  // Photo
-  const photoSize = 26
-  const photoX = M, photoY = (headerH - photoSize) / 2
-  if (data.photo) {
-    addProfileImage(d, data.photo, photoX, photoY, photoSize)
-  } else {
-    d.setFillColor(30, 30, 46)
-    d.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'F')
-    d.setFont('helvetica', 'bold'); d.setFontSize(12); d.setTextColor(...OG)
-    d.text((data.name || 'CK')[0].toUpperCase(), photoX + photoSize/2, photoY + photoSize/2 + 4, { align: 'center' })
-    d.setDrawColor(...OG); d.setLineWidth(1.2)
-    d.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'S')
-  }
+    d.setFont('helvetica', 'bold'); d.setFontSize(7.5); d.setTextColor(...OG)
+    d.text('identitykit.in', W - M, headerH - 8, { align: 'right' })
 
-  // Name & meta
-  const tx = M + photoSize + 8
-  d.setFont('helvetica', 'bold'); d.setFontSize(7.5); d.setTextColor(...OG)
-  d.text('CREATOR CV', tx, photoY + 4)
-  d.setFont('helvetica', 'bold'); d.setFontSize(19); d.setTextColor(...WHITE)
-  d.text(data.name || 'Creator Name', tx, photoY + 13)
-  d.setFont('helvetica', 'normal'); d.setFontSize(9.5); d.setTextColor(...DIM2)
-  d.text(`${data.niche} Creator · ${data.platform}`, tx, photoY + 19.5)
-  const contacts = [data.city, data.email, data.handle].filter(Boolean)
-  d.setFontSize(7.5); d.setTextColor(...DIM3)
-  d.text(contacts.join('   ·   '), tx, photoY + 25)
+    const y = headerH + 8
 
-  // "Open for collabs" badge
-  d.setFillColor(10, 50, 20)
-  d.roundedRect(W - M - 42, 13, 42, 9, 4, 4, 'F')
-  d.setDrawColor(34, 197, 94); d.setLineWidth(0.3)
-  d.roundedRect(W - M - 42, 13, 42, 9, 4, 4, 'S')
-  d.setFillColor(34, 197, 94); d.circle(W - M - 37.5, 17.5, 1.4, 'F')
-  d.setFont('helvetica', 'bold'); d.setFontSize(6.5); d.setTextColor(34, 197, 94)
-  d.text('Open for collabs', W - M - 34.5, 18.2)
+    d.setFillColor(...CARD); d.roundedRect(M, y, leftW, bodyH, 3, 3, 'F')
+    d.setFillColor(...CARD2); d.roundedRect(rightX, y, rightW, bodyH, 3, 3, 'F')
 
-  d.setFont('helvetica', 'bold'); d.setFontSize(7.5); d.setTextColor(...OG)
-  d.text('identitykit.in', W - M, headerH - 8, { align: 'right' })
-
-  let y = headerH + 8
-
-  // ── TWO COLUMN BODY ──
-  d.setFillColor(...CARD); d.roundedRect(M, y, leftW, bodyH, 3, 3, 'F')
-  d.setFillColor(...CARD2); d.roundedRect(rightX, y, rightW, bodyH, 3, 3, 'F')
-
-  // ── LEFT SIDEBAR ──
-  let lY = y + 10
-  sectionLabel(d, 'Key Stats', M + 6, lY, leftW - 12)
-  lY += 6
-  const stats = [
-    [data.followers || '—', 'Followers'],
-    [data.engagementRate ? data.engagementRate + '%' : '—', 'Engagement'],
-    [data.avgViews || '—', 'Avg Views'],
-    [data.yearsActive ? data.yearsActive + ' yr' : '—', 'Experience'],
-  ]
-  stats.forEach(([val, lbl]) => {
-    d.setFillColor(...BG); d.roundedRect(M + 6, lY, leftW - 12, 14, 2.5, 2.5, 'F')
-    d.setFont('helvetica', 'bold'); d.setFontSize(11); d.setTextColor(...OG)
-    d.text(val, M + 12, lY + 8.5)
-    d.setFont('helvetica', 'normal'); d.setFontSize(6.5); d.setTextColor(...DIM3)
-    d.text(lbl.toUpperCase(), M + 12, lY + 12.3)
-    lY += 17
-  })
-  lY += 4
-
-  if (data.platform) {
-    sectionLabel(d, 'Platform', M + 6, lY, leftW - 12)
+    // LEFT
+    let lY = y + 10
+    sectionLabel(d, 'Key Stats', M + 6, lY, leftW - 12)
     lY += 6
-    data.platform.split(',').map(p => p.trim()).forEach(p => {
-      d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor(...DIM)
-      d.text(p, M + 8, lY); lY += 5
+    const stats: [string, string][] = [
+      [data.followers || '—', 'Followers'],
+      [data.engagementRate ? data.engagementRate + '%' : '—', 'Engagement'],
+      [data.avgViews || '—', 'Avg Views'],
+      [data.yearsActive ? data.yearsActive + ' yr' : '—', 'Experience'],
+    ]
+    stats.forEach(([val, lbl]) => {
+      d.setFillColor(...BG); d.roundedRect(M + 6, lY, leftW - 12, 14, 2.5, 2.5, 'F')
+      d.setFont('helvetica', 'bold'); d.setFontSize(11); d.setTextColor(...OG)
+      d.text(val, M + 12, lY + 8.5)
+      d.setFont('helvetica', 'normal'); d.setFontSize(6.5); d.setTextColor(...DIM3)
+      d.text(lbl.toUpperCase(), M + 12, lY + 12.3)
+      lY += 17
     })
     lY += 4
-  }
 
-  if (data.languages) {
-    sectionLabel(d, 'Languages', M + 6, lY, leftW - 12)
-    lY += 6
-    d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor(...DIM)
-    d.text(data.languages, M + 8, lY); lY += 8
-  }
+    if (data.platform) {
+      sectionLabel(d, 'Platform', M + 6, lY, leftW - 12)
+      lY += 6
+      data.platform.split(',').map(p => p.trim()).forEach(p => {
+        d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor(...DIM)
+        d.text(p, M + 8, lY); lY += 5
+      })
+      lY += 4
+    }
 
-  if (data.subNiche) {
-    sectionLabel(d, 'Niche Focus', M + 6, lY, leftW - 12)
-    lY += 6
-    d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(...DIM2)
-    const niL = d.splitTextToSize(data.niche + ' · ' + data.subNiche, leftW - 12)
-    d.text(niL, M + 8, lY)
-  }
-
-  // ── RIGHT CONTENT ──
-  let rY = y + 10
-
-  sectionLabel(d, 'About', rightX + 6, rY, rightW - 12)
-  rY += 6
-  d.setFont('helvetica', 'normal'); d.setFontSize(9); d.setTextColor(...DIM)
-  d.text(bioLines, rightX + 6, rY)
-  rY += bioLines.length * 4.6 + 8
-
-  if (brands.length) {
-    sectionLabel(d, 'Brand Collaborations', rightX + 6, rY, rightW - 12)
-    rY += 6
-    brands.forEach((b, i) => {
-      const colW = (rightW - 12 - 8) / 3
-      const bx = rightX + 6 + (i % 3) * (colW + 4)
-      const by = rY + Math.floor(i / 3) * 11
-      d.setFillColor(...BG); d.roundedRect(bx, by, colW, 8, 2, 2, 'F')
-      d.setDrawColor(...DIM3); d.setLineWidth(0.2)
-      d.roundedRect(bx, by, colW, 8, 2, 2, 'S')
-      d.setFont('helvetica', 'normal'); d.setFontSize(7.3); d.setTextColor(...DIM2)
-      d.text(b.slice(0, 16), bx + colW / 2, by + 5.3, { align: 'center' })
-    })
-    rY += brandRows * 11 + 8
-  }
-
-  if (achLines.length) {
-    sectionLabel(d, 'Awards & Highlights', rightX + 6, rY, rightW - 12)
-    rY += 6
-    const boxH = Math.max(achLines.length * 4.6 + 6, 12)
-    d.setFillColor(20, 13, 6); d.roundedRect(rightX + 6, rY, rightW - 12, boxH, 2, 2, 'F')
-    d.setFillColor(...OG); d.rect(rightX + 6, rY, 1.6, boxH, 'F')
-    d.setFont('helvetica', 'normal'); d.setFontSize(8); d.setTextColor(...DIM2)
-    d.text(achLines, rightX + 12, rY + 5.5)
-    rY += boxH + 8
-  }
-
-  if (rateItems.length) {
-    sectionLabel(d, 'What I Offer Brands', rightX + 6, rY, rightW - 12)
-    rY += 6
-    rateItems.forEach(([name, rate]) => {
-      d.setFillColor(...BG); d.roundedRect(rightX + 6, rY, rightW - 12, 9, 2, 2, 'F')
+    if (data.languages) {
+      sectionLabel(d, 'Languages', M + 6, lY, leftW - 12)
+      lY += 6
       d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor(...DIM)
-      d.text(name, rightX + 11, rY + 6)
-      d.setFont('helvetica', 'bold'); d.setFontSize(9); d.setTextColor(...OG)
-      d.text(rate, rightX + rightW - 17, rY + 6, { align: 'right' })
-      rY += 10
-    })
-    rY += 4
-  }
+      d.text(data.languages, M + 8, lY)
+      lY += 8
+    }
 
-  if (socials.length) {
-    sectionLabel(d, 'Social Presence', rightX + 6, rY, rightW - 12)
-    rY += 7
-    socials.forEach(([label, val], i) => {
-      const colW = (rightW - 12 - 6) / 2
-      const sx = rightX + 6 + (i % 2) * (colW + 6)
-      const sy = rY + Math.floor(i / 2) * 11
+    if (data.subNiche) {
+      sectionLabel(d, 'Niche Focus', M + 6, lY, leftW - 12)
+      lY += 6
+      d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(...DIM2)
+      const niL = d.splitTextToSize(data.niche + ' · ' + data.subNiche, leftW - 12)
+      d.text(niL, M + 8, lY)
+      lY += niL.length * 4.5 + 4
+    }
+
+    const leftEndY = lY
+
+    if (leftEndY < y + bodyH - 22) {
+      const ctaY = y + bodyH - 18
+      d.setFillColor(...BG); d.roundedRect(M + 6, ctaY, leftW - 12, 14, 2.5, 2.5, 'F')
+      d.setFont('helvetica', 'bold'); d.setFontSize(7); d.setTextColor(...OG)
+      d.text("LET'S COLLABORATE", M + leftW / 2, ctaY + 6.5, { align: 'center' })
+      d.setFont('helvetica', 'normal'); d.setFontSize(6.5); d.setTextColor(...DIM3)
+      d.text((data.email || 'identitykit.in').slice(0, 26), M + leftW / 2, ctaY + 10.5, { align: 'center' })
+    }
+
+    // RIGHT
+    let rY = y + 10
+    sectionLabel(d, 'About', rightX + 6, rY, rightW - 12)
+    rY += 6
+    d.setFont('helvetica', 'normal'); d.setFontSize(9); d.setTextColor(...DIM)
+    d.text(bioLines, rightX + 6, rY)
+    rY += bioLines.length * 4.6 + 8
+
+    if (brands.length) {
+      sectionLabel(d, 'Brand Collaborations', rightX + 6, rY, rightW - 12)
+      rY += 6
+      brands.forEach((b, i) => {
+        const colW = (rightW - 12 - 8) / 3
+        const bx = rightX + 6 + (i % 3) * (colW + 4)
+        const by = rY + Math.floor(i / 3) * 11
+        d.setFillColor(...BG); d.roundedRect(bx, by, colW, 8, 2, 2, 'F')
+        d.setDrawColor(...DIM3); d.setLineWidth(0.2)
+        d.roundedRect(bx, by, colW, 8, 2, 2, 'S')
+        d.setFont('helvetica', 'normal'); d.setFontSize(7.3); d.setTextColor(...DIM2)
+        d.text(b.slice(0, 16), bx + colW / 2, by + 5.3, { align: 'center' })
+      })
+      rY += brandRows * 11 + 8
+    }
+
+    if (achLines.length) {
+      sectionLabel(d, 'Awards & Highlights', rightX + 6, rY, rightW - 12)
+      rY += 6
+      const boxH = Math.max(achLines.length * 4.6 + 6, 12)
+      d.setFillColor(20, 13, 6); d.roundedRect(rightX + 6, rY, rightW - 12, boxH, 2, 2, 'F')
+      d.setFillColor(...OG); d.rect(rightX + 6, rY, 1.6, boxH, 'F')
+      d.setFont('helvetica', 'normal'); d.setFontSize(8); d.setTextColor(...DIM2)
+      d.text(achLines, rightX + 12, rY + 5.5)
+      rY += boxH + 8
+    }
+
+    if (rateItems.length) {
+      sectionLabel(d, 'What I Offer Brands', rightX + 6, rY, rightW - 12)
+      rY += 6
+      rateItems.forEach(([name, rate]) => {
+        d.setFillColor(...BG); d.roundedRect(rightX + 6, rY, rightW - 12, 9, 2, 2, 'F')
+        d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor(...DIM)
+        d.text(name, rightX + 11, rY + 6)
+        d.setFont('helvetica', 'bold'); d.setFontSize(9); d.setTextColor(...OG)
+        d.text(rate, rightX + rightW - 17, rY + 6, { align: 'right' })
+        rY += 10
+      })
+      rY += 4
+    }
+
+    if (socials.length) {
+      sectionLabel(d, 'Social Presence', rightX + 6, rY, rightW - 12)
+      rY += 7
+      socials.forEach(([label, val], i) => {
+        const colW = (rightW - 12 - 6) / 2
+        const sx = rightX + 6 + (i % 2) * (colW + 6)
+        const sy = rY + Math.floor(i / 2) * 11
+        d.setFont('helvetica', 'normal'); d.setFontSize(7); d.setTextColor(...DIM3)
+        d.text(label.toUpperCase(), sx, sy)
+        d.setFont('helvetica', 'normal'); d.setFontSize(8); d.setTextColor(...DIM)
+        d.text(val.slice(0, 28), sx, sy + 4.2)
+      })
+      rY += Math.ceil(socials.length / 2) * 11
+    }
+
+    const rightEndY = rY
+
+    if (rightEndY < y + bodyH - 16) {
+      const lineY = y + bodyH - 14
+      d.setDrawColor(...DIM3); d.setLineWidth(0.15)
+      d.line(rightX + 6, lineY, rightX + rightW - 6, lineY)
       d.setFont('helvetica', 'normal'); d.setFontSize(7); d.setTextColor(...DIM3)
-      d.text(label.toUpperCase(), sx, sy)
-      d.setFont('helvetica', 'normal'); d.setFontSize(8); d.setTextColor(...DIM)
-      d.text(val.slice(0, 28), sx, sy + 4.2)
-    })
+      d.text('Identity Kit — verified creator profile', rightX + 6, lineY + 6)
+    }
+
+    // Footer
+    const footY = headerH + bodyH + 8
+    d.setFillColor(...CARD); d.rect(0, footY, W, footerH, 'F')
+    d.setDrawColor(...DIM3); d.setLineWidth(0.2)
+    d.line(0, footY, W, footY)
+    d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(...DIM3)
+    d.text(`Identity Kit · identitykit.in`, M, footY + footerH / 2 + 2)
+    if (data.email) { d.setTextColor(...OG); d.text(data.email, W - M, footY + footerH / 2 + 2, { align: 'right' }) }
+
+    return { leftEndY: leftEndY - y, rightEndY: rightEndY - y }
   }
 
-  // ── FOOTER ──
-  const footY = headerH + bodyH + 8
-  d.setFillColor(...CARD); d.rect(0, footY, W, footerH, 'F')
-  d.setDrawColor(...DIM3); d.setLineWidth(0.2)
-  d.line(0, footY, W, footY)
-  d.setFont('helvetica', 'normal'); d.setFontSize(7.5); d.setTextColor(...DIM3)
-  d.text(`Identity Kit · identitykit.in`, M, footY + footerH / 2 + 2)
-  if (data.email) { d.setTextColor(...OG); d.text(data.email, W - M, footY + footerH / 2 + 2, { align: 'right' }) }
+  // Pass 1 — measure on a generously tall scratch doc (content never overflows it)
+  const scratch = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [W, 1000] })
+  const { leftEndY, rightEndY } = draw(scratch, 900)
+
+  // Pass 2 — build the real doc sized exactly to the taller of the two columns
+  const bodyH = Math.max(leftEndY, rightEndY, 100) + 10
+  const H = headerH + bodyH + footerH + 8
+  const d = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [W, H] })
+  draw(d, bodyH)
 
   return d
 }
@@ -1667,6 +1663,15 @@ export default function CreatorKitGenerator() {
                   <span>📥 Instant download after payment</span>
                   <span>💳 UPI, Cards, Net Banking</span>
                 </div>
+                {process.env.NODE_ENV !== 'production' && (
+                  <button
+                    onClick={async () => { setDownloading(true); await triggerDownload(); setDownloading(false) }}
+                    disabled={downloading}
+                    style={{ width: '100%', marginTop: 10, background: 'transparent', border: '1px dashed rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.4)', padding: '10px 24px', borderRadius: 12, fontSize: 13, cursor: downloading ? 'not-allowed' : 'pointer' }}
+                  >
+                    🛠 Dev only — download free, skip payment (hidden in production)
+                  </button>
+                )}
               </div>
             )}
 

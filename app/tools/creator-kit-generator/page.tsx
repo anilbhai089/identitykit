@@ -61,136 +61,250 @@ const PRICES = {
 function addProfileImage(doc: InstanceType<typeof import('jspdf').jsPDF>, photo: string, x: number, y: number, size: number) {
   if (!photo) return
   try {
-    // Detect format from base64 header
     const format = photo.startsWith('data:image/png') ? 'PNG' : 'JPEG'
     const base64 = photo.split(',')[1] || photo
     doc.addImage(base64, format, x, y, size, size)
-    // Circle clip effect — draw white arc over corners (simple approach)
     doc.setDrawColor(255, 107, 43)
-    doc.setLineWidth(1.2)
+    doc.setLineWidth(1.5)
     doc.circle(x + size / 2, y + size / 2, size / 2, 'S')
   } catch (e) {
-    console.warn('Could not add profile image to PDF:', e)
+    console.warn('Could not add profile image:', e)
   }
 }
 
+// Helper — draw a rounded dark card (simulated since jsPDF has limited rounded rect support)
+function darkCard(doc: InstanceType<typeof import('jspdf').jsPDF>, x: number, y: number, w: number, h: number, fill: [number,number,number] = [17,17,32]) {
+  doc.setFillColor(...fill)
+  doc.roundedRect(x, y, w, h, 3, 3, 'F')
+}
+
+// Helper — draw orange section label like Identity Kit sidebar labels
+function sectionLabel(doc: InstanceType<typeof import('jspdf').jsPDF>, text: string, x: number, y: number, w: number) {
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(7)
+  doc.setTextColor(255, 107, 43)
+  doc.text(text.toUpperCase(), x, y)
+  doc.setDrawColor(255, 107, 43)
+  doc.setLineWidth(0.2)
+  doc.line(x, y + 1.5, x + w, y + 1.5)
+}
+
 // ── PDF Generators ────────────────────────────────────────────────────────────
+
 async function generateCVPdf(data: CreatorData) {
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-  const W = 210, M = 15
-  let y = M
+  const W = 210, H = 297, M = 12
 
-  const orange = [255, 107, 43] as [number, number, number]
-  const dark = [15, 15, 25] as [number, number, number]
-  const gray = [90, 90, 110] as [number, number, number]
-  const light = [245, 245, 250] as [number, number, number]
-  const white = [255, 255, 255] as [number, number, number]
+  // Color palette matching Identity Kit exactly
+  const BG:    [number,number,number] = [8,  8,  14]   // #08080E
+  const CARD:  [number,number,number] = [17, 17, 32]   // #111120
+  const CARD2: [number,number,number] = [12, 12, 24]   // #0C0C18
+  const OG:    [number,number,number] = [255,107,43]   // #FF6B2B
+  const OGL:   [number,number,number] = [255,140,90]   // #FF8C5A
+  const WHITE: [number,number,number] = [255,255,255]
+  const DIM:   [number,number,number] = [180,180,200]  // rgba(255,255,255,0.7)
+  const DIM2:  [number,number,number] = [100,100,120]  // rgba(255,255,255,0.4)
+  const DIM3:  [number,number,number] = [55, 55, 75]   // rgba(255,255,255,0.2)
 
-  // Header
-  doc.setFillColor(...orange)
-  doc.rect(0, 0, W, 48, 'F')
-  // Profile photo
+  // Full page dark background
+  doc.setFillColor(...BG)
+  doc.rect(0, 0, W, H, 'F')
+
+  // ── HEADER BANNER (grid pattern background like Identity Kit) ──
+  doc.setFillColor(14, 14, 28)
+  doc.rect(0, 0, W, 52, 'F')
+  // Orange radial glow effect — simulate with gradient circles
+  doc.setFillColor(35, 18, 8)
+  doc.ellipse(W/2, 26, 80, 30, 'F')
+  doc.setFillColor(14, 14, 28)
+  doc.ellipse(W/2, 26, 60, 22, 'F')
+
+  // Subtle grid lines
+  doc.setDrawColor(255, 107, 43, 0.06)
+  doc.setLineWidth(0.15)
+  for (let gx = 0; gx < W; gx += 10) { doc.line(gx, 0, gx, 52) }
+  for (let gy = 0; gy < 52; gy += 10) { doc.line(0, gy, W, gy) }
+
+  // Profile photo — top-left of header
+  const photoSize = 28
+  const photoX = M
+  const photoY = 12
   if (data.photo) {
-    addProfileImage(doc, data.photo, W - M - 32, y + 4, 32)
-  }
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(24)
-  doc.setTextColor(...white)
-  doc.text(data.name.toUpperCase(), M, y + 14)
-  doc.setFontSize(12)
-  doc.setFont('helvetica', 'normal')
-  doc.text(`${data.niche} Creator | ${data.platform}`, M, y + 24)
-  doc.setFontSize(9)
-  doc.text(`${data.handle} | ${data.city} | ${data.email}`, M, y + 32)
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(9)
-  doc.text('identitykit.in', W - M, y + 14, { align: 'right' })
-  y = 56
-
-  const section = (title: string) => {
-    doc.setFillColor(...orange)
-    doc.rect(M, y, W - M * 2, 7, 'F')
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(8)
-    doc.setTextColor(...white)
-    doc.text(title.toUpperCase(), M + 3, y + 5)
-    y += 10
+    addProfileImage(doc, data.photo, photoX, photoY, photoSize)
+  } else {
+    doc.setFillColor(30, 30, 46)
+    doc.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'F')
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...OG)
+    doc.text((data.name || 'CK')[0].toUpperCase(), photoX + photoSize/2, photoY + photoSize/2 + 4, { align: 'center' })
+    doc.setDrawColor(...OG); doc.setLineWidth(1.2)
+    doc.circle(photoX + photoSize/2, photoY + photoSize/2, photoSize/2, 'S')
   }
 
-  const row = (label: string, value: string) => {
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...dark)
-    doc.text(label, M, y)
-    doc.setFont('helvetica', 'normal'); doc.setTextColor(...gray)
-    const lines = doc.splitTextToSize(value, W - M * 2 - 45)
-    doc.text(lines, M + 45, y)
-    y += lines.length * 4 + 2
+  // Name & meta
+  const tx = M + photoSize + 8
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...OG)
+  doc.text('CREATOR CV', tx, 16)
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.setTextColor(...WHITE)
+  doc.text(data.name || 'Creator Name', tx, 26)
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...DIM2)
+  doc.text(`${data.niche} Creator · ${data.platform}`, tx, 33)
+  // Contact row
+  const contacts = [data.city, data.email, data.handle].filter(Boolean)
+  doc.setFontSize(7.5); doc.setTextColor(...DIM3)
+  doc.text(contacts.join('  ·  '), tx, 39)
+
+  // "Open for collabs" badge
+  doc.setFillColor(10, 50, 20)
+  doc.roundedRect(W - M - 40, 14, 40, 9, 4, 4, 'F')
+  doc.setDrawColor(34, 197, 94); doc.setLineWidth(0.3)
+  doc.roundedRect(W - M - 40, 14, 40, 9, 4, 4, 'S')
+  doc.setFillColor(34, 197, 94); doc.circle(W - M - 36, 18.5, 1.5, 'F')
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5); doc.setTextColor(34, 197, 94)
+  doc.text('Open for collabs', W - M - 33, 19.2)
+
+  // identitykit.in watermark
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(255, 107, 43)
+  doc.text('identitykit.in', W - M, 46, { align: 'right' })
+
+  let y = 60
+
+  // ── TWO COLUMN LAYOUT ──
+  const leftW = 58, rightX = M + leftW + 6, rightW = W - rightX - M
+
+  // LEFT CARD background
+  darkCard(doc, M, y, leftW, 218, CARD)
+
+  // RIGHT CARD background
+  darkCard(doc, rightX, y, rightW, 218, CARD2)
+
+  // ── LEFT SIDEBAR ──
+  let lY = y + 10
+
+  // Key Stats section
+  sectionLabel(doc, 'Key Stats', M + 6, lY, leftW - 12)
+  lY += 6
+
+  const stats = [
+    [data.followers || '—', 'Followers'],
+    [data.engagementRate ? data.engagementRate + '%' : '—', 'Engagement'],
+    [data.avgViews || '—', 'Avg Views'],
+    [data.yearsActive ? data.yearsActive + ' yr' : '—', 'Experience'],
+  ]
+  stats.forEach(([val, lbl]) => {
+    darkCard(doc, M + 6, lY, leftW - 12, 14, BG)
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(...OG)
+    doc.text(val, M + 12, lY + 8)
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(6.5); doc.setTextColor(...DIM3)
+    doc.text(lbl.toUpperCase(), M + 12, lY + 13)
+    lY += 17
+  })
+
+  lY += 4
+
+  // Platforms
+  if (data.platform) {
+    sectionLabel(doc, 'Platforms', M + 6, lY, leftW - 12)
+    lY += 6
+    const plats = data.platform.split(',').map((p: string) => p.trim())
+    plats.forEach((p: string) => {
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...DIM)
+      doc.text(`• ${p}`, M + 8, lY); lY += 5
+    })
+    lY += 4
   }
+
+  // Languages
+  if (data.languages) {
+    sectionLabel(doc, 'Languages', M + 6, lY, leftW - 12)
+    lY += 6
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...DIM2)
+    doc.text(data.languages, M + 8, lY); lY += 8
+  }
+
+  // Skills / Niche
+  if (data.subNiche) {
+    sectionLabel(doc, 'Niche Focus', M + 6, lY, leftW - 12)
+    lY += 6
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...DIM2)
+    const niL = doc.splitTextToSize(data.niche + ' · ' + data.subNiche, leftW - 12)
+    doc.text(niL, M + 8, lY); lY += niL.length * 4.5
+  }
+
+  // ── RIGHT CONTENT ──
+  let rY = y + 10
 
   // About
-  section('Professional Summary')
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-  const bioLines = doc.splitTextToSize(data.bio || `${data.name} is a ${data.niche} creator based in ${data.city} with ${data.followers} followers on ${data.platform}. Known for authentic, high-engagement content that connects with Indian audiences.`, W - M * 2)
-  doc.text(bioLines, M, y)
-  y += bioLines.length * 4.2 + 6
+  sectionLabel(doc, 'About', rightX + 6, rY, rightW - 12)
+  rY += 7
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...DIM)
+  const bioText = data.bio || `${data.name} is a ${data.niche} creator based in ${data.city} with ${data.followers} followers on ${data.platform}. Known for authentic, high-engagement content that connects with Indian audiences.`
+  const bioLines = doc.splitTextToSize(bioText, rightW - 12)
+  doc.text(bioLines, rightX + 6, rY)
+  rY += bioLines.length * 5 + 8
 
-  // Key Stats
-  section('Creator Statistics')
-  y += 2
-  const stats = [
-    ['Followers', data.followers || '—'],
-    ['Engagement Rate', data.engagementRate ? data.engagementRate + '%' : '—'],
-    ['Avg Views / Reach', data.avgViews || '—'],
-    ['Primary Platform', data.platform],
-    ['Niche', data.niche + (data.subNiche ? ' — ' + data.subNiche : '')],
-    ['Years Active', data.yearsActive ? data.yearsActive + ' year(s)' : '—'],
-    ['Languages', data.languages || 'Hindi, English'],
-  ]
-  stats.forEach(([l, v]) => row(l + ':', v))
-  y += 4
-
-  // Experience
+  // Brand Collaborations
   if (data.pastBrands) {
-    section('Brand Collaborations')
-    y += 2
-    const brands = data.pastBrands.split(',').map(b => b.trim()).filter(Boolean)
-    brands.forEach(b => {
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-      doc.text(`• ${b}`, M + 3, y)
-      y += 5
+    sectionLabel(doc, 'Brand Collaborations', rightX + 6, rY, rightW - 12)
+    rY += 7
+    const brands = data.pastBrands.split(',').map((b: string) => b.trim()).filter(Boolean)
+    brands.forEach((b: string, i: number) => {
+      // Brand pill
+      const bw2 = doc.getTextWidth(b) + 10
+      darkCard(doc, rightX + 6 + (i % 3) * 44, rY + Math.floor(i/3) * 11, Math.min(bw2, 41), 8, BG)
+      doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
+      doc.roundedRect(rightX + 6 + (i % 3) * 44, rY + Math.floor(i/3) * 11, Math.min(bw2, 41), 8, 2, 2, 'S')
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...DIM2)
+      doc.text(b.slice(0,14), rightX + 6 + (i % 3) * 44 + 5, rY + Math.floor(i/3) * 11 + 5.5)
     })
-    y += 2
+    rY += Math.ceil(brands.length / 3) * 11 + 8
   }
 
   // Achievements
   if (data.achievements) {
-    section('Achievements & Highlights')
-    y += 2
-    const achLines = doc.splitTextToSize(data.achievements, W - M * 2 - 4)
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-    doc.text(achLines, M + 3, y)
-    y += achLines.length * 4.5 + 4
+    sectionLabel(doc, 'Awards & Highlights', rightX + 6, rY, rightW - 12)
+    rY += 7
+    // Left-border highlight box
+    doc.setFillColor(15, 10, 5)
+    doc.roundedRect(rightX + 6, rY, rightW - 12, 20, 2, 2, 'F')
+    doc.setFillColor(...OG); doc.rect(rightX + 6, rY, 2, 20, 'F')
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...DIM2)
+    const achLines = doc.splitTextToSize(data.achievements, rightW - 22)
+    doc.text(achLines, rightX + 12, rY + 6)
+    rY += 26
   }
 
-  // Social
-  section('Social Presence')
-  y += 2
-  const socials = [
-    ['Instagram', data.instagram],
-    ['YouTube', data.youtube],
-    ['LinkedIn', data.linkedin],
-    ['Twitter/X', data.twitter],
-    ['Website', data.website],
-  ].filter(s => s[1])
-  socials.forEach(([l, v]) => row(l + ':', v))
+  // What I offer brands (rates preview)
+  const rateItems = [
+    data.reelRate && ['Instagram Reel', 'Rs.' + parseInt(data.reelRate).toLocaleString('en-IN')],
+    data.staticRate && ['Static Post', 'Rs.' + parseInt(data.staticRate).toLocaleString('en-IN')],
+    data.storyRate && ['Story Pack', 'Rs.' + parseInt(data.storyRate).toLocaleString('en-IN')],
+    data.youtubeRate && ['YouTube Video', 'Rs.' + parseInt(data.youtubeRate).toLocaleString('en-IN')],
+    data.shortsRate && ['YT Shorts', 'Rs.' + parseInt(data.shortsRate).toLocaleString('en-IN')],
+  ].filter(Boolean)
 
-  // Footer
-  doc.setDrawColor(...orange)
-  doc.setLineWidth(0.5)
-  doc.line(M, 283, W - M, 283)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...gray)
-  doc.text(`${data.name} · ${data.handle} · ${data.email}`, W / 2, 287, { align: 'center' })
-  doc.text('Generated with Identity Kit · identitykit.in', W / 2, 291, { align: 'center' })
+  if (rateItems.length > 0) {
+    sectionLabel(doc, 'What I Offer Brands', rightX + 6, rY, rightW - 12)
+    rY += 7
+    rateItems.slice(0, 4).forEach(([name, rate]: any) => {
+      darkCard(doc, rightX + 6, rY, rightW - 12, 9, BG)
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...DIM2)
+      doc.text(name, rightX + 12, rY + 6)
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...OG)
+      doc.text(rate, rightX + rightW - 18, rY + 6, { align: 'right' })
+      rY += 11
+    })
+  }
+
+  // ── CV FOOTER ──
+  const footY = y + 224
+  doc.setFillColor(...CARD)
+  doc.rect(0, footY, W, 12, 'F')
+  doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
+  doc.line(0, footY, W, footY)
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+  doc.text(`Identity Kit · identitykit.in`, M, footY + 7.5)
+  if (data.email) { doc.setTextColor(...OG); doc.text(data.email, W - M, footY + 7.5, { align: 'right' }) }
 
   return doc
 }
@@ -198,142 +312,193 @@ async function generateCVPdf(data: CreatorData) {
 async function generateMediaKitPdf(data: CreatorData) {
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-  const W = 210, M = 15
-  let y = M
+  const W = 210, H = 297, M = 12
 
-  const orange = [255, 107, 43] as [number, number, number]
-  const dark = [15, 15, 25] as [number, number, number]
-  const gray = [90, 90, 110] as [number, number, number]
-  const white = [255, 255, 255] as [number, number, number]
-  const light = [245, 245, 250] as [number, number, number]
+  const BG:    [number,number,number] = [8,  8,  14]
+  const CARD:  [number,number,number] = [17, 17, 32]
+  const OG:    [number,number,number] = [255,107,43]
+  const WHITE: [number,number,number] = [255,255,255]
+  const DIM:   [number,number,number] = [180,180,200]
+  const DIM2:  [number,number,number] = [100,100,120]
+  const DIM3:  [number,number,number] = [55, 55, 75]
 
-  // Header with gradient feel
-  doc.setFillColor(...dark)
-  doc.rect(0, 0, W, 52, 'F')
-  doc.setFillColor(...orange)
-  doc.rect(0, 0, 6, 52, 'F')
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(10)
-  doc.setTextColor(...orange)
-  doc.text('MEDIA KIT', M, y + 8)
-  doc.setFontSize(26)
-  doc.setTextColor(255, 255, 255)
-  doc.text(data.name, M, y + 22)
-  // Profile photo in media kit header
+  // Full page background
+  doc.setFillColor(...BG)
+  doc.rect(0, 0, W, H, 'F')
+
+  // ── MEDIA KIT HEADER — gradient card with photo ──
+  doc.setFillColor(26, 8, 0)
+  doc.roundedRect(M, 10, W - M*2, 58, 4, 4, 'F')
+  // orange glow
+  doc.setFillColor(40, 18, 5)
+  doc.ellipse(W - M - 30, 39, 40, 25, 'F')
+  // orange top-right corner accent
+  doc.setFillColor(...OG)
+  doc.circle(W - M, 10, 5, 'F')
+
+  // Photo — centered left side
+  const pSize = 30
+  const pX = M + 12, pY = 23
   if (data.photo) {
-    addProfileImage(doc, data.photo, W - M - 36, y + 4, 36)
-  }
-  doc.setFontSize(10)
-  doc.setFont('helvetica', 'normal')
-  doc.setTextColor(200, 200, 200)
-  doc.text(`${data.niche} Creator · ${data.platform} · ${data.city}`, M, y + 32)
-  doc.text(data.handle, M, y + 40)
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(8)
-  doc.setTextColor(...orange)
-  doc.text('identitykit.in', W - M, y + 40, { align: 'right' })
-  y = 62
-
-  const sectionTitle = (t: string) => {
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...orange)
-    doc.text(t.toUpperCase(), M, y)
-    doc.setDrawColor(...orange)
-    doc.setLineWidth(0.3)
-    doc.line(M, y + 2, W - M, y + 2)
-    y += 8
+    addProfileImage(doc, data.photo, pX, pY, pSize)
+  } else {
+    doc.setFillColor(30, 20, 10)
+    doc.circle(pX + pSize/2, pY + pSize/2, pSize/2, 'F')
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...OG)
+    doc.text((data.name || 'C')[0].toUpperCase(), pX + pSize/2, pY + pSize/2 + 5, { align: 'center' })
+    doc.setDrawColor(...OG); doc.setLineWidth(1.5)
+    doc.circle(pX + pSize/2, pY + pSize/2, pSize/2, 'S')
   }
 
-  const statBox = (label: string, value: string, x: number, bY: number, w: number) => {
-    doc.setFillColor(...light)
-    doc.roundedRect(x, bY, w, 18, 2, 2, 'F')
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...orange)
-    doc.text(value, x + w / 2, bY + 11, { align: 'center' })
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...gray)
-    doc.text(label.toUpperCase(), x + w / 2, bY + 16, { align: 'center' })
-  }
+  // Labels next to photo
+  const lx = pX + pSize + 8
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...OG)
+  doc.text('MEDIA KIT', lx, 20)
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(...WHITE)
+  doc.text(data.name || 'Creator', lx, 31)
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...DIM2)
+  doc.text(`${data.niche} · ${data.city} · ${data.languages || 'Hindi, English'}`, lx, 39)
+  doc.setFontSize(8); doc.setTextColor(...DIM3)
+  doc.text(data.handle || '', lx, 46)
 
-  // About
-  sectionTitle('About')
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-  const bioLines = doc.splitTextToSize(data.bio || `${data.name} is a ${data.niche} creator based in ${data.city}. With ${data.followers} followers and ${data.engagementRate || 'strong'}% engagement, they create authentic content that resonates with Indian audiences.`, W - M * 2)
-  doc.text(bioLines, M, y)
-  y += bioLines.length * 4.5 + 10
-
-  // Stats boxes
-  sectionTitle('Key Stats')
-  const bw = (W - M * 2 - 12) / 4
-  statBox('Followers', data.followers || '—', M, y, bw)
-  statBox('Engagement', (data.engagementRate || '—') + '%', M + bw + 4, y, bw)
-  statBox('Avg Views', data.avgViews || '—', M + (bw + 4) * 2, y, bw)
-  statBox('Years Active', (data.yearsActive || '1') + ' yr', M + (bw + 4) * 3, y, bw)
-  y += 26
-
-  // Content formats
-  sectionTitle('Content I Create')
-  const formats = [
-    data.reelRate ? '📱 Instagram Reels' : '',
-    data.staticRate ? '🖼️ Static Posts & Carousels' : '',
-    data.storyRate ? '⭕ Instagram Stories' : '',
-    data.youtubeRate ? '▶️ YouTube Videos' : '',
-    data.shortsRate ? '📹 YouTube Shorts' : '',
-  ].filter(Boolean)
-  const cols = 2
-  formats.forEach((f, i) => {
-    const col = i % cols
-    const row2 = Math.floor(i / cols)
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...dark)
-    doc.text(f, M + col * 90, y + row2 * 7)
-  })
-  y += Math.ceil(formats.length / cols) * 7 + 8
-
-  // Past brands
-  if (data.pastBrands) {
-    sectionTitle('Past Brand Collaborations')
-    const brands = data.pastBrands.split(',').map(b => b.trim()).filter(Boolean)
-    const bPerRow = 4
-    brands.forEach((b, i) => {
-      const col = i % bPerRow
-      const r = Math.floor(i / bPerRow)
-      doc.setFillColor(...light)
-      const bxw = (W - M * 2 - (bPerRow - 1) * 3) / bPerRow
-      doc.roundedRect(M + col * (bxw + 3), y + r * 12, bxw, 10, 1.5, 1.5, 'F')
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5); doc.setTextColor(...dark)
-      doc.text(b, M + col * (bxw + 3) + bxw / 2, y + r * 12 + 6.5, { align: 'center' })
-    })
-    y += Math.ceil(brands.length / bPerRow) * 12 + 10
-  }
-
-  // Audience
-  sectionTitle('Audience Demographics')
-  const demRows = [
-    ['Primary Age Group', '18–35 years (Indian digital natives)'],
-    ['Location', data.city + ' & Pan India'],
-    ['Language', data.languages || 'Hindi & English'],
-    ['Niche Interest', data.niche + (data.subNiche ? ' · ' + data.subNiche : '')],
+  // Stats strip inside header card
+  const statsY = 58
+  doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
+  doc.line(M + 8, statsY, W - M - 8, statsY)
+  const statItems = [
+    [data.followers || '—', 'Instagram'],
+    [data.youtubeFollowers || '—', 'YouTube'],
+    [data.avgViews || '—', 'Avg Views'],
+    [data.engagementRate ? data.engagementRate + '%' : '—', 'Engagement'],
   ]
-  demRows.forEach(([l, v]) => {
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...dark)
-    doc.text(l + ':', M, y)
-    doc.setFont('helvetica', 'normal'); doc.setTextColor(...gray)
-    doc.text(v, M + 50, y)
-    y += 6
+  const sw = (W - M*2 - 16) / 4
+  statItems.forEach(([val, lbl], i) => {
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...OG)
+    doc.text(val, M + 8 + sw * i + sw/2, statsY + 10, { align: 'center' })
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+    doc.text(lbl.toUpperCase(), M + 8 + sw * i + sw/2, statsY + 16, { align: 'center' })
   })
-  y += 4
 
-  // Contact
-  sectionTitle('Get in Touch')
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-  if (data.email) doc.text(`Email: ${data.email}`, M, y); y += 5
-  if (data.phone) doc.text(`WhatsApp: ${data.phone}`, M, y); y += 5
-  if (data.instagram) doc.text(`Instagram: ${data.instagram}`, M, y); y += 5
-  if (data.youtube) doc.text(`YouTube: ${data.youtube}`, M, y)
+  let y = 80
 
-  // Footer
-  doc.setDrawColor(...orange)
-  doc.setLineWidth(0.5)
-  doc.line(M, 283, W - M, 283)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...gray)
-  doc.text('Generated with Identity Kit · identitykit.in', W / 2, 288, { align: 'center' })
+  // ── PLATFORM + AUDIENCE row ──
+  const hW = (W - M*2 - 6) / 2
+  darkCard(doc, M, y, hW, 48, CARD)
+  darkCard(doc, M + hW + 6, y, hW, 48, CARD)
+
+  // Platform breakdown (left card)
+  sectionLabel(doc, 'Platform Breakdown', M + 6, y + 8, hW - 12)
+  let pY2 = y + 16
+  const platPairs = [
+    ['Instagram', data.followers, data.engagementRate ? data.engagementRate + '% eng' : ''],
+    ['YouTube', data.youtubeFollowers, data.avgViews ? data.avgViews + ' views' : ''],
+    data.platform?.includes('LinkedIn') ? ['LinkedIn', '', ''] : null,
+  ].filter(Boolean) as string[][]
+  platPairs.slice(0,3).forEach(([p, f, s]) => {
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...DIM)
+    doc.text(p, M + 8, pY2)
+    if (f) { doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...WHITE); doc.text(f, M + hW - 6, pY2, { align: 'right' }) }
+    if (s) { doc.setFontSize(7); doc.setTextColor(...DIM3); doc.text(s, M + 8, pY2 + 4.5) }
+    pY2 += 12
+  })
+
+  // Audience (right card)
+  sectionLabel(doc, 'Audience', M + hW + 12, y + 8, hW - 12)
+  let aY = y + 16
+  const audItems = [
+    ['Age group', '18–35 years'],
+    ['Location', (data.city || '') + ' & Pan India'],
+    ['Language', data.languages || 'Hindi, English'],
+    ['Niche', data.niche],
+  ]
+  audItems.forEach(([l, v]) => {
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...DIM3)
+    doc.text(l, M + hW + 12, aY)
+    doc.setTextColor(...DIM2); doc.text(v, M + hW + 45, aY)
+    aY += 9
+  })
+
+  y += 54
+
+  // ── CONTENT FORMATS ──
+  darkCard(doc, M, y, W - M*2, 42, CARD)
+  sectionLabel(doc, 'Content I Create', M + 6, y + 9, W - M*2 - 12)
+  const fmts = [
+    { label: 'Reels & Shorts', show: !!(data.reelRate || data.shortsRate) },
+    { label: 'Static Posts', show: !!data.staticRate },
+    { label: 'Carousels', show: !!data.staticRate },
+    { label: 'YouTube Videos', show: !!data.youtubeRate },
+    { label: 'Stories', show: !!data.storyRate },
+    { label: 'Integrations', show: !!(data.youtubeRate || data.reelRate) },
+  ]
+  const activeFmts = fmts.filter(f => f.show)
+  const fCols = 3, fW = (W - M*2 - 12 - (fCols-1)*6) / fCols
+  activeFmts.forEach(({ label }, i) => {
+    const fx = M + 6 + (i % fCols) * (fW + 6)
+    const fy = y + 16 + Math.floor(i / fCols) * 12
+    doc.setFillColor(14, 14, 30)
+    doc.roundedRect(fx, fy, fW, 10, 2, 2, 'F')
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...DIM2)
+    doc.text(label, fx + fW/2, fy + 6.5, { align: 'center' })
+  })
+  y += 48
+
+  // ── BRAND COLLABORATIONS ──
+  if (data.pastBrands) {
+    darkCard(doc, M, y, W - M*2, 44, CARD)
+    sectionLabel(doc, 'Past Brand Collaborations', M + 6, y + 9, W - M*2 - 12)
+    const brands = data.pastBrands.split(',').map((b: string) => b.trim()).filter(Boolean)
+    const bPerRow = 5, bW = (W - M*2 - 12 - (bPerRow-1)*4) / bPerRow
+    brands.slice(0, 10).forEach((b: string, i: number) => {
+      const bx = M + 6 + (i % bPerRow) * (bW + 4)
+      const by = y + 16 + Math.floor(i / bPerRow) * 11
+      doc.setFillColor(14, 14, 26)
+      doc.roundedRect(bx, by, bW, 8, 1.5, 1.5, 'F')
+      doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
+      doc.roundedRect(bx, by, bW, 8, 1.5, 1.5, 'S')
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM2)
+      doc.text(b.slice(0, 12), bx + bW/2, by + 5.5, { align: 'center' })
+    })
+    if (data.achievements) {
+      const hy = y + 38
+      doc.setFillColor(10, 6, 2)
+      doc.roundedRect(M + 6, hy, W - M*2 - 12, 3, 1, 1, 'F')
+      doc.setFillColor(...OG); doc.rect(M + 6, hy, 2, 3, 'F')
+    }
+    y += 50
+  }
+
+  // ── PACKAGES / RATES ──
+  const rateList = [
+    data.reelRate && ['Instagram Reel (60 sec)', data.reelRate],
+    data.staticRate && ['Static Post / Carousel', data.staticRate],
+    data.storyRate && ['Stories Pack (3 frames)', data.storyRate],
+    data.youtubeRate && ['YouTube Dedicated Video', data.youtubeRate],
+    data.shortsRate && ['YouTube Shorts', data.shortsRate],
+  ].filter(Boolean) as [string, string][]
+
+  if (rateList.length > 0) {
+    darkCard(doc, M, y, W - M*2, 14 + rateList.length * 12, CARD)
+    sectionLabel(doc, 'Packages & Starting Rates', M + 6, y + 9, W - M*2 - 12)
+    rateList.forEach(([name, rate], i) => {
+      const ry = y + 16 + i * 12
+      doc.setFillColor(14, 14, 28)
+      doc.roundedRect(M + 6, ry, W - M*2 - 12, 10, 2, 2, 'F')
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...DIM)
+      doc.text(name, M + 12, ry + 6.5)
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...OG)
+      doc.text('Rs.' + parseInt(rate).toLocaleString('en-IN'), W - M - 6, ry + 6.5, { align: 'right' })
+    })
+    y += 20 + rateList.length * 12
+  }
+
+  // ── FOOTER ──
+  const fY = H - 16
+  doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
+  doc.line(M, fY, W - M, fY)
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+  doc.text(`Identity Kit · identitykit.in/${data.handle?.replace('@','')}`, M, fY + 6)
+  if (data.email) { doc.setTextColor(...OG); doc.text(data.email, W - M, fY + 6, { align: 'right' }) }
 
   return doc
 }
@@ -341,164 +506,166 @@ async function generateMediaKitPdf(data: CreatorData) {
 async function generateRateCardPdf(data: CreatorData) {
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-  const W = 210, M = 15
-  let y = M
+  const W = 210, H = 297, M = 12
 
-  const orange = [255, 107, 43] as [number, number, number]
-  const dark = [15, 15, 25] as [number, number, number]
-  const gray = [90, 90, 110] as [number, number, number]
-  const light = [245, 245, 250] as [number, number, number]
-  const white = [255, 255, 255] as [number, number, number]
+  const BG:    [number,number,number] = [8,  8,  14]
+  const CARD:  [number,number,number] = [17, 17, 32]
+  const CARD2: [number,number,number] = [14, 14, 28]
+  const OG:    [number,number,number] = [255,107,43]
+  const OGL:   [number,number,number] = [255,140,90]
+  const WHITE: [number,number,number] = [255,255,255]
+  const DIM:   [number,number,number] = [180,180,200]
+  const DIM2:  [number,number,number] = [100,100,120]
+  const DIM3:  [number,number,number] = [55, 55, 75]
 
-  // Header
-  doc.setFillColor(...orange)
-  doc.rect(0, 0, W, 44, 'F')
-  // Profile photo
+  // Background
+  doc.setFillColor(...BG)
+  doc.rect(0, 0, W, H, 'F')
+
+  // ── RATE CARD HEADER — dark card with name + photo ──
+  darkCard(doc, M, 10, W - M*2, 44, CARD)
+
+  // Photo
+  const pSize = 26
   if (data.photo) {
-    addProfileImage(doc, data.photo, W - M - 32, y + 4, 32)
+    addProfileImage(doc, data.photo, W - M - pSize - 6, 18, pSize)
   }
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(9)
-  doc.setTextColor(...white)
-  doc.text('RATE CARD', M, y + 8)
-  doc.setFontSize(22)
-  doc.text(data.name.toUpperCase(), M, y + 22)
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(9)
-  doc.text(`${data.niche} Creator · ${data.handle} · ${data.city}`, M, y + 32)
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(8)
-  doc.text('identitykit.in', W - M, y + 32, { align: 'right' })
-  y = 54
 
-  // Stats summary
-  doc.setFillColor(...light)
-  doc.roundedRect(M, y, W - M * 2, 20, 3, 3, 'F')
-  const sw = (W - M * 2) / 3
-  const statItems = [
-    [data.followers || '—', 'FOLLOWERS'],
-    [(data.engagementRate || '—') + '%', 'ENGAGEMENT RATE'],
-    [data.avgViews || '—', 'AVG VIEWS'],
+  // Rate Card label
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...OG)
+  doc.text('RATE CARD', M + 8, 19)
+  // Name
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(...WHITE)
+  doc.text(data.name || 'Creator', M + 8, 30)
+  // Niche + handle
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...DIM2)
+  doc.text(`${data.niche} · ${data.handle || ''}`, M + 8, 38)
+  doc.setFontSize(7.5); doc.setTextColor(...DIM3)
+  doc.text(`identitykit.in`, M + 8, 46)
+
+  // Valid till badge top-right
+  doc.setFillColor(20, 20, 36)
+  doc.roundedRect(W - M - 50, 18, 50, 9, 3, 3, 'F')
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+  const yr = new Date().getFullYear()
+  doc.text(`Valid till Dec ${yr}`, W - M - 48, 23.5)
+
+  let y = 62
+
+  // ── STATS ROW — 3 bento boxes ──
+  const sW = (W - M*2 - 12) / 3
+  const statBoxes = [
+    [data.followers || '—', 'Followers'],
+    [(data.engagementRate || '—') + (data.engagementRate ? '%' : ''), 'Engagement Rate'],
+    [data.avgViews || '—', 'Avg Views / Reach'],
   ]
-  statItems.forEach(([v, l], i) => {
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...orange)
-    doc.text(v, M + sw * i + sw / 2, y + 11, { align: 'center' })
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...gray)
-    doc.text(l, M + sw * i + sw / 2, y + 17, { align: 'center' })
+  statBoxes.forEach(([val, lbl], i) => {
+    darkCard(doc, M + i * (sW + 6), y, sW, 20, CARD)
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...OG)
+    doc.text(val, M + i * (sW + 6) + sW/2, y + 12, { align: 'center' })
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+    doc.text(lbl.toUpperCase(), M + i * (sW + 6) + sW/2, y + 18, { align: 'center' })
   })
   y += 28
 
-  // Rate table
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...orange)
-  doc.text('COLLABORATION RATES', M, y)
-  doc.setDrawColor(...orange); doc.setLineWidth(0.3)
-  doc.line(M, y + 2, W - M, y + 2)
-  y += 8
+  // ── INSTAGRAM RATES ──
+  const igRates = [
+    data.reelRate && ['Dedicated Reel', '60 sec · 3–5 days · 2 revisions', data.reelRate, '#e1306c'],
+    data.staticRate && ['Static Post', '1 post · caption included', data.staticRate, '#e1306c'],
+    data.staticRate && ['Carousel', '5–8 slides · 2 revisions', data.staticRate, '#e1306c'],
+    data.storyRate && ['Stories Pack', '3 slides · link in bio', data.storyRate, '#e1306c'],
+  ].filter(Boolean) as [string, string, string, string][]
 
-  // Table header
-  doc.setFillColor(...dark)
-  doc.rect(M, y, W - M * 2, 8, 'F')
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...white)
-  doc.text('CONTENT TYPE', M + 4, y + 5.5)
-  doc.text('PLATFORM', M + 85, y + 5.5)
-  doc.text('RATE (INR)', W - M - 4, y + 5.5, { align: 'right' })
-  y += 8
+  if (igRates.length > 0) {
+    darkCard(doc, M, y, W - M*2, 14 + igRates.length * 13, CARD)
+    // Instagram section header
+    doc.setFillColor(225, 48, 108, 0.1)
+    doc.roundedRect(M + 6, y + 6, 24, 8, 2, 2, 'F')
+    doc.setFillColor(30, 8, 16)
+    doc.roundedRect(M + 6, y + 6, 24, 8, 2, 2, 'F')
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(225, 48, 108)
+    doc.text('Instagram', M + 10, y + 11.5)
+    if (data.handle) { doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3); doc.text(data.handle, M + 36, y + 11.5) }
 
-  const rates = [
-    ['Instagram Reel (up to 60 sec)', 'Instagram', data.reelRate],
-    ['Static Post / Carousel', 'Instagram', data.staticRate],
-    ['Story Package (3 frames)', 'Instagram', data.storyRate],
-    ['Dedicated Video', 'YouTube', data.youtubeRate],
-    ['YouTube Shorts', 'YouTube', data.shortsRate],
-  ].filter(r => r[2])
+    igRates.forEach(([name, desc, rate], i) => {
+      const ry = y + 16 + i * 13
+      doc.setDrawColor(...DIM3); doc.setLineWidth(0.15)
+      if (i > 0) doc.line(M + 6, ry - 1, W - M - 6, ry - 1)
+      // Row icon box
+      doc.setFillColor(30, 8, 16)
+      doc.roundedRect(M + 6, ry + 1, 9, 9, 1.5, 1.5, 'F')
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(225, 48, 108)
+      doc.text('IG', M + 7, ry + 7.5)
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...DIM)
+      doc.text(name, M + 18, ry + 6.5)
+      doc.setFontSize(7); doc.setTextColor(...DIM3)
+      doc.text(desc, M + 18, ry + 11)
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(...OG)
+      doc.text('Rs.' + parseInt(rate).toLocaleString('en-IN'), W - M - 6, ry + 7, { align: 'right' })
+    })
+    y += 20 + igRates.length * 13
+  }
 
-  rates.forEach(([type, plat, rate], i) => {
-    const bg = i % 2 === 0 ? [250, 250, 252] as [number, number, number] : [255, 255, 255] as [number, number, number]
-    doc.setFillColor(...bg)
-    doc.rect(M, y, W - M * 2, 9, 'F')
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...dark)
-    doc.text(type, M + 4, y + 6)
-    doc.setTextColor(...gray)
-    doc.text(plat, M + 85, y + 6)
-    doc.setFont('helvetica', 'bold'); doc.setTextColor(...orange)
-    doc.text('Rs. ' + parseInt(rate).toLocaleString('en-IN'), W - M - 4, y + 6, { align: 'right' })
-    y += 9
-  })
-  y += 8
+  // ── YOUTUBE RATES ──
+  const ytRates = [
+    data.youtubeRate && ['Dedicated Video', '8–15 min · 5–7 days', data.youtubeRate, '#ff0000'],
+    data.youtubeRate && ['Integration', '60–90 sec in existing video', Math.round(parseInt(data.youtubeRate)*0.6).toString(), '#ff0000'],
+    data.shortsRate && ['YouTube Short', '60 sec · 3–5 days', data.shortsRate, '#ff0000'],
+  ].filter(Boolean) as [string, string, string, string][]
 
-  // Inclusions
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...orange)
-  doc.text('WHAT IS INCLUDED', M, y)
-  doc.line(M, y + 2, W - M, y + 2)
-  y += 8
-  const inclusions = [
-    'Content ideation, scripting, and production',
-    '1 round of revisions included in base rate',
-    'ASCI-compliant disclosure on all paid content',
-    'Analytics report shared 7 days after going live',
-    'Usage rights: Brand\'s owned social channels for 6 months',
-  ]
-  inclusions.forEach(item => {
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-    doc.text(`• ${item}`, M + 3, y); y += 6
-  })
-  y += 6
+  if (ytRates.length > 0) {
+    darkCard(doc, M, y, W - M*2, 14 + ytRates.length * 13, CARD)
+    doc.setFillColor(20, 5, 5)
+    doc.roundedRect(M + 6, y + 6, 24, 8, 2, 2, 'F')
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(255, 40, 40)
+    doc.text('YouTube', M + 9, y + 11.5)
 
-  // Add-ons
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...orange)
-  doc.text('ADDITIONAL CHARGES', M, y)
-  doc.line(M, y + 2, W - M, y + 2)
-  y += 8
-  const addons = [
-    ['Exclusivity (per 30 days)', '+25–50% of base rate'],
-    ['Additional revision rounds', '+10% of base rate per round'],
-    ['Extended usage rights (ads/OOH)', '+50–100% of base rate'],
-    ['Urgent delivery (under 5 days)', '+20% of base rate'],
-    ['GST (if registered)', '+18% on total'],
-  ]
-  addons.forEach(([item, price], i) => {
-    const bg = i % 2 === 0 ? [250, 250, 252] as [number, number, number] : [255, 255, 255] as [number, number, number]
-    doc.setFillColor(...bg)
-    doc.rect(M, y, W - M * 2, 8, 'F')
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...dark)
-    doc.text(item, M + 4, y + 5.5)
-    doc.setFont('helvetica', 'bold'); doc.setTextColor(...orange)
-    doc.text(price, W - M - 4, y + 5.5, { align: 'right' })
-    y += 8
-  })
-  y += 8
+    ytRates.forEach(([name, desc, rate], i) => {
+      const ry = y + 16 + i * 13
+      doc.setDrawColor(...DIM3); doc.setLineWidth(0.15)
+      if (i > 0) doc.line(M + 6, ry - 1, W - M - 6, ry - 1)
+      doc.setFillColor(20, 5, 5)
+      doc.roundedRect(M + 6, ry + 1, 9, 9, 1.5, 1.5, 'F')
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(255, 40, 40)
+      doc.text('YT', M + 7.5, ry + 7.5)
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...DIM)
+      doc.text(name, M + 18, ry + 6.5)
+      doc.setFontSize(7); doc.setTextColor(...DIM3)
+      doc.text(desc, M + 18, ry + 11)
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(...OG)
+      doc.text('Rs.' + parseInt(rate).toLocaleString('en-IN'), W - M - 6, ry + 7, { align: 'right' })
+    })
+    y += 20 + ytRates.length * 13
+  }
 
-  // Payment terms
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...orange)
-  doc.text('PAYMENT TERMS', M, y)
-  doc.line(M, y + 2, W - M, y + 2)
-  y += 8
+  // ── TERMS & NOTES ──
   const terms = [
-    '50% advance before content creation begins',
-    '50% balance within 7 days of going live',
-    'Payment via bank transfer (NEFT/IMPS)',
-    'TDS at 10% under Section 194J will be deducted',
+    '50% advance payment required before work begins',
+    'Rates exclusive of 18% GST — invoice provided on request',
+    'Usage rights: Brand owned channels for 6 months',
+    '1 free revision per deliverable · Additional charged separately',
+    'ASCI-compliant paid partnership disclosure on all content',
   ]
-  terms.forEach(t => {
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(...gray)
-    doc.text(`• ${t}`, M + 3, y); y += 6
+  darkCard(doc, M, y, W - M*2, 12 + terms.length * 8, CARD)
+  sectionLabel(doc, 'Terms & Notes', M + 6, y + 9, W - M*2 - 12)
+  terms.forEach((t, i) => {
+    const ty = y + 16 + i * 8
+    doc.setFillColor(...OG)
+    doc.circle(M + 8, ty - 1, 1, 'F')
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...DIM2)
+    doc.text(t, M + 12, ty)
   })
+  y += 18 + terms.length * 8
 
-  // Contact
-  y += 6
-  doc.setFillColor(...orange)
-  doc.roundedRect(M, y, W - M * 2, 16, 3, 3, 'F')
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...white)
-  doc.text('Ready to collaborate? Get in touch:', M + 4, y + 6)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5)
-  doc.text(`${data.email}${data.phone ? '  |  ' + data.phone : ''}`, M + 4, y + 12)
-
-  // Footer
-  doc.setDrawColor(200, 200, 210); doc.setLineWidth(0.3)
-  doc.line(M, 283, W - M, 283)
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...gray)
-  doc.text(`${data.name} · Rates valid for 2026 · Subject to change`, W / 2, 288, { align: 'center' })
-  doc.text('Generated with Identity Kit · identitykit.in', W / 2, 292, { align: 'center' })
+  // ── FOOTER ──
+  doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
+  doc.line(M, H - 16, W - M, H - 16)
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+  if (data.email) doc.text(`${data.email} · ${data.phone || ''}`, M, H - 10)
+  doc.setFillColor(20, 20, 36)
+  doc.roundedRect(W - M - 30, H - 14, 30, 8, 2, 2, 'F')
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...DIM3)
+  doc.text('IDENTITY KIT', W - M - 15, H - 9, { align: 'center' })
 
   return doc
 }

@@ -691,11 +691,41 @@ export default function CreatorKitGenerator() {
   })
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [paying, setPaying] = useState(false)
+  const [generatingBio, setGeneratingBio] = useState(false)
+  const [bioError, setBioError] = useState('')
+  const [zoomedDoc, setZoomedDoc] = useState<'cv' | 'mediakit' | 'ratecard' | null>(null)
   const [downloading, setDownloading] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   const upd = (field: keyof CreatorData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setData(prev => ({ ...prev, [field]: e.target.value }))
+
+  async function generateAIBio() {
+    if (!data.name) { setBioError('Add your name first so the bio can be personalized.'); return }
+    setGeneratingBio(true)
+    setBioError('')
+    try {
+      const res = await fetch('/api/generate-cv-bio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.name, niche: data.niche, subNiche: data.subNiche, platform: data.platform,
+          city: data.city, followers: data.followers, engagementRate: data.engagementRate,
+          yearsActive: data.yearsActive, pastBrands: data.pastBrands, achievements: data.achievements,
+          languages: data.languages,
+        }),
+      })
+      if (!res.ok) throw new Error('Request failed')
+      const json = await res.json()
+      if (json.bio) setData(prev => ({ ...prev, bio: json.bio }))
+      else throw new Error('No bio returned')
+    } catch (e) {
+      console.error(e)
+      setBioError('Could not generate a bio right now — please try again or write your own.')
+    } finally {
+      setGeneratingBio(false)
+    }
+  }
 
   const toggleSelect = (doc: string) => {
     setSelected(prev => {
@@ -859,6 +889,11 @@ export default function CreatorKitGenerator() {
         .step-pill.active { background: rgba(255,107,43,0.15); color: #FF8C5A; border: 1px solid rgba(255,107,43,0.3); }
         .step-pill.done { background: rgba(76,175,80,0.1); color: #81C784; border: 1px solid rgba(76,175,80,0.2); }
         .step-pill.pending { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.08); }
+        .preview-card { cursor: zoom-in; transition: transform 0.2s, box-shadow 0.2s; }
+        .preview-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+        @keyframes ikspin { to { transform: rotate(360deg); } }
+        @keyframes ikfade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes ikscale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
         @media (max-width: 640px) {
           .g2, .g3 { grid-template-columns: 1fr !important; }
           .hero-title { font-size: 26px !important; }
@@ -960,8 +995,34 @@ export default function CreatorKitGenerator() {
                 <div><label style={labelStyle}>City</label><input style={inputStyle} placeholder="Mumbai" value={data.city} onChange={upd('city')} /></div>
                 <div><label style={labelStyle}>Languages</label><input style={inputStyle} placeholder="Hindi, English" value={data.languages} onChange={upd('languages')} /></div>
               </div>
-              <div><label style={labelStyle}>Professional Bio</label>
-                <textarea style={{ ...inputStyle, minHeight: 80, lineHeight: 1.6 }} placeholder="Write 2-3 sentences about you, your content style, and what makes you unique..." value={data.bio} onChange={upd('bio')} />
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <label style={{ ...labelStyle, marginBottom: 0 }}>Professional Bio</label>
+                  <button
+                    type="button"
+                    onClick={generateAIBio}
+                    disabled={generatingBio}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 6,
+                      background: generatingBio ? 'rgba(255,107,43,0.08)' : 'rgba(255,107,43,0.12)',
+                      border: '1px solid rgba(255,107,43,0.3)', color: '#FF8C5A',
+                      borderRadius: 8, padding: '5px 12px', fontSize: 11.5, fontWeight: 700,
+                      cursor: generatingBio ? 'wait' : 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif",
+                    }}
+                  >
+                    {generatingBio ? (
+                      <>
+                        <span style={{ width: 10, height: 10, border: '1.5px solid rgba(255,140,90,0.3)', borderTopColor: '#FF8C5A', borderRadius: '50%', display: 'inline-block', animation: 'ikspin 0.7s linear infinite' }} />
+                        Writing your bio...
+                      </>
+                    ) : (
+                      <>✨ Generate with AI</>
+                    )}
+                  </button>
+                </div>
+                <textarea style={{ ...inputStyle, minHeight: 90, lineHeight: 1.65 }} placeholder="Write 2-3 sentences about you, your content style, and what makes you unique — or click Generate with AI above to have it written for you." value={data.bio} onChange={upd('bio')} />
+                {bioError && <div style={{ fontSize: 11.5, color: '#f87171', marginTop: 5 }}>{bioError}</div>}
+                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 5 }}>AI writes this using the stats, niche, and brand history you fill in below — fill those in first for a sharper bio, or generate now and refine after.</div>
               </div>
             </div>
 
@@ -1088,7 +1149,8 @@ export default function CreatorKitGenerator() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }} className="doc-grid">
 
                 {/* ───────── CV Preview — matches profile CV tab exactly ───────── */}
-                <div style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="preview-card" onClick={() => setZoomedDoc('cv')} style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: 8, right: 8, zIndex: 5, background: 'rgba(0,0,0,0.55)', borderRadius: 6, padding: '3px 7px', fontSize: 9, color: '#fff', display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'sans-serif' }}>🔍 Click to enlarge</div>
                   {/* CV header — #111120 row with photo + name */}
                   <div style={{ background: '#111120', padding: '10px 8px', display: 'flex', gap: 7, alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                     <div style={{ width: 26, height: 26, borderRadius: '50%', border: '1.5px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
@@ -1138,7 +1200,8 @@ export default function CreatorKitGenerator() {
                 </div>
 
                 {/* ───────── Media Kit Preview — matches profile Media Kit tab exactly ───────── */}
-                <div style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="preview-card" onClick={() => setZoomedDoc('mediakit')} style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: 8, right: 8, zIndex: 5, background: 'rgba(0,0,0,0.55)', borderRadius: 6, padding: '3px 7px', fontSize: 9, color: '#fff', display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'sans-serif' }}>🔍 Click to enlarge</div>
                   {/* Gradient dark header like IK media kit */}
                   <div style={{ background: 'linear-gradient(135deg,#1a0800,#0e0e1c)', borderBottom: '1px solid rgba(255,107,43,0.15)', padding: '10px 8px', position: 'relative' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -1190,7 +1253,8 @@ export default function CreatorKitGenerator() {
                 </div>
 
                 {/* ───────── Rate Card Preview — matches profile Rate Card tab exactly ───────── */}
-                <div style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div className="preview-card" onClick={() => setZoomedDoc('ratecard')} style={{ background: '#08080E', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: 8, right: 8, zIndex: 5, background: 'rgba(0,0,0,0.55)', borderRadius: 6, padding: '3px 7px', fontSize: 9, color: '#fff', display: 'flex', alignItems: 'center', gap: 3, fontFamily: 'sans-serif' }}>🔍 Click to enlarge</div>
                   {/* Header — #111120 card like profile rate card */}
                   <div style={{ background: '#111120', padding: '10px 8px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div style={{ minWidth: 0 }}>
@@ -1237,9 +1301,314 @@ export default function CreatorKitGenerator() {
 
               </div>
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center', marginTop: 10 }}>
-                ↑ Same dark theme as your Identity Kit profile — preview based on details you entered
+                ↑ Same dark theme as your Identity Kit profile — click any document to view full size
               </div>
             </div>
+
+            {/* ───────── FULL-SIZE ZOOM MODAL ───────── */}
+            {zoomedDoc && (
+              <div
+                onClick={() => setZoomedDoc(null)}
+                style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', animation: 'ikfade 0.15s ease', overflowY: 'auto' }}
+              >
+                <div
+                  onClick={e => e.stopPropagation()}
+                  style={{ width: '100%', maxWidth: 720, background: '#08080E', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)', animation: 'ikscale 0.2s ease', position: 'relative', maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 30px 80px rgba(0,0,0,0.6)' }}
+                >
+                  <button
+                    onClick={() => setZoomedDoc(null)}
+                    style={{ position: 'sticky', top: 14, float: 'right', marginRight: 14, zIndex: 10, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', border: 'none', color: '#fff', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >✕</button>
+
+                  {/* ═══ FULL CV ═══ */}
+                  {zoomedDoc === 'cv' && (
+                    <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+                      <div style={{ background: 'linear-gradient(135deg,#1a0e08,#0e0e1c)', padding: '32px 32px 26px', borderBottom: '1px solid rgba(255,107,43,0.15)', display: 'flex', gap: 18, alignItems: 'center' }}>
+                        <div style={{ width: 76, height: 76, borderRadius: '50%', border: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                          {data.photo ? <img src={data.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#FF6B2B', fontWeight: 800, fontSize: 28, fontFamily: "'Syne',sans-serif" }}>{(data.name||'C')[0]}</span>}
+                        </div>
+                        <div>
+                          <div style={{ color: '#FF6B2B', fontWeight: 700, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 4 }}>Creator CV</div>
+                          <div style={{ color: '#fff', fontWeight: 800, fontSize: 28, fontFamily: "'Syne',sans-serif", lineHeight: 1.1, marginBottom: 4 }}>{data.name || 'Your Name'}</div>
+                          <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13.5 }}>{data.niche}{data.subNiche ? ` · ${data.subNiche}` : ''} · {data.platform}</div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 8 }}>
+                            {[data.city, data.email, data.handle].filter(Boolean).map(m => (
+                              <span key={m} style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>{m}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '210px 1fr' }}>
+                        {/* Sidebar */}
+                        <div style={{ background: '#111120', padding: '26px 22px', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 12, paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Key Stats</div>
+                          {[['Followers', data.followers || '—'],['Engagement Rate', data.engagementRate ? data.engagementRate+'%' : '—'],['Avg Views / Reach', data.avgViews || '—'],['Years Active', data.yearsActive ? data.yearsActive+' yr' : '—'],['Brand Deals', data.pastBrands ? data.pastBrands.split(',').filter(Boolean).length+'+' : '—']].map(([l,v]) => (
+                            <div key={l} style={{ background: '#08080E', borderRadius: 9, padding: '9px 12px', marginBottom: 8 }}>
+                              <div style={{ fontWeight: 800, fontSize: 16, fontFamily: "'Syne',sans-serif", color: '#FF6B2B' }}>{v}</div>
+                              <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.3)', marginTop: 1 }}>{l}</div>
+                            </div>
+                          ))}
+
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '20px 0 10px', paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Platform</div>
+                          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{data.platform}</div>
+                          {data.languages && (
+                            <>
+                              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '20px 0 10px', paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Languages</div>
+                              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{data.languages}</div>
+                            </>
+                          )}
+
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '20px 0 10px', paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Contact</div>
+                          {[data.email && ['Email', data.email], data.phone && ['WhatsApp', data.phone]].filter(Boolean).map((c: any) => (
+                            <div key={c[0]} style={{ marginBottom: 8 }}>
+                              <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.25)' }}>{c[0]}</div>
+                              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>{c[1]}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Main content */}
+                        <div style={{ background: '#0c0c18', padding: '26px 28px' }}>
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Professional Summary</div>
+                          <p style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, marginBottom: 22 }}>
+                            {data.bio || 'Click "Generate with AI" on the form to write a polished professional summary here — or write your own.'}
+                          </p>
+
+                          {data.pastBrands && (
+                            <>
+                              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Brand Collaborations</div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 22 }}>
+                                {data.pastBrands.split(',').map((b: string) => b.trim()).filter(Boolean).map((b: string) => (
+                                  <span key={b} style={{ fontSize: 13, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)', background: '#1a1a2a' }}>{b}</span>
+                                ))}
+                              </div>
+                            </>
+                          )}
+
+                          {data.achievements && (
+                            <>
+                              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Achievements & Highlights</div>
+                              <div style={{ borderLeft: '3px solid #FF6B2B', background: 'rgba(255,107,43,0.06)', borderRadius: '0 10px 10px 0', padding: '12px 16px', marginBottom: 22 }}>
+                                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.7 }}>{data.achievements}</p>
+                              </div>
+                            </>
+                          )}
+
+                          {(data.reelRate || data.staticRate || data.storyRate || data.youtubeRate || data.shortsRate) && (
+                            <>
+                              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>What I Offer Brands</div>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 22 }}>
+                                {[
+                                  data.reelRate && ['Instagram Reel', data.reelRate],
+                                  data.staticRate && ['Static Post / Carousel', data.staticRate],
+                                  data.storyRate && ['Story Package', data.storyRate],
+                                  data.youtubeRate && ['YouTube Dedicated Video', data.youtubeRate],
+                                  data.shortsRate && ['YouTube Shorts', data.shortsRate],
+                                ].filter(Boolean).map(([name, rate]: any) => (
+                                  <div key={name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', background: '#08080E', borderRadius: 9 }}>
+                                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>{name}</span>
+                                    <span style={{ fontSize: 14, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#FF6B2B' }}>₹{Number(rate).toLocaleString('en-IN')}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </>
+                          )}
+
+                          {(data.instagram || data.youtube || data.linkedin || data.twitter || data.website) && (
+                            <>
+                              <div style={{ fontSize: 10.5, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 7, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Social Presence</div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+                                {[data.instagram && ['Instagram', data.instagram], data.youtube && ['YouTube', data.youtube], data.linkedin && ['LinkedIn', data.linkedin], data.twitter && ['Twitter/X', data.twitter], data.website && ['Website', data.website]].filter(Boolean).map((s: any) => (
+                                  <div key={s[0]}>
+                                    <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.25)' }}>{s[0]}</div>
+                                    <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.65)' }}>{s[1]}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div style={{ background: '#111120', padding: '14px 28px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Identity Kit · identitykit.in</span>
+                        {data.reelRate && <span style={{ fontSize: 12, color: '#FF6B2B' }}>Starting ₹{Number(data.reelRate).toLocaleString('en-IN')} per collab</span>}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ═══ FULL MEDIA KIT ═══ */}
+                  {zoomedDoc === 'mediakit' && (
+                    <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", padding: 30 }}>
+                      <div style={{ background: 'linear-gradient(135deg,#1a0800,#0e0e1c)', border: '1px solid rgba(255,107,43,0.15)', borderRadius: 18, padding: 26, marginBottom: 14 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 22 }}>
+                          <div style={{ width: 70, height: 70, borderRadius: '50%', border: '3px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                            {data.photo ? <img src={data.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#FF6B2B', fontWeight: 800, fontSize: 26, fontFamily: "'Syne',sans-serif" }}>{(data.name||'C')[0]}</span>}
+                          </div>
+                          <div>
+                            <div style={{ fontSize: 11, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: 4 }}>Media Kit</div>
+                            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#fff', marginBottom: 4 }}>{data.name || 'Your Name'}</div>
+                            <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.4)' }}>{data.niche} · {data.city || 'India'} · {data.languages || 'Hindi, English'}</div>
+                          </div>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 18 }}>
+                          {[[data.followers||'—','Followers'],[data.engagementRate?(data.engagementRate+'%'):'—','Engagement'],[data.avgViews||'—','Avg Views'],[(data.yearsActive||'1')+' yr','Active']].map(([v,l]) => (
+                            <div key={l as string} style={{ textAlign: 'center' }}>
+                              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: '#FF6B2B' }}>{v as string}</div>
+                              <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 3 }}>{l as string}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {data.bio && (
+                        <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 20, marginBottom: 14 }}>
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 10 }}>About</div>
+                          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.75 }}>{data.bio}</p>
+                        </div>
+                      )}
+
+                      <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 20, marginBottom: 14 }}>
+                        <div style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 12 }}>Content I Create</div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+                          {[data.reelRate&&'Reels & Shorts', data.staticRate&&'Static Posts', data.storyRate&&'Stories', data.youtubeRate&&'YouTube Videos', data.shortsRate&&'YouTube Shorts'].filter(Boolean).map(f => (
+                            <div key={f as string} style={{ background: '#0e0e1e', borderRadius: 10, padding: 14, textAlign: 'center' }}>
+                              <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.5)' }}>{f as string}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {data.pastBrands && (
+                        <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 20, marginBottom: 14 }}>
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 12 }}>Past Brand Collaborations</div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                            {data.pastBrands.split(',').map((b: string) => b.trim()).filter(Boolean).map((b: string) => (
+                              <span key={b} style={{ fontSize: 13, padding: '6px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)', background: '#1a1a2a' }}>{b}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 20, marginBottom: 14 }}>
+                        <div style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 12 }}>Audience Demographics</div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                          {[['Primary Age Group', '18–35 years'], ['Location', (data.city||'India')+' & Pan India'], ['Language', data.languages || 'Hindi, English'], ['Niche Interest', data.niche + (data.subNiche ? ' · '+data.subNiche : '')]].map(([l,v]) => (
+                            <div key={l}>
+                              <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.25)', marginBottom: 2 }}>{l}</div>
+                              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', fontWeight: 500 }}>{v}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {(data.reelRate || data.staticRate || data.youtubeRate) && (
+                        <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 20, marginBottom: 14 }}>
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 12 }}>Starting Rates</div>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            {[data.reelRate && ['Instagram Reel', data.reelRate], data.staticRate && ['Static Post', data.staticRate], data.youtubeRate && ['YouTube Video', data.youtubeRate]].filter(Boolean).map(([n,r]: any) => (
+                              <div key={n} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0e0e1e', borderRadius: 10, padding: '12px 14px' }}>
+                                <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.8)' }}>{n}</span>
+                                <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B' }}>₹{Number(r).toLocaleString('en-IN')}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 4px' }}>
+                        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.15)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Identity Kit · identitykit.in</span>
+                        {data.email && <span style={{ fontSize: 12, color: '#FF6B2B' }}>{data.email}</span>}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ═══ FULL RATE CARD ═══ */}
+                  {zoomedDoc === 'ratecard' && (
+                    <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", padding: 30 }}>
+                      <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 24, marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 5 }}>Rate Card</div>
+                          <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#fff' }}>{data.name || 'Your Name'}</div>
+                          <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.4)', marginTop: 5 }}>{data.niche} · identitykit.in</div>
+                        </div>
+                        <div style={{ width: 56, height: 56, borderRadius: '50%', border: '2px solid #FF6B2B', background: '#1e1e2e', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                          {data.photo ? <img src={data.photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#FF6B2B', fontWeight: 800, fontSize: 20, fontFamily: "'Syne',sans-serif" }}>{(data.name||'C')[0]}</span>}
+                        </div>
+                      </div>
+
+                      <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 22, marginBottom: 14 }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+                          {[[data.followers||'—','Followers'],[data.engagementRate?(data.engagementRate+'%'):'—','Engagement Rate'],[data.avgViews||'—','Avg Views']].map(([v,l]) => (
+                            <div key={l as string} style={{ background: '#0e0e1e', borderRadius: 12, padding: '14px 8px', textAlign: 'center' }}>
+                              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 19, fontWeight: 800, color: '#FF6B2B' }}>{v as string}</div>
+                              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginTop: 3, textTransform: 'uppercase' }}>{l as string}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {(data.reelRate || data.staticRate || data.storyRate) && (
+                        <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 22, marginBottom: 14 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 16 }}>
+                            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(225,48,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span style={{ fontSize: 14 }}>📷</span>
+                            </div>
+                            <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Instagram</span>
+                            {data.handle && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)' }}>{data.handle} · {data.followers}</span>}
+                          </div>
+                          {[data.reelRate && ['Dedicated Reel', '60 sec · 3–5 days · 2 revisions', data.reelRate], data.staticRate && ['Static Post / Carousel', '1 post · caption included', data.staticRate], data.storyRate && ['Stories Pack', '3 frames · link in bio', data.storyRate]].filter(Boolean).map(([n,d,r]: any, i) => (
+                            <div key={n} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '13px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                              <div>
+                                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>{n}</div>
+                                <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.3)', marginTop: 2 }}>{d}</div>
+                              </div>
+                              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 17, fontWeight: 700, color: '#FF6B2B' }}>₹{Number(r).toLocaleString('en-IN')}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {(data.youtubeRate || data.shortsRate) && (
+                        <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 22, marginBottom: 14 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 16 }}>
+                            <div style={{ width: 34, height: 34, borderRadius: 9, background: 'rgba(255,0,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span style={{ fontSize: 14 }}>▶️</span>
+                            </div>
+                            <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>YouTube</span>
+                          </div>
+                          {[data.youtubeRate && ['Dedicated Video', '8–15 min · 5–7 days', data.youtubeRate], data.shortsRate && ['YouTube Short', '60 sec · 3–5 days', data.shortsRate]].filter(Boolean).map(([n,d,r]: any, i, arr) => (
+                            <div key={n} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '13px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                              <div>
+                                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>{n}</div>
+                                <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.3)', marginTop: 2 }}>{d}</div>
+                              </div>
+                              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 17, fontWeight: 700, color: '#FF6B2B' }}>₹{Number(r).toLocaleString('en-IN')}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: 22, marginBottom: 14 }}>
+                        <div style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: 12 }}>Terms & Notes</div>
+                        {['50% advance payment required before work begins', 'All prices exclusive of 18% GST · GST invoice provided', 'Usage rights for 6 months · exclusivity available on request', '1 free revision per deliverable · additional revisions charged separately', 'ASCI-compliant disclosure on all paid content'].map(t => (
+                          <div key={t} style={{ display: 'flex', gap: 9, marginBottom: 9, alignItems: 'flex-start' }}>
+                            <span style={{ color: '#FF6B2B', fontSize: 13, marginTop: 1 }}>✓</span>
+                            <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>{t}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 4px' }}>
+                        {data.email && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>{data.email}{data.phone ? ` · ${data.phone}` : ''}</span>}
+                        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.04)', padding: '4px 12px', borderRadius: 7 }}>IDENTITY KIT</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Checkout */}
             {selected.size > 0 && (

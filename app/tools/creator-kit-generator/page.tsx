@@ -57,6 +57,10 @@ const PRICES = {
   bundle: 99,
 }
 
+// 🔧 TEMPORARY TOGGLE — set to true once PDFs are reviewed and approved, to re-enable Razorpay payment.
+// While false, the download button skips payment entirely and downloads for free — for testing only.
+const PAYMENT_ENABLED = false
+
 // ── Image helper ──────────────────────────────────────────────────────────────
 function addProfileImage(doc: InstanceType<typeof import('jspdf').jsPDF>, photo: string, x: number, y: number, size: number) {
   if (!photo) return
@@ -780,6 +784,22 @@ export default function CreatorKitGenerator() {
 
   async function handleDownload() {
     if (selected.size === 0) return
+
+    // 🔧 Payment temporarily disabled for testing — see PAYMENT_ENABLED toggle near top of file.
+    if (!PAYMENT_ENABLED) {
+      setDownloading(true)
+      try {
+        await triggerDownload()
+        setStep('download')
+      } catch (e) {
+        console.error(e)
+        alert('Download failed — please try again.')
+      } finally {
+        setDownloading(false)
+      }
+      return
+    }
+
     const price = getPrice()
 
     setPaying(true)
@@ -1649,28 +1669,33 @@ export default function CreatorKitGenerator() {
                     <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16 }}>Order Summary</div>
                     <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{getLabel()}</div>
                   </div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 28, color: '#FF8C5A' }}>₹{getPrice()}</div>
+                  {PAYMENT_ENABLED ? (
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 28, color: '#FF8C5A' }}>₹{getPrice()}</div>
+                  ) : (
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, color: 'rgba(255,255,255,0.3)', textDecoration: 'line-through' }}>₹{getPrice()}</div>
+                  )}
                 </div>
+
+                {!PAYMENT_ENABLED && (
+                  <div style={{ background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 10, padding: '10px 14px', marginBottom: 14, fontSize: 12.5, color: '#FF8C5A' }}>
+                    🔧 Testing mode — payment is temporarily off, downloads are free. Re-enable before going live.
+                  </div>
+                )}
+
                 <button
                   onClick={handleDownload}
                   disabled={paying || downloading}
                   style={{ width: '100%', background: paying || downloading ? 'rgba(255,107,43,0.4)' : '#FF6B2B', border: 'none', color: '#fff', padding: '16px 24px', borderRadius: 12, fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, cursor: paying || downloading ? 'not-allowed' : 'pointer', transition: 'all 0.2s' }}
                 >
-                  {paying ? '⏳ Opening payment...' : downloading ? '⬇ Downloading...' : `Pay ₹${getPrice()} & Download →`}
+                  {paying ? '⏳ Opening payment...' : downloading ? '⬇ Downloading...' : PAYMENT_ENABLED ? `Pay ₹${getPrice()} & Download →` : 'Download (Free — Testing) →'}
                 </button>
-                <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 14, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
-                  <span>🔒 Secure payment via Razorpay</span>
-                  <span>📥 Instant download after payment</span>
-                  <span>💳 UPI, Cards, Net Banking</span>
-                </div>
-                {process.env.NODE_ENV !== 'production' && (
-                  <button
-                    onClick={async () => { setDownloading(true); await triggerDownload(); setDownloading(false) }}
-                    disabled={downloading}
-                    style={{ width: '100%', marginTop: 10, background: 'transparent', border: '1px dashed rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.4)', padding: '10px 24px', borderRadius: 12, fontSize: 13, cursor: downloading ? 'not-allowed' : 'pointer' }}
-                  >
-                    🛠 Dev only — download free, skip payment (hidden in production)
-                  </button>
+
+                {PAYMENT_ENABLED && (
+                  <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 14, fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>
+                    <span>🔒 Secure payment via Razorpay</span>
+                    <span>📥 Instant download after payment</span>
+                    <span>💳 UPI, Cards, Net Banking</span>
+                  </div>
                 )}
               </div>
             )}

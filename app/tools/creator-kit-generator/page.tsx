@@ -366,10 +366,10 @@ async function generateMediaKitPdf(data: CreatorData) {
   doc.setDrawColor(...DIM3); doc.setLineWidth(0.2)
   doc.line(M + 8, statsY, W - M - 8, statsY)
   const statItems = [
-    [data.followers || '—', 'Instagram'],
-    [data.youtubeFollowers || '—', 'YouTube'],
-    [data.avgViews || '—', 'Avg Views'],
+    [data.followers || '—', 'Followers'],
     [data.engagementRate ? data.engagementRate + '%' : '—', 'Engagement'],
+    [data.avgViews || '—', 'Avg Views'],
+    [data.yearsActive ? data.yearsActive + ' yr' : '—', 'Experience'],
   ]
   const sw = (W - M*2 - 16) / 4
   statItems.forEach(([val, lbl], i) => {
@@ -391,7 +391,7 @@ async function generateMediaKitPdf(data: CreatorData) {
   let pY2 = y + 16
   const platPairs = [
     ['Instagram', data.followers, data.engagementRate ? data.engagementRate + '% eng' : ''],
-    ['YouTube', data.youtubeFollowers, data.avgViews ? data.avgViews + ' views' : ''],
+    data.youtubeRate ? ['YouTube', data.avgViews, ''] : null,
     data.platform?.includes('LinkedIn') ? ['LinkedIn', '', ''] : null,
   ].filter(Boolean) as string[][]
   platPairs.slice(0,3).forEach(([p, f, s]) => {

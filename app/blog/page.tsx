@@ -15,6 +15,22 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'creator-cv-resume-india-2026',
+    tag: 'Creator CV',
+    title: 'Creator CV India 2026: How to Make a Resume That Gets Content Jobs (Free Template)',
+    excerpt: 'Freshers with a strong portfolio land their first content job in 4–8 weeks vs 3–6 months without one. 6 sections every Creator CV needs (positioning statement, live portfolio links, real metrics, platform skills, self-initiated projects), a Creator CV vs traditional resume comparison, and a 7-day plan to build a portfolio from zero.',
+    readTime: '16 min read',
+    date: 'June 2026',
+  },
+  {
+    slug: 'vernacular-content-creator-india-2026',
+    tag: 'Vernacular Creators',
+    title: 'How to Become a Vernacular Content Creator in India 2026 (Regional Language Guide)',
+    excerpt: 'Regional language content drives 2–3x higher engagement than English in India. 6 languages ranked by opportunity vs competition (Bengali, Marathi, and dialects beat saturated Hindi), 5 vernacular-specific income streams, platform strategy beyond Instagram (ShareChat, Moj, Kuku FM), and rate benchmarks showing the trust premium vernacular creators command.',
+    readTime: '17 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'influencer-tax-gst-india-2026',
     tag: 'Tax & GST',
     title: 'Influencer Tax & GST Guide India 2026: TDS, Section 194R, ITR Filing Explained',
@@ -432,7 +448,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

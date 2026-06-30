@@ -254,9 +254,9 @@ export default function RateCardGenerator() {
         igFollowers: data.igFollowers,
         ytHandle: data.ytHandle,
         ytSubs: data.ytSubs,
-        igRates: igRatesFilled.map(r => ({ ...r, price: data.rates[r.key] })),
-        ytRates: ytRatesFilled.map(r => ({ ...r, price: data.rates[r.key] })),
-        otherRates: otherRatesFilled.map(r => ({ ...r, price: data.rates[r.key] })),
+        igRates: igRatesFilled.map(r => ({ ...r, icon: r.key, price: data.rates[r.key] })),
+        ytRates: ytRatesFilled.map(r => ({ ...r, icon: r.key, price: data.rates[r.key] })),
+        otherRates: otherRatesFilled.map(r => ({ ...r, icon: r.key, price: data.rates[r.key] })),
         terms: allTerms,
       })
       doc.save(`${data.fullName.replace(/\s+/g, '-')}-Rate-Card.pdf`)

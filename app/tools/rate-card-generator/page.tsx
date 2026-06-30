@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 
 // ─── TOGGLE: flip to true once payment is wired and tested ───
@@ -38,49 +38,166 @@ const TERM_OPTIONS = [
   { key: 'term_cancel', label: '50% cancellation fee after work has started' },
 ]
 
+const NICHE_OPTIONS = [
+  'Fashion & Lifestyle', 'Beauty & Skincare', 'Food & Cooking', 'Travel',
+  'Fitness & Health', 'Tech & Gadgets', 'Finance & Investing', 'Comedy & Entertainment',
+  'Gaming', 'Education', 'Parenting & Family', 'Art & DIY', 'Music & Dance',
+  'Photography', 'Business & Entrepreneurship', 'Vlogging', 'Other',
+]
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const YEARS = Array.from({ length: 5 }, (_, i) => 2026 + i)
+
 type FormData = {
   fullName: string
   niche: string
-  photo: string // base64
+  nicheCustom: string
+  photo: string
   email: string
   whatsapp: string
-  validTill: string // YYYY-MM
+  validMonth: string
+  validYear: string
   igHandle: string
   igFollowers: string
   ytHandle: string
   ytSubs: string
   customPackage: string
+  bundlePrice: string
   rates: Record<string, string>
   terms: Record<string, boolean>
+  customTerms: string[]
 }
 
 const emptyForm: FormData = {
-  fullName: '',
-  niche: '',
-  photo: '',
-  email: '',
-  whatsapp: '',
-  validTill: '',
-  igHandle: '',
-  igFollowers: '',
-  ytHandle: '',
-  ytSubs: '',
-  customPackage: '',
-  rates: {},
-  terms: {},
+  fullName: '', niche: '', nicheCustom: '', photo: '', email: '', whatsapp: '',
+  validMonth: '', validYear: '', igHandle: '', igFollowers: '', ytHandle: '', ytSubs: '',
+  customPackage: '', bundlePrice: '', rates: {}, terms: {}, customTerms: [],
 }
 
 const S = {
-  card: { background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16 } as React.CSSProperties,
-  sectionTitle: { fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase' as const, letterSpacing: '0.14em', marginBottom: 14 },
+  card: { background: 'linear-gradient(160deg, #131325, #0d0d1c)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 18, position: 'relative' as const, overflow: 'hidden' as const },
+  sectionTitle: { fontSize: 11, fontWeight: 800, color: '#FF8C5A', textTransform: 'uppercase' as const, letterSpacing: '0.16em', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 },
   label: { fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block' },
-  input: { width: '100%', background: '#0C0C18', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px', color: '#fff', fontSize: 14, fontFamily: "'Plus Jakarta Sans',sans-serif", outline: 'none' } as React.CSSProperties,
+  input: { width: '100%', background: '#0A0A16', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '11px 13px', color: '#fff', fontSize: 14, fontFamily: "'Plus Jakarta Sans',sans-serif", outline: 'none', transition: 'border-color 0.15s' } as React.CSSProperties,
+}
+
+// ─── Image crop modal ───
+function CropModal({ src, onCancel, onConfirm }: { src: string; onCancel: () => void; onConfirm: (cropped: string) => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const imgRef = useRef<HTMLImageElement | null>(null)
+  const [zoom, setZoom] = useState(1)
+  const [pos, setPos] = useState({ x: 0, y: 0 })
+  const dragging = useRef(false)
+  const lastPt = useRef({ x: 0, y: 0 })
+  const VIEW = 300
+
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => { imgRef.current = img; draw() }
+    img.src = src
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src])
+
+  const draw = useCallback(() => {
+    const canvas = canvasRef.current
+    const img = imgRef.current
+    if (!canvas || !img) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    canvas.width = VIEW
+    canvas.height = VIEW
+    ctx.fillStyle = '#0A0A16'
+    ctx.fillRect(0, 0, VIEW, VIEW)
+
+    const baseScale = Math.max(VIEW / img.width, VIEW / img.height)
+    const scale = baseScale * zoom
+    const w = img.width * scale
+    const h = img.height * scale
+    const cx = VIEW / 2 + pos.x
+    const cy = VIEW / 2 + pos.y
+    ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h)
+
+    // dim outside circle
+    ctx.save()
+    ctx.fillStyle = 'rgba(8,8,14,0.6)'
+    ctx.beginPath()
+    ctx.rect(0, 0, VIEW, VIEW)
+    ctx.arc(VIEW / 2, VIEW / 2, VIEW / 2 - 4, 0, Math.PI * 2, true)
+    ctx.fill('evenodd' as any)
+    ctx.restore()
+    ctx.strokeStyle = '#FF6B2B'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.arc(VIEW / 2, VIEW / 2, VIEW / 2 - 4, 0, Math.PI * 2)
+    ctx.stroke()
+  }, [zoom, pos])
+
+  useEffect(() => { draw() }, [draw])
+
+  function onDown(e: React.MouseEvent | React.TouchEvent) {
+    dragging.current = true
+    const p = 'touches' in e ? e.touches[0] : e
+    lastPt.current = { x: p.clientX, y: p.clientY }
+  }
+  function onMove(e: React.MouseEvent | React.TouchEvent) {
+    if (!dragging.current) return
+    const p = 'touches' in e ? e.touches[0] : e
+    const dx = p.clientX - lastPt.current.x
+    const dy = p.clientY - lastPt.current.y
+    lastPt.current = { x: p.clientX, y: p.clientY }
+    setPos(prev => ({ x: prev.x + dx, y: prev.y + dy }))
+  }
+  function onUp() { dragging.current = false }
+
+  function confirmCrop() {
+    const img = imgRef.current
+    if (!img) return
+    const OUT = 480
+    const out = document.createElement('canvas')
+    out.width = OUT
+    out.height = OUT
+    const ctx = out.getContext('2d')
+    if (!ctx) return
+    const baseScale = Math.max(VIEW / img.width, VIEW / img.height)
+    const scale = baseScale * zoom
+    const ratio = OUT / VIEW
+    const w = img.width * scale * ratio
+    const h = img.height * scale * ratio
+    const cx = (VIEW / 2 + pos.x) * ratio
+    const cy = (VIEW / 2 + pos.y) * ratio
+    ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h)
+    onConfirm(out.toDataURL('image/jpeg', 0.92))
+  }
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <div style={{ background: '#111120', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 28, maxWidth: 380, width: '100%', textAlign: 'center' }}>
+        <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, marginBottom: 4 }}>Adjust your photo</h3>
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 18 }}>Drag to reposition · use slider to zoom</p>
+        <canvas
+          ref={canvasRef}
+          width={300}
+          height={300}
+          style={{ borderRadius: 12, cursor: 'grab', touchAction: 'none', margin: '0 auto', display: 'block' }}
+          onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp} onMouseLeave={onUp}
+          onTouchStart={onDown} onTouchMove={onMove} onTouchEnd={onUp}
+        />
+        <input type="range" min={1} max={3} step={0.01} value={zoom} onChange={e => setZoom(parseFloat(e.target.value))} style={{ width: '100%', marginTop: 18, accentColor: '#FF6B2B' }} />
+        <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+          <button onClick={onCancel} style={{ flex: 1, background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.6)', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Cancel</button>
+          <button onClick={confirmCrop} style={{ flex: 1, background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', border: 'none', color: '#fff', borderRadius: 10, padding: '11px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Use photo</button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function RateCardGenerator() {
   const [step, setStep] = useState<1 | 2>(1)
   const [data, setData] = useState<FormData>(emptyForm)
   const [generating, setGenerating] = useState(false)
+  const [rawPhoto, setRawPhoto] = useState<string | null>(null)
+  const [newTerm, setNewTerm] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const upd = (k: keyof FormData, v: any) => setData(d => ({ ...d, [k]: v }))
@@ -91,21 +208,32 @@ export default function RateCardGenerator() {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = () => upd('photo', reader.result as string)
+    reader.onload = () => setRawPhoto(reader.result as string)
     reader.readAsDataURL(file)
+    e.target.value = ''
+  }
+
+  function addCustomTerm() {
+    const t = newTerm.trim()
+    if (!t) return
+    setData(d => ({ ...d, customTerms: [...d.customTerms, t] }))
+    setNewTerm('')
+  }
+  function removeCustomTerm(i: number) {
+    setData(d => ({ ...d, customTerms: d.customTerms.filter((_, idx) => idx !== i) }))
   }
 
   const igRatesFilled = IG_RATES.filter(r => data.rates[r.key])
   const ytRatesFilled = YT_RATES.filter(r => data.rates[r.key])
   const otherRatesFilled = OTHER_RATES.filter(r => data.rates[r.key])
-  const selectedTerms = TERM_OPTIONS.filter(t => data.terms[t.key])
+  const checkedTerms = TERM_OPTIONS.filter(t => data.terms[t.key]).map(t => ({ label: t.label }))
+  const allTerms = [...checkedTerms, ...data.customTerms.map(label => ({ label }))]
 
-  const validTillLabel = data.validTill
-    ? new Date(data.validTill + '-01').toLocaleString('default', { month: 'long', year: 'numeric' })
-    : ''
+  const validTillLabel = data.validMonth && data.validYear ? `${data.validMonth} ${data.validYear}` : ''
+  const displayNiche = data.niche === 'Other' ? data.nicheCustom : data.niche
 
   function canProceed() {
-    return data.fullName.trim() && data.niche.trim() &&
+    return data.fullName.trim() && displayNiche.trim() &&
       (igRatesFilled.length > 0 || ytRatesFilled.length > 0 || otherRatesFilled.length > 0)
   }
 
@@ -115,12 +243,13 @@ export default function RateCardGenerator() {
       const { generateRateCardPdf } = await import('./pdf-generator')
       const doc = await generateRateCardPdf({
         fullName: data.fullName,
-        niche: data.niche,
+        niche: displayNiche,
         photo: data.photo,
         email: data.email,
         whatsapp: data.whatsapp,
         validTillLabel,
         customPackage: data.customPackage,
+        bundlePrice: data.bundlePrice,
         igHandle: data.igHandle,
         igFollowers: data.igFollowers,
         ytHandle: data.ytHandle,
@@ -128,7 +257,7 @@ export default function RateCardGenerator() {
         igRates: igRatesFilled.map(r => ({ ...r, price: data.rates[r.key] })),
         ytRates: ytRatesFilled.map(r => ({ ...r, price: data.rates[r.key] })),
         otherRates: otherRatesFilled.map(r => ({ ...r, price: data.rates[r.key] })),
-        terms: selectedTerms,
+        terms: allTerms,
       })
       doc.save(`${data.fullName.replace(/\s+/g, '-')}-Rate-Card.pdf`)
     } catch (err) {
@@ -161,16 +290,25 @@ export default function RateCardGenerator() {
   }
 
   return (
-    <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff' }}>
+    <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff', position: 'relative', overflow: 'hidden' }}>
       <style>{`
         *,*::before,*::after{box-sizing:border-box}
         input::placeholder{color:rgba(255,255,255,0.2)}
-        input:focus{border-color:rgba(255,107,43,0.4)!important}
+        input:focus,select:focus{border-color:#FF6B2B!important;box-shadow:0 0 0 3px rgba(255,107,43,0.12)}
+        select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23FF8C5A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
         .rcg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
         @media (max-width:640px){.rcg-grid{grid-template-columns:1fr}}
         .rcg-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:flex-start}
         @media (max-width:900px){.rcg-layout{grid-template-columns:1fr}}
+        .rcg-btn-primary{transition:transform 0.15s, box-shadow 0.15s}
+        .rcg-btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,107,43,0.3)}
+        .rcg-photo:hover{box-shadow:0 0 0 4px rgba(255,107,43,0.15)}
+        .rcg-term-chip{transition:background 0.15s}
+        .rcg-term-chip:hover{background:rgba(255,107,43,0.06)!important}
       `}</style>
+
+      {/* ambient glow */}
+      <div style={{ position: 'absolute', top: -200, left: '50%', transform: 'translateX(-50%)', width: 800, height: 500, background: 'radial-gradient(circle, rgba(255,107,43,0.12), transparent 65%)', pointerEvents: 'none' }} />
 
       {/* NAV */}
       <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 20px' }}>
@@ -179,13 +317,31 @@ export default function RateCardGenerator() {
             <div style={{ width: 30, height: 30, background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 12, color: 'white' }}>IK</div>
             <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16 }}>Identity Kit</span>
           </Link>
-          <Link href="/tools" style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>← All tools</Link>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <Link href="/tools" style={{ fontSize: 13, color: '#FF6B2B', fontWeight: 600, padding: '6px 12px', borderRadius: 8, border: '1px solid rgba(255,107,43,0.2)' }}>All Tools</Link>
+            <Link href="/blog" style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', padding: '6px 12px' }}>Blog</Link>
+            <Link href="/auth?mode=signup" style={{ background: '#FF6B2B', color: '#fff', fontSize: 13, fontWeight: 700, padding: '7px 16px', borderRadius: 9 }}>Get your link →</Link>
+          </div>
         </div>
       </nav>
 
-      <main style={{ maxWidth: 1060, margin: '0 auto', padding: '36px 20px 80px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 30, fontWeight: 800, marginBottom: 8 }}>Rate Card Generator</h1>
+      {/* BREADCRUMB */}
+      <div style={{ maxWidth: 1060, margin: '0 auto', padding: '14px 20px' }}>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+          <Link href="/" style={{ color: 'rgba(255,255,255,0.35)' }}>Home</Link>
+          <span>›</span>
+          <Link href="/tools" style={{ color: 'rgba(255,255,255,0.35)' }}>Tools</Link>
+          <span>›</span>
+          <span style={{ color: 'rgba(255,255,255,0.6)' }}>Rate Card Generator</span>
+        </div>
+      </div>
+
+      <main style={{ maxWidth: 1060, margin: '0 auto', padding: '36px 20px 80px', position: 'relative' }}>
+        <div style={{ textAlign: 'center', marginBottom: 36 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.25)', borderRadius: 100, padding: '5px 14px', fontSize: 11, fontWeight: 700, color: '#FF8C5A', marginBottom: 16, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            ⚡ Brand-ready in minutes
+          </div>
+          <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.02em' }}>Rate Card Generator</h1>
           <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14 }}>Enter your rates, preview your card, download a brand-ready PDF.</p>
         </div>
 
@@ -193,15 +349,20 @@ export default function RateCardGenerator() {
           <div style={{ maxWidth: 640, margin: '0 auto' }}>
             {/* Basics */}
             <div style={{ ...S.card, padding: 22, marginBottom: 16 }}>
-              <div style={S.sectionTitle}>Your details</div>
-              <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 16 }}>
-                <div onClick={() => fileInputRef.current?.click()} style={{ width: 64, height: 64, borderRadius: '50%', background: data.photo ? `url(${data.photo}) center/cover` : '#1a1a2a', border: '2px solid rgba(255,107,43,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, fontSize: 11, color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
-                  {!data.photo && 'Add photo'}
+              <div style={S.sectionTitle}><i className="ti ti-user-circle" style={{ fontSize: 14 }}></i>Your details</div>
+              <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 18 }}>
+                <div
+                  className="rcg-photo"
+                  onClick={() => fileInputRef.current?.click()}
+                  style={{ width: 68, height: 68, borderRadius: '50%', background: data.photo ? `url(${data.photo}) center/cover` : 'linear-gradient(135deg,#1a1a2a,#222236)', border: '2px solid #FF6B2B', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, fontSize: 10, color: 'rgba(255,255,255,0.4)', textAlign: 'center', position: 'relative' }}
+                >
+                  {!data.photo && <i className="ti ti-camera-plus" style={{ fontSize: 22, color: 'rgba(255,255,255,0.3)' }}></i>}
                 </div>
                 <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
                 <div style={{ flex: 1 }}>
                   <label style={S.label}>Profile photo</label>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>Square image works best. Click circle to upload.</div>
+                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>Click to upload — you'll be able to crop and zoom before it's set.</div>
+                  {data.photo && <button onClick={() => fileInputRef.current?.click()} style={{ marginTop: 6, background: 'none', border: 'none', color: '#FF8C5A', fontSize: 12, fontWeight: 700, cursor: 'pointer', padding: 0 }}>Change photo</button>}
                 </div>
               </div>
               <div className="rcg-grid" style={{ marginBottom: 12 }}>
@@ -211,7 +372,13 @@ export default function RateCardGenerator() {
                 </div>
                 <div>
                   <label style={S.label}>Niche *</label>
-                  <input style={S.input} value={data.niche} onChange={e => upd('niche', e.target.value)} placeholder="Fashion & Lifestyle" />
+                  <select style={S.input} value={data.niche} onChange={e => upd('niche', e.target.value)}>
+                    <option value="">Select your niche</option>
+                    {NICHE_OPTIONS.map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                  {data.niche === 'Other' && (
+                    <input style={{ ...S.input, marginTop: 8 }} value={data.nicheCustom} onChange={e => upd('nicheCustom', e.target.value)} placeholder="Type your niche" />
+                  )}
                 </div>
               </div>
               <div className="rcg-grid" style={{ marginBottom: 12 }}>
@@ -226,13 +393,22 @@ export default function RateCardGenerator() {
               </div>
               <div>
                 <label style={S.label}>Rates valid till</label>
-                <input type="month" style={S.input} value={data.validTill} onChange={e => upd('validTill', e.target.value)} />
+                <div className="rcg-grid">
+                  <select style={S.input} value={data.validMonth} onChange={e => upd('validMonth', e.target.value)}>
+                    <option value="">Month</option>
+                    {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                  <select style={S.input} value={data.validYear} onChange={e => upd('validYear', e.target.value)}>
+                    <option value="">Year</option>
+                    {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                  </select>
+                </div>
               </div>
             </div>
 
             {/* Instagram */}
             <div style={{ ...S.card, padding: 22, marginBottom: 16 }}>
-              <div style={S.sectionTitle}>Instagram</div>
+              <div style={S.sectionTitle}><i className="ti ti-brand-instagram" style={{ fontSize: 14, color: '#e1306c' }}></i>Instagram</div>
               <div className="rcg-grid" style={{ marginBottom: 14 }}>
                 <div>
                   <label style={S.label}>Handle</label>
@@ -255,7 +431,7 @@ export default function RateCardGenerator() {
 
             {/* YouTube */}
             <div style={{ ...S.card, padding: 22, marginBottom: 16 }}>
-              <div style={S.sectionTitle}>YouTube</div>
+              <div style={S.sectionTitle}><i className="ti ti-brand-youtube" style={{ fontSize: 14, color: '#ff0000' }}></i>YouTube</div>
               <div className="rcg-grid" style={{ marginBottom: 14 }}>
                 <div>
                   <label style={S.label}>Channel name</label>
@@ -278,7 +454,7 @@ export default function RateCardGenerator() {
 
             {/* Other platforms */}
             <div style={{ ...S.card, padding: 22, marginBottom: 16 }}>
-              <div style={S.sectionTitle}>Other platforms (optional)</div>
+              <div style={S.sectionTitle}><i className="ti ti-world" style={{ fontSize: 14 }}></i>Other platforms (optional)</div>
               <div className="rcg-grid">
                 {OTHER_RATES.map(r => (
                   <div key={r.key}>
@@ -291,26 +467,58 @@ export default function RateCardGenerator() {
 
             {/* Bundle */}
             <div style={{ ...S.card, padding: 22, marginBottom: 16 }}>
-              <div style={S.sectionTitle}>Bundle (optional)</div>
-              <label style={S.label}>Describe your most popular package</label>
-              <input style={S.input} value={data.customPackage} onChange={e => upd('customPackage', e.target.value)} placeholder="2 reels + 3 stories + 1 dedicated post" />
+              <div style={S.sectionTitle}><i className="ti ti-star-filled" style={{ fontSize: 14 }}></i>Bundle (optional)</div>
+              <div className="rcg-grid">
+                <div>
+                  <label style={S.label}>Describe your most popular package</label>
+                  <input style={{ ...S.input, textTransform: 'uppercase' }} value={data.customPackage} onChange={e => upd('customPackage', e.target.value)} placeholder="2 REELS + 3 STORIES + 1 DEDICATED POST" />
+                </div>
+                <div>
+                  <label style={S.label}>Bundle price (₹)</label>
+                  <input style={S.input} type="number" value={data.bundlePrice} onChange={e => upd('bundlePrice', e.target.value)} placeholder="0" />
+                </div>
+              </div>
             </div>
 
             {/* Terms */}
             <div style={{ ...S.card, padding: 22, marginBottom: 24 }}>
-              <div style={S.sectionTitle}>Terms & notes</div>
+              <div style={S.sectionTitle}><i className="ti ti-checklist" style={{ fontSize: 14 }}></i>Terms & notes</div>
               {TERM_OPTIONS.map(t => (
-                <label key={t.key} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 12, cursor: 'pointer' }}>
-                  <input type="checkbox" checked={!!data.terms[t.key]} onChange={e => updTerm(t.key, e.target.checked)} style={{ marginTop: 2 }} />
+                <label key={t.key} className="rcg-term-chip" style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 4, cursor: 'pointer', padding: '8px 10px', borderRadius: 8 }}>
+                  <input type="checkbox" checked={!!data.terms[t.key]} onChange={e => updTerm(t.key, e.target.checked)} style={{ marginTop: 2, accentColor: '#FF6B2B' }} />
                   <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>{t.label}</span>
                 </label>
               ))}
+
+              {data.customTerms.length > 0 && (
+                <div style={{ marginTop: 10, marginBottom: 10 }}>
+                  {data.customTerms.map((t, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', background: 'rgba(255,107,43,0.06)', borderRadius: 8, marginBottom: 6 }}>
+                      <i className="ti ti-circle-check" style={{ fontSize: 14, color: '#FF6B2B', flexShrink: 0 }}></i>
+                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', flex: 1 }}>{t}</span>
+                      <button onClick={() => removeCustomTerm(i)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 16, lineHeight: 1, padding: 2 }}>×</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+                <input
+                  style={{ ...S.input, flex: 1 }}
+                  value={newTerm}
+                  onChange={e => setNewTerm(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addCustomTerm())}
+                  placeholder="Add your own term…"
+                />
+                <button onClick={addCustomTerm} style={{ background: 'rgba(255,107,43,0.12)', border: '1px solid rgba(255,107,43,0.3)', color: '#FF8C5A', borderRadius: 10, padding: '0 18px', fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>+ Add</button>
+              </div>
             </div>
 
             <button
+              className="rcg-btn-primary"
               disabled={!canProceed()}
               onClick={() => setStep(2)}
-              style={{ width: '100%', background: canProceed() ? '#FF6B2B' : 'rgba(255,255,255,0.08)', color: canProceed() ? '#fff' : 'rgba(255,255,255,0.3)', border: 'none', borderRadius: 12, padding: '14px', fontSize: 15, fontWeight: 700, cursor: canProceed() ? 'pointer' : 'not-allowed' }}
+              style={{ width: '100%', background: canProceed() ? 'linear-gradient(135deg,#FF6B2B,#FF4500)' : 'rgba(255,255,255,0.08)', color: canProceed() ? '#fff' : 'rgba(255,255,255,0.3)', border: 'none', borderRadius: 12, padding: '15px', fontSize: 15, fontWeight: 700, cursor: canProceed() ? 'pointer' : 'not-allowed' }}
             >
               Preview my rate card →
             </button>
@@ -333,7 +541,7 @@ export default function RateCardGenerator() {
                     <div>
                       <div style={{ fontSize: 9, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 4 }}>Rate Card</div>
                       <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: '#fff' }}>{data.fullName || 'Your Name'}</div>
-                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>{data.niche || 'Your niche'}</div>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 3 }}>{displayNiche || 'Your niche'}</div>
                     </div>
                     {validTillLabel && (
                       <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.04)', padding: '4px 10px', borderRadius: 8, whiteSpace: 'nowrap' }}>
@@ -352,9 +560,11 @@ export default function RateCardGenerator() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Full Brand Bundle</div>
-                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 3 }}>{data.customPackage}</div>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 3, textTransform: 'uppercase' }}>{data.customPackage}</div>
                     </div>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: '#FF6B2B' }}>Best value</div>
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 22, fontWeight: 800, color: '#FF6B2B', whiteSpace: 'nowrap' }}>
+                      {data.bundlePrice ? `₹${Number(data.bundlePrice).toLocaleString('en-IN')}` : 'Best value'}
+                    </div>
                   </div>
                 </div>
               )}
@@ -397,11 +607,11 @@ export default function RateCardGenerator() {
                 </div>
               )}
 
-              {selectedTerms.length > 0 && (
+              {allTerms.length > 0 && (
                 <div style={{ ...S.card, padding: '18px 16px', marginBottom: 12 }}>
                   <div style={S.sectionTitle}>Terms &amp; notes</div>
-                  {selectedTerms.map(t => (
-                    <div key={t.key} style={{ display: 'flex', gap: 10, marginBottom: 8, alignItems: 'flex-start' }}>
+                  {allTerms.map((t, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 8, alignItems: 'flex-start' }}>
                       <i className="ti ti-circle-check" style={{ fontSize: 14, color: '#FF6B2B', flexShrink: 0, marginTop: 1 }}></i>
                       <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.5 }}>{t.label}</span>
                     </div>
@@ -411,7 +621,7 @@ export default function RateCardGenerator() {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 4px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                 {data.email && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>{data.email} {data.whatsapp && `· ${data.whatsapp}`}</span>}
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.04)', padding: '3px 10px', borderRadius: 6 }}>IDENTITY KIT</span>
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.15)', padding: '3px 10px', borderRadius: 6, fontWeight: 700 }}>IDENTITY KIT</span>
               </div>
             </div>
 
@@ -428,9 +638,10 @@ export default function RateCardGenerator() {
                   </div>
                 )}
                 <button
+                  className="rcg-btn-primary"
                   onClick={handleDownload}
                   disabled={generating}
-                  style={{ width: '100%', background: '#FF6B2B', color: '#fff', border: 'none', borderRadius: 12, padding: '14px', fontSize: 15, fontWeight: 700, cursor: generating ? 'default' : 'pointer', opacity: generating ? 0.7 : 1, marginBottom: 10 }}
+                  style={{ width: '100%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', color: '#fff', border: 'none', borderRadius: 12, padding: '14px', fontSize: 15, fontWeight: 700, cursor: generating ? 'default' : 'pointer', opacity: generating ? 0.7 : 1, marginBottom: 10 }}
                 >
                   {generating ? 'Generating…' : PAYMENT_ENABLED ? 'Pay & Download PDF →' : 'Download PDF (Free — Testing) →'}
                 </button>
@@ -442,6 +653,27 @@ export default function RateCardGenerator() {
           </div>
         )}
       </main>
+
+      {/* FOOTER */}
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 24px', textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 16, flexWrap: 'wrap' }}>
+          <Link href="/tools" style={{ fontSize: 14, color: '#FF6B2B' }}>All Tools</Link>
+          <Link href="/blog" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Blog</Link>
+          <Link href="/about" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>About</Link>
+          <Link href="/contact" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Contact</Link>
+          <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
+          <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
+        </div>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
+      </footer>
+
+      {rawPhoto && (
+        <CropModal
+          src={rawPhoto}
+          onCancel={() => setRawPhoto(null)}
+          onConfirm={cropped => { upd('photo', cropped); setRawPhoto(null) }}
+        />
+      )}
     </div>
   )
 }

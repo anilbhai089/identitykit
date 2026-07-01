@@ -348,6 +348,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+     {
+      url: `${baseUrl}/blog/vernacular-content-creator-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+
+     {
+      url: `${baseUrl}/blog/creator-cv-resume-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+
            {
       url: `${baseUrl}/blog/instagram-verification-blue-tick-india-2026/`,
       lastModified: today,

@@ -13,9 +13,21 @@ const NICHE_OPTIONS = [
   'Photography', 'Business & Entrepreneurship', 'Vlogging', 'Other',
 ]
 
-const PLATFORM_OPTIONS = ['Instagram', 'YouTube', 'Twitter/X', 'LinkedIn', 'Facebook', 'Snapchat', 'Pinterest']
+const GENDER_OPTIONS = [
+  '60% Female · 40% Male', '70% Female · 30% Male', '80% Female · 20% Male',
+  '60% Male · 40% Female', '70% Male · 30% Female', '80% Male · 20% Female',
+  '50% Male · 50% Female', 'Mostly Female (85%+)', 'Mostly Male (85%+)',
+]
 
-type RateItem = { name: string; price: string }
+const AGE_OPTIONS = ['13–17', '18–24', '25–34', '35–44', '45–54', '55+', '18–34', '25–44']
+
+const SKILL_PRESETS = [
+  'Reel Editing', 'Scriptwriting', 'Photography', 'Storytelling',
+  'Graphic Design', 'Video Editing', 'Voiceover', 'Animation',
+  'Brand Strategy', 'Content Planning', 'Copywriting', 'Product Reviews',
+]
+
+const PLATFORM_OPTIONS = ['Instagram', 'YouTube', 'Twitter/X', 'LinkedIn', 'Facebook', 'Snapchat', 'Pinterest']
 
 type FormData = {
   fullName: string
@@ -267,11 +279,13 @@ export default function CVGenerator() {
           languages: data.languages,
         }),
       })
+      if (!res.ok) throw new Error(`API error ${res.status}`)
       const json = await res.json()
       if (json.bio) upd('bio', json.bio)
+      else throw new Error('No bio returned')
     } catch (err) {
-      console.error(err)
-      alert('Could not generate bio right now. Please write it manually or try again.')
+      console.error('Bio gen error:', err)
+      alert('Could not generate bio right now — check that ANTHROPIC_API_KEY is set in your Vercel environment variables, or write it manually.')
     } finally {
       setGeneratingBio(false)
     }
@@ -492,11 +506,17 @@ export default function CVGenerator() {
               <div className="cvg-grid" style={{ marginBottom: 12 }}>
                 <div>
                   <label style={S.label}>Gender split</label>
-                  <input style={S.input} value={data.audienceGender} onChange={e => upd('audienceGender', e.target.value)} placeholder="60% Female · 40% Male" />
+                  <select style={S.input} value={data.audienceGender} onChange={e => upd('audienceGender', e.target.value)}>
+                    <option value="">Select split</option>
+                    {GENDER_OPTIONS.map(g => <option key={g} value={g}>{g}</option>)}
+                  </select>
                 </div>
                 <div>
                   <label style={S.label}>Age group</label>
-                  <input style={S.input} value={data.audienceAge} onChange={e => upd('audienceAge', e.target.value)} placeholder="18–24" />
+                  <select style={S.input} value={data.audienceAge} onChange={e => upd('audienceAge', e.target.value)}>
+                    <option value="">Select age range</option>
+                    {AGE_OPTIONS.map(a => <option key={a} value={a}>{a}</option>)}
+                  </select>
                 </div>
               </div>
               <div className="cvg-grid">
@@ -511,10 +531,29 @@ export default function CVGenerator() {
               </div>
             </div>
 
-            {/* Skills */}
             <div style={{ ...S.card, padding: 22, marginBottom: 16 }}>
               <div style={S.sectionTitle}><i className="ti ti-bolt" style={{ fontSize: 14 }}></i>Skills (optional)</div>
-              <TagInput values={data.skills} onChange={v => upd('skills', v)} placeholder="Reel editing, Scriptwriting…" />
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 14 }}>
+                {SKILL_PRESETS.map(s => {
+                  const active = data.skills.includes(s)
+                  return (
+                    <span
+                      key={s}
+                      onClick={() => upd('skills', active ? data.skills.filter(x => x !== s) : [...data.skills, s])}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 600, padding: '7px 12px', borderRadius: 99, cursor: 'pointer', transition: 'all 0.15s',
+                        background: active ? 'rgba(255,107,43,0.15)' : '#0A0A16',
+                        border: active ? '1px solid #FF6B2B' : '1px solid rgba(255,255,255,0.1)',
+                        color: active ? '#FF8C5A' : 'rgba(255,255,255,0.45)',
+                      }}
+                    >
+                      {active && <i className="ti ti-check" style={{ fontSize: 11 }}></i>}
+                      {s}
+                    </span>
+                  )
+                })}
+              </div>
+              <label style={{ ...S.label, marginTop: 4 }}>Add a custom skill</label>
+              <TagInput values={data.skills.filter(s => !SKILL_PRESETS.includes(s))} onChange={custom => upd('skills', [...data.skills.filter(s => SKILL_PRESETS.includes(s)), ...custom])} placeholder="e.g. Aerial Photography…" />
             </div>
 
             {/* Bio */}

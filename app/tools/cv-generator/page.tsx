@@ -711,7 +711,7 @@ export default function CVGenerator() {
                   {data.bio && (
                     <div style={{ marginBottom: 18 }}>
                       <div style={{ fontSize: 9, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 6, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>About</div>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', lineHeight: 1.75 }}>{data.bio}</p>
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', lineHeight: 1.75, wordBreak: 'break-word', overflowWrap: 'break-word' }}>{data.bio}</p>
                     </div>
                   )}
 

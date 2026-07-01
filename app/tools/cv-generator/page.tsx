@@ -29,6 +29,8 @@ const SKILL_PRESETS = [
 
 const PLATFORM_OPTIONS = ['Instagram', 'YouTube', 'Twitter/X', 'LinkedIn', 'Facebook', 'Snapchat', 'Pinterest']
 
+type RateItem = { name: string; price: string }
+
 type FormData = {
   fullName: string
   niche: string

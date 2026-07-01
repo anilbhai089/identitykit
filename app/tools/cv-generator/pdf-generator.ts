@@ -115,7 +115,8 @@ function measure(doc: jsPDF, input: CVInput): { lH: number; rH: number } {
 
   if (input.bio) {
     rY += 10
-    const lines = doc.splitTextToSize(input.bio, COL_R)
+    const safeBio = input.bio.replace(/(\S{30})/g, '$1 ')
+    const lines = doc.splitTextToSize(safeBio, COL_R)
     rY += lines.length * 4.8 + 6
   }
   if (input.bestCampaign) {
@@ -246,14 +247,39 @@ function draw(doc: jsPDF, input: CVInput, HEADER_H: number, bodyH: number, FOOTE
   if (input.platforms.length) {
     sectionLabel(doc, lX, lY, 'Platforms')
     lY += 5
+
+    const platColors: Record<string, [number,number,number]> = {
+      'Instagram':  [225, 48, 108],
+      'YouTube':    [255, 0, 0],
+      'Twitter/X':  [29, 161, 242],
+      'LinkedIn':   [0, 119, 181],
+      'Facebook':   [66, 103, 178],
+      'Snapchat':   [255, 252, 0],
+      'Pinterest':  [230, 0, 35],
+    }
+    const platLabels: Record<string, string> = {
+      'Instagram': 'IG', 'YouTube': 'YT', 'Twitter/X': 'X',
+      'LinkedIn': 'in', 'Facebook': 'f', 'Snapchat': 'SC', 'Pinterest': 'P',
+    }
+
     input.platforms.forEach(p => {
+      const col = platColors[p] || [255, 107, 43]
+      const label = platLabels[p] || p.slice(0, 2)
+      // icon box
+      doc.setFillColor(col[0], col[1], col[2])
+      doc.roundedRect(lX, lY - 4, 7, 7, 1.5, 1.5, 'F')
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(label.length > 1 ? 4.5 : 5.5)
+      doc.setTextColor(255, 255, 255)
+      doc.text(label, lX + 3.5, lY + 0.5, { align: 'center' })
+      // platform name
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(8)
       doc.setTextColor(180, 180, 195)
-      doc.text(p, lX, lY)
-      lY += 5.5
+      doc.text(p, lX + 9, lY)
+      lY += 7
     })
-    lY += 3
+    lY += 2
   }
 
   const audienceLines = [
@@ -320,7 +346,9 @@ function draw(doc: jsPDF, input: CVInput, HEADER_H: number, bodyH: number, FOOTE
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(8.5)
     doc.setTextColor(185, 185, 200)
-    const lines = doc.splitTextToSize(input.bio, COL_R - 6)
+    // Break any word longer than 30 chars so jsPDF splitTextToSize doesn't overflow
+    const safeBio = input.bio.replace(/(\S{30})/g, '$1 ')
+    const lines = doc.splitTextToSize(safeBio, COL_R - 6)
     doc.text(lines, rX, rY)
     rY += lines.length * 4.8 + 7
   }

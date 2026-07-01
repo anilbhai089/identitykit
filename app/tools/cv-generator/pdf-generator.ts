@@ -100,7 +100,7 @@ function measure(doc: jsPDF, input: CVInput): { lH: number; rH: number } {
   }
   if (input.platforms.length) {
     lY += 10
-    lY += input.platforms.length * 6 + 4
+    lY += input.platforms.length * 7 + 4
   }
   if (input.audienceAge || input.audienceGender) {
     lY += 10
@@ -109,8 +109,7 @@ function measure(doc: jsPDF, input: CVInput): { lH: number; rH: number } {
   }
   if (input.skills.length) {
     lY += 10
-    // chips wrap - rough estimate
-    lY += Math.ceil(input.skills.length / 3) * 8 + 4
+    lY += Math.ceil(input.skills.length / 2) * 8 + 4
   }
 
   if (input.bio) {
@@ -304,18 +303,24 @@ function draw(doc: jsPDF, input: CVInput, HEADER_H: number, bodyH: number, FOOTE
   if (input.skills.length) {
     sectionLabel(doc, lX, lY, 'Skills')
     lY += 5
-    const chipW = COL_L - 8
-    input.skills.forEach(s => {
+    const chipW = (COL_L - 10) / 2  // 2 per row
+    input.skills.forEach((s, i) => {
+      const col = i % 2
+      const cx = lX + col * (chipW + 2)
+      if (col === 0 && i > 0) lY += 8
       doc.setFillColor(40, 20, 10)
       doc.setDrawColor(255, 107, 43)
       doc.setLineWidth(0.15)
-      doc.roundedRect(lX, lY - 3, chipW, 6, 1.5, 1.5, 'FD')
+      doc.roundedRect(cx, lY - 3, chipW, 7, 1.5, 1.5, 'FD')
       doc.setFont('helvetica', 'bold')
-      doc.setFontSize(6)
+      doc.setFontSize(5.5)
       doc.setTextColor(...C.orange)
-      doc.text(s.length > 14 ? s.slice(0, 13) + '…' : s, lX + chipW / 2, lY + 0.5, { align: 'center' })
-      lY += 8
+      const label = s.length > 16 ? s.slice(0, 15) + '…' : s
+      doc.text(label, cx + chipW / 2, lY + 1.2, { align: 'center' })
     })
+    // advance lY past last row
+    lY += 8
+    lY += 2
   }
 
   // CTA filler if left col is short
@@ -442,12 +447,35 @@ function draw(doc: jsPDF, input: CVInput, HEADER_H: number, bodyH: number, FOOTE
     }
   }
 
-  // right col closing divider if short
-  if (rY < bodyY + bodyH - 8) {
+  // right col filler — if there's significant blank space, draw a contact/collab card
+  const rightRemaining = bodyY + bodyH - rY
+  if (rightRemaining > 20) {
+    const cardY = rY + 6
+    const cardH = Math.min(rightRemaining - 10, 32)
+    doc.setFillColor(30, 18, 8)
+    doc.setDrawColor(255, 107, 43)
+    doc.setLineWidth(0.25)
+    doc.roundedRect(rX, cardY, COL_R - 6, cardH, 2.5, 2.5, 'FD')
+    // orange accent line left
+    doc.setFillColor(...C.orange)
+    doc.rect(rX, cardY, 1.5, cardH, 'F')
+    // label
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(6.5)
+    doc.setTextColor(...C.orange)
+    doc.text('AVAILABLE FOR BRAND COLLABORATIONS', rX + 6, cardY + 7)
+    // contact details
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(200, 200, 210)
+    let cy = cardY + 14
+    if (input.email) { doc.text(input.email, rX + 6, cy); cy += 7 }
+    if (input.phone) { doc.text(input.phone, rX + 6, cy); cy += 7 }
+    if (input.igHandle) { doc.text(input.igHandle, rX + 6, cy) }
+  } else if (rightRemaining > 8) {
     doc.setDrawColor(...C.faint)
     doc.setLineWidth(0.15)
     doc.line(rX, bodyY + bodyH - 6, rX + COL_R - 6, bodyY + bodyH - 6)
-    doc.setFont('helvetica', 'normal')
     doc.setFontSize(6)
     doc.setTextColor(...C.faint)
     doc.text('Identity Kit — verified creator profile', rX + (COL_R - 6) / 2, bodyY + bodyH - 2.5, { align: 'center' })

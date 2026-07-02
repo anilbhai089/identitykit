@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'instagram-reels-ideas-india-2026',
+    tag: 'Instagram Reels',
+    title: 'Instagram Reels Ideas India 2026: 50 Content Ideas by Niche That Actually Get Views',
+    excerpt: 'Reels account for 50% of time spent on Instagram. Watch completion is the #1 algorithm signal. 50 niche-specific ideas for Indian creators (finance, beauty, career, food, fitness, tech) — each with exact hook formula and format. Plus: 5 hook formulas that get Reels watched to the end, updated 5-hashtag strategy, and algorithm signals ranked.',
+    readTime: '19 min read',
+    date: 'June 2026',
+  },
+  {
     slug: 'brand-collaboration-email-india-2026',
     tag: 'Brand Deals',
     title: 'Brand Collaboration Email India 2026: Templates That Get Replies (Real Scripts)',
@@ -464,7 +472,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : post.tag === 'Instagram Verification' ? '✅' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : post.tag === 'Instagram Verification' ? '✅' : post.tag === 'Instagram Reels' ? '🎬' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

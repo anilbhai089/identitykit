@@ -15,6 +15,22 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'how-to-negotiate-brand-deal-rates-india-2026',
+    tag: 'Negotiation',
+    title: 'How to Negotiate Brand Deal Rates in India 2026 (Scripts, Math & When to Walk Away)',
+    excerpt: 'India has zero pricing transparency in influencer marketing — the same follower count can mean a 10x price difference. Real rupee benchmarks, exact negotiation scripts, package deal math, usage rights and exclusivity pricing, and when to walk away.',
+    readTime: '16 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'asci-guidelines-influencer-disclosure-india-2026',
+    tag: 'ASCI Compliance',
+    title: 'ASCI Guidelines for Influencers India 2026: Disclosure Rules Explained (#Ad, Videos, Finance)',
+    excerpt: 'Every influencer in India — nano to celebrity — must disclose paid content, regardless of follower count. Exact #Ad rules for feed posts, Stories, Reels, YouTube and podcasts, new SEBI/CA credential rules for finfluencers, AI-influencer disclosure, real penalty numbers, and a 7-step compliance checklist.',
+    readTime: '17 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'instagram-reels-ideas-india-2026',
     tag: 'Instagram Reels',
     title: 'Instagram Reels Ideas India 2026: 50 Content Ideas by Niche That Actually Get Views',
@@ -472,7 +488,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : post.tag === 'Instagram Verification' ? '✅' : post.tag === 'Instagram Reels' ? '🎬' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : post.tag === 'Instagram Verification' ? '✅' : post.tag === 'Instagram Reels' ? '🎬' : post.tag === 'ASCI Compliance' ? '🛡️' : post.tag === 'Negotiation' ? '🤝' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

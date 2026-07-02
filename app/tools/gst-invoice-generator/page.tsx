@@ -59,10 +59,10 @@ const webToolSchema = {
   '@type': 'WebApplication',
   name: 'GST Invoice Generator for Indian Creators 2026',
   url: 'https://identitykit.in/tools/gst-invoice-generator',
-  description: 'Free GST invoice generator for Indian content creators and influencers. Generate professional GST-compliant invoices for brand deals in seconds. Supports CGST+SGST and IGST. Download as PDF.',
+  description: 'GST invoice generator for Indian content creators and influencers. Generate professional GST-compliant invoices for brand deals in seconds. Supports CGST+SGST and IGST. Preview free, ₹49 to download as PDF.',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'All',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  offers: { '@type': 'Offer', price: '49', priceCurrency: 'INR' },
   creator: { '@type': 'Organization', name: 'Identity Kit', url: 'https://identitykit.in' },
 }
 
@@ -541,15 +541,15 @@ export default function GSTInvoiceGenerator() {
         {/* HERO */}
         <div style={{ textAlign: 'center', paddingTop: 28, paddingBottom: 44 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            🧾 Free Tool for Indian Creators
+            🧾 Preview Free · ₹49 to Download
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 36, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
             GST Invoice Generator<br />for Indian Creators 2026
           </h1>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 520, margin: '0 auto 10px', lineHeight: 1.7 }}>
-            Generate professional GST-compliant invoices for your brand deals in seconds. Supports CGST+SGST and IGST. Download as PDF instantly — free, no login.
+            Generate professional GST-compliant invoices for your brand deals in seconds. Supports CGST+SGST and IGST. Preview free, pay ₹49 to download the PDF.
           </p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>Free forever · No login required · Instant PDF download</p>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>No login required · ₹49 one-time download · Instant PDF</p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16, alignItems: 'start' }}>

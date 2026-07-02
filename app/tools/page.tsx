@@ -22,7 +22,7 @@ const tools = [
   {
     href: '/tools/instagram-engagement-calculator',
     emoji: '📊',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Instagram Engagement Rate Calculator',
     desc: 'Calculate your engagement rate instantly with India-specific benchmarks for every tier. Find out exactly if you qualify for brand deals.',
@@ -32,7 +32,7 @@ const tools = [
   {
     href: '/tools/influencer-rate-calculator',
     emoji: '💰',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Influencer Rate Calculator India',
     desc: 'Find out exactly what to charge brands for Instagram Reels, Stories, YouTube videos, and more — based on your niche and follower count.',
@@ -42,7 +42,7 @@ const tools = [
   {
     href: '/tools/youtube-money-calculator',
     emoji: '▶️',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'YouTube Money Calculator India',
     desc: 'Estimate your YouTube earnings in INR based on views, niche, and India-specific RPM rates. Includes AdSense + brand deal income.',
@@ -52,17 +52,29 @@ const tools = [
   {
     href: '/tools/gst-invoice-generator',
     emoji: '🧾',
-    tag: 'Live Now',
-    tagColor: '#4CAF50',
+    tag: 'Paid',
+    tagColor: '#FF8C5A',
     title: 'GST Invoice Generator for Creators',
-    desc: 'Generate GST-compliant brand deal invoices in seconds. CGST+SGST or IGST auto-applied. Download as PDF instantly — free for Indian creators.',
-    cta: 'Generate invoice →',
+    desc: 'Generate GST-compliant brand deal invoices in seconds. CGST+SGST or IGST auto-applied. Preview free, pay ₹49 to download the PDF.',
+    cta: 'Preview & download →',
     live: true,
+    paid: true,
+  },
+  {
+    href: '/tools/rate-card-generator',
+    emoji: '📇',
+    tag: 'Paid',
+    tagColor: '#FF8C5A',
+    title: 'Rate Card Generator',
+    desc: 'Build a polished, brand-ready rate card with your rates, packages and terms — same layout as your Identity Kit profile. Preview free, pay ₹49 to download the PDF.',
+    cta: 'Preview & download →',
+    live: true,
+    paid: true,
   },
   {
     href: '/tools/instagram-bio-generator',
     emoji: '✨',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Instagram Bio Generator',
     desc: 'AI-powered Instagram bio generator for Indian creators. Get 3 professional bio options instantly — brand-ready, niche-specific, under 150 characters.',
@@ -72,17 +84,18 @@ const tools = [
   {
     href: '/tools/brand-deal-contract-template',
     emoji: '📋',
-    tag: 'Live Now',
-    tagColor: '#4CAF50',
+    tag: 'Paid',
+    tagColor: '#FF8C5A',
     title: 'Brand Deal Contract Template',
-    desc: 'Free brand deal contract template for Indian creators — ASCI-compliant, 10 clauses, ready to customise and download as PDF instantly.',
-    cta: 'Generate contract →',
+    desc: 'ASCI-compliant brand deal contract for Indian creators — 10 clauses, ready to customise. Preview free, pay ₹49 to download the PDF.',
+    cta: 'Preview & download →',
     live: true,
+    paid: true,
   },
   {
     href: '/tools/brand-pitch-email-generator',
     emoji: '📧',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Brand Pitch Email Generator',
     desc: 'AI-powered pitch email generator for Indian creators. Get a personalized email + 2 follow-ups in seconds — short enough to actually get read.',
@@ -92,7 +105,7 @@ const tools = [
   {
     href: '/tools/influencer-roi-calculator',
     emoji: '📈',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Influencer ROI Calculator',
     desc: 'Calculate Earned Media Value, Cost Per Engagement and campaign ROI — with India-specific benchmarks. Built for both brands and creators.',
@@ -102,7 +115,7 @@ const tools = [
   {
     href: '/tools/campaign-brief-generator',
     emoji: '📝',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Campaign Brief Generator',
     desc: 'AI-powered campaign brief generator for Indian brands. Generate a professional, ASCI-compliant brief in seconds — copy and send to creators instantly.',
@@ -112,7 +125,7 @@ const tools = [
   {
     href: '/tools/campaign-report-generator',
     emoji: '📊',
-    tag: 'Live Now',
+    tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Campaign Report Generator',
     desc: 'Enter your campaign stats and get a professional post-campaign report to send brands in seconds. Creators who send reports get rebooked 5x more often.',
@@ -179,7 +192,7 @@ export default function ToolsIndex() {
               <div className={`tool-card ${tool.live ? 'live' : ''}`} style={{ opacity: tool.live ? 1 : 0.6, cursor: tool.live ? 'pointer' : 'default' }}>
                 <div style={{ fontSize: 36 }}>{tool.emoji}</div>
                 <div>
-                  <span style={{ background: tool.live ? 'rgba(76,175,80,0.12)' : 'rgba(255,255,255,0.05)', color: tool.tagColor, fontSize: 11, fontWeight: 700, padding: '3px 9px', borderRadius: 100, display: 'inline-block', marginBottom: 10 }}>
+                  <span style={{ background: tool.paid ? 'rgba(255,107,43,0.14)' : tool.live ? 'rgba(76,175,80,0.12)' : 'rgba(255,255,255,0.05)', color: tool.tagColor, fontSize: 11, fontWeight: 700, padding: '3px 9px', borderRadius: 100, display: 'inline-block', marginBottom: 10 }}>
                     {tool.tag}
                   </span>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 17, lineHeight: 1.3, marginBottom: 10 }}>{tool.title}</div>

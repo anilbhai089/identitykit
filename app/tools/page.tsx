@@ -83,6 +83,17 @@ const tools = [
     paid: true,
   },
   {
+    href: '/tools/media-kit-generator',
+    emoji: '📊',
+    tag: 'Paid',
+    tagColor: '#FF8C5A',
+    title: 'Media Kit Generator',
+    desc: 'A brand-ready one-pager — stats, audience demographics, platforms, brand collabs and rates, built to get you noticed in seconds. Preview free, pay ₹49 to download the PDF.',
+    cta: 'Preview & download →',
+    live: true,
+    paid: true,
+  },
+  {
     href: '/tools/instagram-bio-generator',
     emoji: '✨',
     tag: 'Free',

@@ -225,6 +225,7 @@ export default function CVGenerator() {
   const [newRateName, setNewRateName] = useState('')
   const [newRatePrice, setNewRatePrice] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const cvPreviewRef = useRef<HTMLDivElement>(null)
 
   const upd = (k: keyof FormData, v: any) => setData(d => ({ ...d, [k]: v }))
 
@@ -294,35 +295,45 @@ export default function CVGenerator() {
   }
 
   async function handleDownload() {
+    if (!cvPreviewRef.current) return
     setGenerating(true)
     try {
-      const { generateCVPdf } = await import('./pdf-generator')
-      const doc = await generateCVPdf({
-        fullName: data.fullName,
-        niche: displayNiche,
-        photo: data.photo,
-        city: data.city,
-        email: data.email,
-        phone: data.phone,
-        platforms: data.platforms,
-        igHandle: data.igHandle,
-        igFollowers: data.igFollowers,
-        ytSubs: data.ytSubs,
-        avgViews: data.avgViews,
-        engagementRate: data.engagementRate,
-        brandDeals: data.brands.length,
-        audienceGender: data.audienceGender,
-        audienceAge: data.audienceAge,
-        audienceCities: data.audienceCities,
-        languages: data.languages,
-        skills: data.skills,
-        bio: data.bio,
-        bestCampaign: data.bestCampaign,
-        brands: data.brands,
-        awards: data.awards,
-        rates: data.rates,
-        turnaround: data.turnaround,
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import('html2canvas'),
+        import('jspdf'),
+      ])
+
+      const node = cvPreviewRef.current
+
+      // Make sure webfonts (Syne, Plus Jakarta Sans, Tabler icons) are fully loaded
+      // before rasterizing, otherwise icons/headings can render as fallback glyphs.
+      if ((document as any).fonts?.ready) {
+        try { await (document as any).fonts.ready } catch {}
+      }
+      // Let the browser settle one frame after fonts resolve.
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+
+      const rect = node.getBoundingClientRect()
+      const canvas = await html2canvas(node, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null,
+        logging: false,
+        windowWidth: document.documentElement.scrollWidth,
       })
+
+      // Convert the captured element's CSS pixel size to mm for a 1:1 print-accurate PDF page.
+      const PX_TO_MM = 25.4 / 96
+      const pageW = rect.width * PX_TO_MM
+      const pageH = rect.height * PX_TO_MM
+
+      const doc = new jsPDF({ unit: 'mm', format: [pageW, pageH] })
+      // Fill the page with the card's own dark background so the rounded corners
+      // (which are transparent in the captured PNG) blend in instead of showing white.
+      doc.setFillColor(17, 17, 32)
+      doc.rect(0, 0, pageW, pageH, 'F')
+      doc.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 0, 0, pageW, pageH, undefined, 'FAST')
+
       doc.save(`${data.fullName.replace(/\s+/g, '-')}-Creator-CV.pdf`)
     } catch (err) {
       console.error(err)
@@ -635,7 +646,7 @@ export default function CVGenerator() {
         {step === 2 && (
           <div className="cvg-layout">
             {/* Preview — mirrors the live Identity Kit profile CV tab exactly, plus a photo crop */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <div ref={cvPreviewRef} style={{ display: 'flex', flexDirection: 'column', gap: 0, borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
               {/* CV Header */}
               <div style={{ background: '#111120', padding: '20px', display: 'flex', gap: 14, alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                 {data.photo ? (

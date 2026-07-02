@@ -3,8 +3,9 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 
-// ─── TOGGLE: flip to true once payment is wired and tested ───
-const PAYMENT_ENABLED = false
+// ─── TOGGLE: flip to false to skip payment for testing ───
+const PAYMENT_ENABLED = true
+const PRICE_RUPEES = 49
 
 const NICHE_OPTIONS = [
   'Fashion & Lifestyle', 'Beauty & Skincare', 'Food & Cooking', 'Travel',
@@ -20,6 +21,7 @@ const GENDER_OPTIONS = [
 ]
 
 const AGE_OPTIONS = ['13–17', '18–24', '25–34', '35–44', '45–54', '55+', '18–34', '25–44']
+const TURNAROUND_OPTIONS = ['24–48 hours', '2–3 days', '3–5 days', '5–7 days', '1–2 weeks', '2+ weeks']
 
 const SKILL_PRESETS = [
   'Reel Editing', 'Scriptwriting', 'Photography', 'Storytelling',
@@ -343,6 +345,74 @@ export default function CVGenerator() {
     }
   }
 
+  function loadRazorpayScript(): Promise<boolean> {
+    return new Promise(resolve => {
+      if ((window as any).Razorpay) { resolve(true); return }
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+  }
+
+  async function handlePayAndDownload() {
+    if (!PAYMENT_ENABLED) {
+      handleDownload()
+      return
+    }
+    setGenerating(true)
+    try {
+      const loaded = await loadRazorpayScript()
+      if (!loaded) {
+        alert('Could not load payment gateway. Check your connection and try again.')
+        setGenerating(false)
+        return
+      }
+
+      const res = await fetch('/api/cv-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: PRICE_RUPEES * 100 }),
+      })
+      const order = await res.json()
+
+      if (!order.orderId) {
+        alert('Could not start payment. Make sure RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are set in Vercel env vars.')
+        setGenerating(false)
+        return
+      }
+
+      const rzp = new (window as any).Razorpay({
+        key: order.key,
+        order_id: order.orderId,
+        amount: PRICE_RUPEES * 100,
+        currency: 'INR',
+        name: 'Identity Kit',
+        description: `${data.fullName || 'Creator'} — Creator CV PDF`,
+        prefill: { name: data.fullName, email: data.email },
+        theme: { color: '#FF6B2B' },
+        handler: function () {
+          handleDownload()
+        },
+        modal: {
+          ondismiss: function () {
+            setGenerating(false)
+          },
+        },
+      })
+      rzp.on('payment.failed', function () {
+        alert('Payment failed. Please try again.')
+        setGenerating(false)
+      })
+      rzp.open()
+    } catch (err) {
+      console.error(err)
+      alert('Something went wrong starting payment. Please try again.')
+      setGenerating(false)
+    }
+  }
+
   const statItems = [
     data.ytSubs && [data.ytSubs, 'YT subscribers'],
     data.igFollowers && [data.igFollowers, 'IG followers'],
@@ -627,7 +697,10 @@ export default function CVGenerator() {
               <button onClick={addRate} style={{ background: 'rgba(255,107,43,0.12)', border: '1px solid rgba(255,107,43,0.3)', color: '#FF8C5A', borderRadius: 10, padding: '8px 18px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>+ Add rate</button>
               <div style={{ marginTop: 14 }}>
                 <label style={S.label}>Turnaround time</label>
-                <input style={S.input} value={data.turnaround} onChange={e => upd('turnaround', e.target.value)} placeholder="3–5 days" />
+                <select style={S.input} value={data.turnaround} onChange={e => upd('turnaround', e.target.value)}>
+                  <option value="">Select turnaround</option>
+                  {TURNAROUND_OPTIONS.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
               </div>
             </div>
 
@@ -794,18 +867,29 @@ export default function CVGenerator() {
                 </p>
                 {!PAYMENT_ENABLED && (
                   <div style={{ background: 'rgba(255,193,7,0.08)', border: '1px solid rgba(255,193,7,0.25)', borderRadius: 10, padding: '10px 12px', marginBottom: 16, fontSize: 12, color: '#FFD166' }}>
-                    🛠 Testing mode — downloads are free for now. Payment will be added once everything checks out.
+                    🛠 Testing mode — downloads are free for now.
+                  </div>
+                )}
+                {PAYMENT_ENABLED && (
+                  <div style={{ background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 10, padding: '12px 14px', marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>One-time download</span>
+                    <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: '#FF6B2B' }}>₹{PRICE_RUPEES}</span>
                   </div>
                 )}
                 <button
                   className="cvg-btn-primary"
-                  onClick={handleDownload}
+                  onClick={handlePayAndDownload}
                   disabled={generating}
                   style={{ width: '100%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', color: '#fff', border: 'none', borderRadius: 12, padding: '14px', fontSize: 15, fontWeight: 700, cursor: generating ? 'default' : 'pointer', opacity: generating ? 0.7 : 1, marginBottom: 10 }}
                 >
-                  {generating ? 'Generating…' : PAYMENT_ENABLED ? 'Pay & Download PDF →' : 'Download PDF (Free — Testing) →'}
+                  {generating ? 'Processing…' : PAYMENT_ENABLED ? `Pay ₹${PRICE_RUPEES} & Download PDF →` : 'Download PDF (Free — Testing) →'}
                 </button>
-                <button onClick={() => setStep(1)} style={{ width: '100%', background: 'transparent', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                {PAYMENT_ENABLED && (
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', textAlign: 'center', marginBottom: 10 }}>
+                    Secure payment via Razorpay · UPI, cards, netbanking
+                  </p>
+                )}
+                <button onClick={() => setStep(1)} disabled={generating} style={{ width: '100%', background: 'transparent', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px', fontSize: 13, fontWeight: 600, cursor: generating ? 'default' : 'pointer' }}>
                   ← Edit details
                 </button>
               </div>

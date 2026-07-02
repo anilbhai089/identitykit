@@ -58,10 +58,10 @@ const webToolSchema = {
   '@type': 'WebApplication',
   name: 'Brand Deal Contract Template for Indian Creators 2026',
   url: 'https://identitykit.in/tools/brand-deal-contract-template',
-  description: 'Free brand deal contract template for Indian creators. Fill in your details and download a professional, ASCI-compliant PDF contract for brand collaborations. No login required.',
+  description: 'Brand deal contract template for Indian creators. Fill in your details and download a professional, ASCI-compliant PDF contract for brand collaborations. Preview free, ₹49 to download. No login required.',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'All',
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  offers: { '@type': 'Offer', price: '49', priceCurrency: 'INR' },
   creator: { '@type': 'Organization', name: 'Identity Kit', url: 'https://identitykit.in' },
 }
 
@@ -553,15 +553,15 @@ export default function BrandDealContractTemplate() {
         {/* HERO */}
         <div style={{ textAlign: 'center', paddingTop: 28, paddingBottom: 44 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            📋 Free Tool for Indian Creators
+            📋 Preview Free · ₹49 to Download
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 36, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
             Brand Deal Contract Template<br />for Indian Creators 2026
           </h1>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 540, margin: '0 auto 10px', lineHeight: 1.7 }}>
-            Fill in your details and download a professional, ASCI-compliant brand deal contract PDF in seconds. Free for all Indian creators — no login required.
+            Fill in your details and get a professional, ASCI-compliant brand deal contract PDF in seconds. Preview free, pay ₹49 to download.
           </p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>Free forever · No login · Instant PDF · 10 clauses included</p>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>No login · ₹49 one-time download · 10 clauses included</p>
         </div>
 
         <div className="layout" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16, alignItems: 'start' }}>
@@ -803,7 +803,7 @@ export default function BrandDealContractTemplate() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {[
               { href: '/tools/influencer-rate-calculator', tag: 'Free Tool', title: 'Influencer Rate Calculator — What to Charge for Brand Deals' },
-              { href: '/tools/gst-invoice-generator', tag: 'Free Tool', title: 'GST Invoice Generator — Bill Your Brand Deals Professionally' },
+              { href: '/tools/gst-invoice-generator', tag: 'Paid Tool', title: 'GST Invoice Generator — Bill Your Brand Deals Professionally' },
               { href: '/tools/instagram-engagement-calculator', tag: 'Free Tool', title: 'Instagram Engagement Rate Calculator India' },
               { href: '/tools/instagram-bio-generator', tag: 'Free Tool', title: 'Instagram Bio Generator for Indian Creators' },
             ].map(r => (

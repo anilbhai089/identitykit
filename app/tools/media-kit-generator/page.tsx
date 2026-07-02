@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 
-// ─── TOGGLE: flip to true once everything's tested and confirmed working ───
-const PAYMENT_ENABLED = false
+// ─── TOGGLE: flip to false to skip payment for testing ───
+const PAYMENT_ENABLED = true
 const PRICE_RUPEES = 49
 
 const NICHE_OPTIONS = [

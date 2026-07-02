@@ -377,6 +377,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+         {
+      url: `${baseUrl}/blog/instagram-reels-ideas-india-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+         {
+      url: `${baseUrl}/blog/asci-guidelines-influencer-disclosure-india-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+         {
+      url: `${baseUrl}/blog/how-to-negotiate-brand-deal-rates-india-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        
@@ -449,6 +470,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: `${baseUrl}/tools/campaign-brief-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+     {
+      url: `${baseUrl}/tools/campaign-report-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+     {
+      url: `${baseUrl}/tools/rate-card-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+     {
+      url: `${baseUrl}/tools/cv-generator`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+
+     {
+      url: `${baseUrl}/tools/media-kit-generator`,
       lastModified: today,
       changeFrequency: 'monthly',
       priority: 0.9,

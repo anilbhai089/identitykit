@@ -416,12 +416,31 @@ export default function MediaKitGenerator() {
     }
   }
 
-  const statItems = [
-    data.igFollowers && [data.igFollowers, 'Instagram followers'],
-    data.ytSubs && [data.ytSubs, 'YouTube subscribers'],
-    data.avgViews && [data.avgViews, 'Avg. views'],
-    data.engagementRate && [`${data.engagementRate}%`, 'Engagement rate'],
-  ].filter(Boolean) as [string, string][]
+  // ── Mirrors the styling + logic of the live Identity Kit profile "Media Kit" tab ──
+  const platConfig: Record<string, { icon: string; color: string; bg: string }> = {
+    'Instagram': { icon: 'ti-brand-instagram', color: '#e1306c', bg: '#e1306c15' },
+    'YouTube': { icon: 'ti-brand-youtube', color: '#ff0000', bg: '#ff000015' },
+    'Twitter/X': { icon: 'ti-brand-x', color: '#1da1f2', bg: '#1da1f215' },
+    'LinkedIn': { icon: 'ti-brand-linkedin', color: '#0077b5', bg: '#0077b515' },
+    'Facebook': { icon: 'ti-brand-facebook', color: '#1877f2', bg: '#1877f215' },
+    'Snapchat': { icon: 'ti-brand-snapchat', color: '#FFFC00', bg: '#FFFC0015' },
+    'Pinterest': { icon: 'ti-brand-pinterest', color: '#e60023', bg: '#e6002315' },
+  }
+  const MK = {
+    card: { background: '#111120', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16 } as React.CSSProperties,
+    sectionTitle: { fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase' as const, letterSpacing: '0.14em', marginBottom: 14 },
+    brandPill: { fontSize: 12, padding: '5px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)', background: '#1a1a2a' } as React.CSSProperties,
+  }
+  const AGE_BRACKETS = ['18–24', '25–34', '35+']
+  const citiesList = data.audienceCities.split(/[,·]/).map(c => c.trim()).filter(Boolean).slice(0, 3)
+  const CONTENT_TYPES = [
+    { icon: 'ti-video', label: 'Reels & Shorts', color: '#e1306c' },
+    { icon: 'ti-photo', label: 'Static Posts', color: '#FF6B2B' },
+    { icon: 'ti-layout-grid', label: 'Carousels', color: '#a855f7' },
+    { icon: 'ti-brand-youtube', label: 'YouTube Videos', color: '#ff0000' },
+    { icon: 'ti-messages', label: 'Stories', color: '#22c55e' },
+    { icon: 'ti-speakerphone', label: 'Integrations', color: '#3b82f6' },
+  ]
 
   return (
     <div style={{ background: '#07070D', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans',sans-serif", color: '#fff', position: 'relative', overflow: 'hidden' }}>
@@ -436,10 +455,11 @@ export default function MediaKitGenerator() {
         @media (max-width:640px){.mkg-grid{grid-template-columns:1fr}}
         .mkg-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:flex-start}
         @media (max-width:900px){.mkg-layout{grid-template-columns:1fr}}
-        .mkg-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
-        .mkg-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-        @media (max-width:520px){.mkg-info-grid{grid-template-columns:1fr}}
-        .mkg-brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .mkg-bento-row{display:grid;gap:8px}
+        @media (max-width:520px){.mkg-bento-row{grid-template-columns:1fr!important}}
+        .mkg-content-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+        @media (max-width:420px){.mkg-content-grid{grid-template-columns:repeat(2,1fr)}}
+        @media (max-width:420px){.mkg-stats-4{grid-template-columns:repeat(2,1fr)!important;row-gap:12px!important}}
         .mkg-btn-primary{transition:transform 0.15s, box-shadow 0.15s}
         .mkg-btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,107,43,0.3)}
         .mkg-photo:hover{box-shadow:0 0 0 4px rgba(255,107,43,0.15)}
@@ -728,160 +748,178 @@ export default function MediaKitGenerator() {
 
         {step === 2 && (
           <div className="mkg-layout">
-            {/* Preview — hero-style one-pager media kit */}
-            <div ref={mkPreviewRef} style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', background: '#0A0A16' }}>
+            {/* Preview — mirrors the live Identity Kit profile Media Kit tab exactly */}
+            <div ref={mkPreviewRef} style={{ display: 'flex', flexDirection: 'column', gap: 8, borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', background: '#08080E', padding: 8 }}>
 
-              {/* Hero */}
-              <div style={{ position: 'relative', padding: '32px 26px 26px', background: 'radial-gradient(circle at 30% 20%, rgba(255,107,43,0.18), transparent 60%), #111120', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: data.tagline ? 14 : 4 }}>
+              {/* Header */}
+              <div style={{ background: 'linear-gradient(135deg,#1a0800,#0e0e1c)', border: '1px solid rgba(255,107,43,0.15)', borderRadius: 16, padding: '20px', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, right: 0, width: 180, height: 180, background: 'radial-gradient(circle,rgba(255,107,43,0.1) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
                   {data.photo ? (
-                    <img src={data.photo} alt={data.fullName} style={{ width: 84, height: 84, borderRadius: '50%', border: '3px solid #FF6B2B', objectFit: 'cover', flexShrink: 0 }} />
+                    <img src={data.photo} alt={data.fullName} style={{ width: 56, height: 56, borderRadius: '50%', border: '2px solid #FF6B2B', objectFit: 'cover', flexShrink: 0 }} />
                   ) : (
-                    <div style={{ width: 84, height: 84, borderRadius: '50%', border: '3px solid #FF6B2B', background: '#1e1e2e', flexShrink: 0 }} />
+                    <div style={{ width: 56, height: 56, borderRadius: '50%', border: '2px solid #FF6B2B', background: '#1e1e2e', flexShrink: 0 }} />
                   )}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 4 }}>Media Kit {new Date().getFullYear()}</div>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, color: '#fff', lineHeight: 1.15, marginBottom: 3 }}>{data.fullName || 'Your Name'}</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>{displayNiche || 'Your niche'} Creator{data.city && ` · ${data.city}`}</div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: 9, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', fontWeight: 700, marginBottom: 3 }}>Media Kit</div>
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 2 }}>{data.fullName || 'Your Name'}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>{[displayNiche, data.city, data.languages].filter(Boolean).join(' · ') || 'Your niche'}</div>
+                    {data.tagline && <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', fontStyle: 'italic', marginTop: 4 }}>"{data.tagline}"</div>}
                   </div>
                 </div>
-                {data.tagline && <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, marginBottom: 16, fontStyle: 'italic' }}>"{data.tagline}"</p>}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  {[data.email && { icon: 'ti-mail', val: data.email }, data.phone && { icon: 'ti-phone', val: data.phone }, data.website && { icon: 'ti-world', val: data.website }, data.igHandle && { icon: 'ti-brand-instagram', val: data.igHandle }].filter(Boolean).map((m: any) => (
-                    <span key={m.val} style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 5, background: '#08080E', padding: '5px 10px', borderRadius: 99 }}>
-                      <i className={`ti ${m.icon}`} style={{ fontSize: 12, color: '#FF6B2B' }}></i>{m.val}
-                    </span>
+                <div className="mkg-stats-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, gap: 4 }}>
+                  {[
+                    [data.igFollowers || '—', 'Instagram'],
+                    [data.ytSubs || '—', 'YouTube'],
+                    [data.avgViews || '—', 'Avg Views'],
+                    [data.engagementRate ? `${data.engagementRate}%` : '—', 'Engagement'],
+                  ].map(([n, l]) => (
+                    <div key={l} style={{ textAlign: 'center' }}>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: '#FF6B2B' }}>{n}</div>
+                      <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 2 }}>{l}</div>
+                    </div>
                   ))}
                 </div>
+                {(data.email || data.phone || data.website) && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16 }}>
+                    {[data.email && { icon: 'ti-mail', val: data.email }, data.phone && { icon: 'ti-phone', val: data.phone }, data.website && { icon: 'ti-world', val: data.website }].filter(Boolean).map((m: any) => (
+                      <span key={m.val} style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 5, background: '#08080E', padding: '5px 10px', borderRadius: 99 }}>
+                        <i className={`ti ${m.icon}`} style={{ fontSize: 12, color: '#FF6B2B' }}></i>{m.val}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div style={{ padding: '24px 26px' }}>
-
-                {/* Key stats */}
-                {statItems.length > 0 && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div className="mkg-stat-grid">
-                      {statItems.map(([val, key]) => (
-                        <div key={key} style={{ background: '#111120', border: '1px solid rgba(255,107,43,0.15)', borderRadius: 12, padding: '14px 12px', textAlign: 'center' }}>
-                          <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: '#FF6B2B', marginBottom: 3 }}>{val}</div>
-                          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{key}</div>
-                        </div>
-                      ))}
+              {/* Platform + Audience bento row */}
+              {(data.platforms.length > 0 || data.audienceAge || citiesList.length > 0) && (
+                <div className="mkg-bento-row" style={{ display: 'grid', gridTemplateColumns: data.platforms.length > 0 && (data.audienceAge || citiesList.length > 0) ? '1fr 1fr' : '1fr', gap: 8 }}>
+                  {data.platforms.length > 0 && (
+                    <div style={{ ...MK.card, padding: 16 }}>
+                      <div style={MK.sectionTitle}>Platform breakdown</div>
+                      {data.platforms.map(p => {
+                        const cfg = platConfig[p] || { icon: 'ti-device-mobile', color: '#FF6B2B', bg: '#FF6B2B15' }
+                        const followers = p === 'Instagram' ? data.igFollowers : p === 'YouTube' ? data.ytSubs : null
+                        const stat2 = p === 'Instagram' ? (data.engagementRate ? `${data.engagementRate}%` : null) : p === 'YouTube' ? data.avgViews : null
+                        const stat2label = p === 'Instagram' ? 'eng' : 'views'
+                        return (
+                          <div key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <div style={{ width: 28, height: 28, borderRadius: 7, background: cfg.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <i className={`ti ${cfg.icon}`} style={{ fontSize: 13, color: cfg.color }}></i>
+                              </div>
+                              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{p}</span>
+                            </div>
+                            <div style={{ display: 'flex', gap: 10 }}>
+                              {followers && <div style={{ textAlign: 'right' }}><div style={{ fontSize: 12, fontWeight: 700, color: '#FF6B2B', fontFamily: "'Syne',sans-serif" }}>{followers}</div><div style={{ fontSize: 9, color: 'rgba(255,255,255,0.2)' }}>followers</div></div>}
+                              {stat2 && <div style={{ textAlign: 'right' }}><div style={{ fontSize: 12, fontWeight: 700, color: '#FF6B2B', fontFamily: "'Syne',sans-serif" }}>{stat2}</div><div style={{ fontSize: 9, color: 'rgba(255,255,255,0.2)' }}>{stat2label}</div></div>}
+                            </div>
+                          </div>
+                        )
+                      })}
                     </div>
-                  </div>
-                )}
-
-                {/* Platforms */}
-                {data.platforms.length > 0 && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 12 }}>Platforms</div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                      {data.platforms.map(p => (
-                        <span key={p} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 600, padding: '7px 13px', borderRadius: 99, background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', color: 'rgba(255,255,255,0.75)' }}>
-                          <i className={`ti ${PLATFORM_ICON[p] || 'ti-world'}`} style={{ fontSize: 14, color: '#FF6B2B' }}></i>{p}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* About */}
-                {data.bio && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10 }}>About</div>
-                    <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.7)', lineHeight: 1.75, wordBreak: 'break-word', overflowWrap: 'break-word' }}>{data.bio}</p>
-                  </div>
-                )}
-
-                {/* Audience */}
-                {(data.audienceAge || data.audienceGender || data.audienceCities || data.languages) && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10 }}>Audience</div>
-                    <div className="mkg-info-grid">
-                      {data.audienceGender && (
-                        <div style={{ background: '#111120', borderRadius: 10, padding: '10px 13px' }}>
+                  )}
+                  {(data.audienceAge || data.audienceGender || citiesList.length > 0) && (
+                    <div style={{ ...MK.card, padding: 16 }}>
+                      <div style={MK.sectionTitle}>Audience insights</div>
+                      {AGE_BRACKETS.includes(data.audienceAge) ? (
+                        <>
+                          {AGE_BRACKETS.map((l, i) => {
+                            const pct = data.audienceAge === l ? 66 : [18, 20, 8][i]
+                            return (
+                              <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
+                                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', minWidth: 36 }}>{l}</span>
+                                <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 99 }}><div style={{ height: 4, background: 'linear-gradient(90deg,#FF6B2B,#FF8C5A)', borderRadius: 99, width: `${pct}%` }}></div></div>
+                                <span style={{ fontSize: 10, color: '#FF6B2B', minWidth: 24, textAlign: 'right' }}>{pct}%</span>
+                              </div>
+                            )
+                          })}
+                          {citiesList.length > 0 && <div style={{ height: 1, background: 'rgba(255,255,255,0.05)', margin: '10px 0' }}></div>}
+                        </>
+                      ) : data.audienceGender ? (
+                        <div style={{ marginBottom: citiesList.length > 0 ? 12 : 0 }}>
                           <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.3)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Gender split</div>
-                          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{data.audienceGender}</div>
+                          <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>{data.audienceGender}</div>
+                          {data.audienceAge && <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{data.audienceAge} age group</div>}
                         </div>
-                      )}
-                      {data.audienceAge && (
-                        <div style={{ background: '#111120', borderRadius: 10, padding: '10px 13px' }}>
-                          <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.3)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Age group</div>
-                          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{data.audienceAge}</div>
-                        </div>
-                      )}
-                      {data.audienceCities && (
-                        <div style={{ background: '#111120', borderRadius: 10, padding: '10px 13px' }}>
-                          <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.3)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Top cities</div>
-                          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{data.audienceCities}</div>
-                        </div>
-                      )}
-                      {data.languages && (
-                        <div style={{ background: '#111120', borderRadius: 10, padding: '10px 13px' }}>
-                          <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.3)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Languages</div>
-                          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{data.languages}</div>
-                        </div>
-                      )}
+                      ) : null}
+                      {citiesList.map((city, i) => {
+                        const pct = [44, 30, 19][i]
+                        return (
+                          <div key={city} style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 5 }}>
+                            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', minWidth: 48, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{city}</span>
+                            <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 99 }}><div style={{ height: 4, background: 'linear-gradient(90deg,#FF6B2B,#FF8C5A)', borderRadius: 99, width: `${pct}%` }}></div></div>
+                            <span style={{ fontSize: 10, color: '#FF6B2B', minWidth: 24, textAlign: 'right' }}>{pct}%</span>
+                          </div>
+                        )
+                      })}
+                      {data.languages && <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.3)', marginTop: 10 }}>Speaks {data.languages}</div>}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+              )}
 
-                {/* Content pillars */}
+              {/* Content I create */}
+              <div style={{ ...MK.card, padding: 16 }}>
+                <div style={MK.sectionTitle}>Content I create</div>
+                <div className="mkg-content-grid">
+                  {CONTENT_TYPES.map(c => (
+                    <div key={c.label} style={{ background: '#0e0e1e', borderRadius: 10, padding: 12, textAlign: 'center' }}>
+                      <i className={`ti ${c.icon}`} style={{ fontSize: 22, color: c.color, display: 'block', marginBottom: 6 }}></i>
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>{c.label}</span>
+                    </div>
+                  ))}
+                </div>
                 {data.pillars.length > 0 && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10 }}>Content pillars</div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {data.pillars.map(s => <span key={s} style={{ fontSize: 11.5, padding: '5px 11px', borderRadius: 99, background: 'rgba(255,107,43,0.07)', border: '1px solid rgba(255,107,43,0.2)', color: '#FF8C5A' }}>{s}</span>)}
-                    </div>
-                  </div>
-                )}
-
-                {/* Best campaign */}
-                {data.bestCampaign && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10 }}>Campaign highlight</div>
-                    <div style={{ background: 'rgba(255,107,43,0.06)', borderLeft: '3px solid #FF6B2B', borderRadius: '0 10px 10px 0', padding: '13px 16px' }}>
-                      <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, margin: 0 }}>{data.bestCampaign}</p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Brand collabs */}
-                {data.brands.length > 0 && (
-                  <div style={{ marginBottom: 26 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10 }}>Brands I've worked with</div>
-                    <div className="mkg-brand-grid">
-                      {data.brands.map(b => (
-                        <div key={b} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#111120', borderRadius: 10, padding: '9px 13px' }}>
-                          <span style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.85)' }}>{b}</span>
-                          <i className="ti ti-circle-check" style={{ fontSize: 14, color: '#FF6B2B' }}></i>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Rates */}
-                {data.rates.length > 0 && (
-                  <div>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10 }}>What I offer brands</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      {data.rates.slice(0, 6).map(r => (
-                        <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 13px', background: '#111120', borderRadius: 10 }}>
-                          <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.65)' }}>{r.name}</span>
-                          <span style={{ fontSize: 13, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#FF6B2B' }}>₹{Number(r.price).toLocaleString('en-IN')}</span>
-                        </div>
-                      ))}
-                    </div>
-                    {data.turnaround && <div style={{ marginTop: 10, fontSize: 11.5, color: 'rgba(255,255,255,0.3)' }}>⏱ Turnaround: {data.turnaround} · 1 free revision included</div>}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                    {data.pillars.map(s => <span key={s} style={{ fontSize: 11, padding: '4px 11px', borderRadius: 99, background: 'rgba(255,107,43,0.07)', border: '1px solid rgba(255,107,43,0.2)', color: '#FF8C5A' }}>{s}</span>)}
                   </div>
                 )}
               </div>
 
-              {/* Footer */}
-              <div style={{ background: '#111120', padding: '14px 26px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-                <span style={{ fontSize: 10, color: '#FF8C5A', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Identity Kit</span>
-                <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.4)' }}>{data.email || data.phone || 'Let\'s collaborate'}</span>
+              {/* About */}
+              {data.bio && (
+                <div style={{ ...MK.card, padding: 16 }}>
+                  <div style={MK.sectionTitle}>About</div>
+                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, margin: 0, wordBreak: 'break-word', overflowWrap: 'break-word' }}>{data.bio}</p>
+                </div>
+              )}
+
+              {/* Brand collabs */}
+              {data.brands.length > 0 && (
+                <div style={{ ...MK.card, padding: 16 }}>
+                  <div style={MK.sectionTitle}>Past brand collaborations</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: data.bestCampaign ? 14 : 0 }}>
+                    {data.brands.map(b => <span key={b} style={MK.brandPill}>{b}</span>)}
+                  </div>
+                  {data.bestCampaign && (
+                    <div style={{ borderLeft: '2px solid #FF6B2B', background: 'rgba(255,107,43,0.04)', padding: '10px 14px', borderRadius: '0 10px 10px 0' }}>
+                      <div style={{ fontSize: 9, color: '#FF6B2B', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 }}>Campaign highlight</div>
+                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65 }}>{data.bestCampaign}</div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Packages */}
+              {data.rates.length > 0 && (
+                <div style={{ ...MK.card, padding: 16 }}>
+                  <div style={MK.sectionTitle}>Packages</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {data.rates.slice(0, 6).map(r => (
+                      <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0e0e1e', borderRadius: 10, padding: '12px 14px' }}>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>{r.name}</div>
+                        <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', flexShrink: 0, marginLeft: 12 }}>₹{Number(r.price).toLocaleString('en-IN')}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {data.turnaround && <div style={{ marginTop: 10, fontSize: 11.5, color: 'rgba(255,255,255,0.3)' }}>⏱ Turnaround: {data.turnaround} · 1 free revision included</div>}
+                </div>
+              )}
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 12px 4px', flexWrap: 'wrap', gap: 8 }}>
+                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Identity Kit</span>
+                {data.email && <span style={{ fontSize: 11, color: '#FF6B2B' }}>{data.email}</span>}
               </div>
             </div>
 

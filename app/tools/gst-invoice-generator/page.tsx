@@ -3,6 +3,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
 
+// ─── TOGGLE: flip to false to skip payment for testing ───
+const PAYMENT_ENABLED = true
+const PRICE_RUPEES = 49
+
 // ── FAQ data ──────────────────────────────────────────────────────────────────
 const faqs = [
   {
@@ -129,7 +133,7 @@ export default function GSTInvoiceGenerator() {
 
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [generating, setGenerating] = useState(false)
-  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewOpen, setPreviewOpen] = useState(false)
 
   // ── Calculations ─────────────────────────────────────────────────────────────
   const subtotal = services.reduce((sum, s) => sum + s.qty * s.rate, 0)
@@ -364,6 +368,74 @@ export default function GSTInvoiceGenerator() {
       alert('Could not generate PDF. Please try again.')
     }
     setGenerating(false)
+  }
+
+  function loadRazorpayScript(): Promise<boolean> {
+    return new Promise(resolve => {
+      if ((window as any).Razorpay) { resolve(true); return }
+      const script = document.createElement('script')
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+      script.onload = () => resolve(true)
+      script.onerror = () => resolve(false)
+      document.body.appendChild(script)
+    })
+  }
+
+  async function handlePayAndDownload() {
+    if (!PAYMENT_ENABLED) {
+      generatePDF()
+      return
+    }
+    setGenerating(true)
+    try {
+      const loaded = await loadRazorpayScript()
+      if (!loaded) {
+        alert('Could not load payment gateway. Check your connection and try again.')
+        setGenerating(false)
+        return
+      }
+
+      const res = await fetch('/api/gst-invoice-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: PRICE_RUPEES * 100 }),
+      })
+      const order = await res.json()
+
+      if (!order.orderId) {
+        alert('Could not start payment. Make sure RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are set in Vercel env vars.')
+        setGenerating(false)
+        return
+      }
+
+      const rzp = new (window as any).Razorpay({
+        key: order.key,
+        order_id: order.orderId,
+        amount: PRICE_RUPEES * 100,
+        currency: 'INR',
+        name: 'Identity Kit',
+        description: `${invoiceNo} — GST Invoice PDF`,
+        prefill: { name: creatorName, email: creatorEmail },
+        theme: { color: '#FF6B2B' },
+        handler: function () {
+          generatePDF()
+        },
+        modal: {
+          ondismiss: function () {
+            setGenerating(false)
+          },
+        },
+      })
+      rzp.on('payment.failed', function () {
+        alert('Payment failed. Please try again.')
+        setGenerating(false)
+      })
+      rzp.open()
+    } catch (err) {
+      console.error(err)
+      alert('Something went wrong starting payment. Please try again.')
+      setGenerating(false)
+    }
   }
 
   const inputStyle: React.CSSProperties = {
@@ -703,7 +775,7 @@ export default function GSTInvoiceGenerator() {
               </div>
 
               <button
-                onClick={generatePDF}
+                onClick={() => setPreviewOpen(true)}
                 disabled={generating || !creatorName || !brandName}
                 style={{
                   width: '100%', background: generating || !creatorName || !brandName ? 'rgba(255,107,43,0.3)' : '#FF6B2B',
@@ -713,11 +785,11 @@ export default function GSTInvoiceGenerator() {
                   transition: 'all 0.2s', marginBottom: 10,
                 }}
               >
-                {generating ? 'Generating PDF...' : '⬇ Download Invoice PDF'}
+                👁 Preview Invoice
               </button>
 
               {(!creatorName || !brandName) && (
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', textAlign: 'center' }}>Fill your name and brand name to download</p>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', textAlign: 'center' }}>Fill your name and brand name to preview</p>
               )}
 
               <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -832,6 +904,115 @@ export default function GSTInvoiceGenerator() {
         </div>
         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
       </footer>
+
+      {previewOpen && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 16px', overflowY: 'auto' }}>
+          <div style={{ background: '#0C0C12', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, width: '100%', maxWidth: 620, padding: 0, overflow: 'hidden' }}>
+
+            {/* Preview document */}
+            <div style={{ padding: '28px 28px 20px', background: '#fff', color: '#111' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18, paddingBottom: 14, borderBottom: '2px solid #FF6B2B' }}>
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.3px' }}>{isGSTRegistered ? 'TAX INVOICE' : 'INVOICE'}</div>
+                  <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>{invoiceNo} · {invoiceDate ? new Date(invoiceDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}</div>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: '#FF6B2B' }}>IDENTITY KIT</div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 18 }}>
+                <div>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>From</div>
+                  <div style={{ fontSize: 13, fontWeight: 700 }}>{creatorName || 'Your Name'}</div>
+                  <div style={{ fontSize: 11, color: '#555', lineHeight: 1.5, marginTop: 2 }}>{creatorAddress}</div>
+                  {creatorGSTIN && <div style={{ fontSize: 11, color: '#555', marginTop: 2 }}>GSTIN: {creatorGSTIN}</div>}
+                  {creatorPAN && <div style={{ fontSize: 11, color: '#555' }}>PAN: {creatorPAN}</div>}
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Bill To</div>
+                  <div style={{ fontSize: 13, fontWeight: 700 }}>{brandName || 'Brand Name'}</div>
+                  <div style={{ fontSize: 11, color: '#555', lineHeight: 1.5, marginTop: 2 }}>{brandAddress}</div>
+                  {brandGSTIN && <div style={{ fontSize: 11, color: '#555', marginTop: 2 }}>GSTIN: {brandGSTIN}</div>}
+                </div>
+              </div>
+
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, marginBottom: 16 }}>
+                <thead>
+                  <tr style={{ background: '#f5f5f7' }}>
+                    <th style={{ textAlign: 'left', padding: '8px 10px', fontSize: 10, fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Description</th>
+                    <th style={{ textAlign: 'center', padding: '8px 10px', fontSize: 10, fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Qty</th>
+                    <th style={{ textAlign: 'right', padding: '8px 10px', fontSize: 10, fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Rate</th>
+                    <th style={{ textAlign: 'right', padding: '8px 10px', fontSize: 10, fontWeight: 700, color: '#666', textTransform: 'uppercase' }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {services.map((s, i) => (
+                    <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
+                      <td style={{ padding: '8px 10px' }}>{s.description || 'Service'}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'center' }}>{s.qty}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtINR(s.rate)}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>{fmtINR(s.qty * s.rate)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+                <div style={{ width: 220 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', color: '#555' }}>
+                    <span>Subtotal</span><span>{fmtINR(subtotal)}</span>
+                  </div>
+                  {isGSTRegistered && sameState && <>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', color: '#555' }}><span>CGST (9%)</span><span>{fmtINR(cgst)}</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', color: '#555' }}><span>SGST (9%)</span><span>{fmtINR(sgst)}</span></div>
+                  </>}
+                  {isGSTRegistered && !sameState && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', color: '#555' }}><span>IGST (18%)</span><span>{fmtINR(igst)}</span></div>
+                  )}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, fontWeight: 800, padding: '8px 0', marginTop: 4, borderTop: '2px solid #111' }}>
+                    <span>Total</span><span>{fmtINR(total)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {(bankName || accountNo) && (
+                <div style={{ fontSize: 11, color: '#555', borderTop: '1px solid #eee', paddingTop: 12, lineHeight: 1.7 }}>
+                  <strong style={{ color: '#111' }}>Bank Details:</strong> {accountHolder}{bankName && ` · ${bankName}`}{accountNo && ` · A/C ${accountNo}`}{ifsc && ` · IFSC ${ifsc}`}
+                </div>
+              )}
+            </div>
+
+            {/* Pay & download bar */}
+            <div style={{ padding: '20px 24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              {!PAYMENT_ENABLED && (
+                <div style={{ background: 'rgba(255,193,7,0.08)', border: '1px solid rgba(255,193,7,0.25)', borderRadius: 10, padding: '10px 12px', marginBottom: 14, fontSize: 12, color: '#FFD166' }}>
+                  🛠 Testing mode — downloads are free for now.
+                </div>
+              )}
+              {PAYMENT_ENABLED && (
+                <div style={{ background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 10, padding: '12px 14px', marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>One-time download</span>
+                  <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: '#FF6B2B' }}>₹{PRICE_RUPEES}</span>
+                </div>
+              )}
+              <button
+                onClick={handlePayAndDownload}
+                disabled={generating}
+                style={{ width: '100%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', color: '#fff', border: 'none', borderRadius: 12, padding: '14px', fontSize: 15, fontWeight: 700, cursor: generating ? 'default' : 'pointer', opacity: generating ? 0.7 : 1, marginBottom: 10, fontFamily: "'Syne',sans-serif" }}
+              >
+                {generating ? 'Processing…' : PAYMENT_ENABLED ? `Pay ₹${PRICE_RUPEES} & Download PDF →` : 'Download PDF (Free — Testing) →'}
+              </button>
+              {PAYMENT_ENABLED && (
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', textAlign: 'center', marginBottom: 10 }}>
+                  Secure payment via Razorpay · UPI, cards, netbanking
+                </p>
+              )}
+              <button onClick={() => setPreviewOpen(false)} disabled={generating} style={{ width: '100%', background: 'transparent', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px', fontSize: 13, fontWeight: 600, cursor: generating ? 'default' : 'pointer' }}>
+                ← Edit details
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

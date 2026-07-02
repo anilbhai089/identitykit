@@ -72,6 +72,17 @@ const tools = [
     paid: true,
   },
   {
+    href: '/tools/cv-generator',
+    emoji: '📄',
+    tag: 'Paid',
+    tagColor: '#FF8C5A',
+    title: 'Creator CV Generator',
+    desc: 'Turn your stats, brand deals and rates into a polished Creator CV — same dark theme as your Identity Kit profile. Preview free, pay ₹49 to download the PDF.',
+    cta: 'Preview & download →',
+    live: true,
+    paid: true,
+  },
+  {
     href: '/tools/instagram-bio-generator',
     emoji: '✨',
     tag: 'Free',

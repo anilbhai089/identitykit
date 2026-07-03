@@ -1,0 +1,47 @@
+// Central place to map a blog post's `tag` to a display emoji.
+// Add a new line here ONLY when you introduce a brand-new tag that
+// isn't already covered below. Unknown tags fall back to '📄'.
+
+export const tagIcons: Record<string, string> = {
+  'Media Kit': '📋',
+  'Rate Card': '💰',
+  'Brand Deals': '🤝',
+  'Creator Career': '🚀',
+  'UGC': '🎬',
+  'Legal': '⚖️',
+  'Analytics': '📊',
+  'Growth': '📈',
+  'Creator Economy': '🇮🇳',
+  'YouTube': '▶️',
+  'Platform': '⚔️',
+  'Finfluencer': '💹',
+  'Personal Branding': '✨',
+  'Student Income': '🎓',
+  'Niche Strategy': '🎯',
+  'Instagram Income': '💰',
+  'Influencer Marketing': '🌟',
+  'Brand Guide': '💼',
+  'Content Planning': '📅',
+  'Passive Income': '💸',
+  'Profile Tips': '✍️',
+  'GST & Tax': '🧾',
+  'Tax & GST': '🧾',
+  'LinkedIn Growth': '💼',
+  'Platform Comparison': '⚔️',
+  'ROI & Analytics': '📊',
+  'Creator Income': '💰',
+  'Faceless YouTube': '🎭',
+  'Vernacular Creators': '🪔',
+  'Instagram Verification': '✅',
+  'Instagram Reels': '🎬',
+  'ASCI Compliance': '🛡️',
+  'Negotiation': '🤝',
+  'Brand Outreach': '🔍',
+  'Barter Collab': '📦',
+  'Brand Ambassador': '🏆',
+  'UGC Pricing': '🎬',
+}
+
+export function getTagIcon(tag: string): string {
+  return tagIcons[tag] ?? '📄'
+}

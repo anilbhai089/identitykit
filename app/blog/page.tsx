@@ -15,6 +15,30 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: 'ugc-pricing-india-2026',
+    tag: 'UGC Pricing',
+    title: 'UGC Content Pricing in India 2026: Single Videos, Bundles & Retainer Rates',
+    excerpt: 'Ask five UGC creators what to charge and you\'ll get five different answers. Per-video rates by experience tier, usage rights and whitelisting fees, bundle discount math, and a ready-to-send UGC rate card structure for Indian creators.',
+    readTime: '14 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'link-in-bio-vs-media-kit-vs-portfolio-india-2026',
+    tag: 'Media Kit',
+    title: 'Link in Bio vs Media Kit vs Portfolio Website: What Indian Brands Actually Want (2026)',
+    excerpt: 'A brand manager reviewing 20 creator profiles in 30 minutes doesn\'t have time to click through a list of buttons. A clear comparison of when a simple link-in-bio tool is enough, when you need a media kit, and when a full portfolio website is worth building.',
+    readTime: '12 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-become-brand-ambassador-india-2026',
+    tag: 'Brand Ambassador',
+    title: 'How to Become a Brand Ambassador in India 2026 (Retainer Rates, Contracts & Pitch Guide)',
+    excerpt: 'One-off deals reset to zero after every post. Ambassador programs compound. Rupee retainer benchmarks by tier, compensation models, exclusivity pricing, red flags, and how to pitch a brand you already work with for an ambassador upgrade.',
+    readTime: '15 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'barter-collaboration-india-2026',
     tag: 'Barter Collab',
     title: 'Barter Collaboration in India 2026: When to Accept Free Products (and When to Say No)',
@@ -504,7 +528,7 @@ export default function BlogPage() {
                 <div style={{ height: 180, background: 'linear-gradient(135deg, rgba(255,107,43,0.12), rgba(255,107,43,0.04))', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 50%, rgba(255,107,43,0.15), transparent 60%)' }} />
                   <div style={{ fontSize: 56 }}>
-                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : post.tag === 'Instagram Verification' ? '✅' : post.tag === 'Instagram Reels' ? '🎬' : post.tag === 'ASCI Compliance' ? '🛡️' : post.tag === 'Negotiation' ? '🤝' : post.tag === 'Brand Outreach' ? '🔍' : post.tag === 'Barter Collab' ? '📦' : '📄'}
+                    {post.tag === 'Media Kit' ? '📋' : post.tag === 'Rate Card' ? '💰' : post.tag === 'Brand Deals' ? '🤝' : post.tag === 'Creator Career' ? '🚀' : post.tag === 'UGC' ? '🎬' : post.tag === 'Legal' ? '⚖️' : post.tag === 'Analytics' ? '📊' : post.tag === 'Growth' ? '📈' : post.tag === 'Creator Economy' ? '🇮🇳' : post.tag === 'YouTube' ? '▶️' : post.tag === 'Platform' ? '⚔️' : post.tag === 'Finfluencer' ? '💹' : post.tag === 'Personal Branding' ? '✨' : post.tag === 'Student Income' ? '🎓' : post.tag === 'Niche Strategy' ? '🎯' : post.tag === 'Instagram Income' ? '💰' : post.tag === 'Influencer Marketing' ? '🌟' : post.tag === 'Brand Guide' ? '💼' : post.tag === 'Content Planning' ? '📅' : post.tag === 'Passive Income' ? '💸' : post.tag === 'Profile Tips' ? '✍️' : post.tag === 'GST & Tax' ? '🧾' : post.tag === 'LinkedIn Growth' ? '💼' : post.tag === 'Platform Comparison' ? '⚔️' : post.tag === 'ROI & Analytics' ? '📊' : post.tag === 'Creator Income' ? '💰' : post.tag === 'Faceless YouTube' ? '🎭' : post.tag === 'Vernacular Creators' ? '🪔' : post.tag === 'Instagram Verification' ? '✅' : post.tag === 'Instagram Reels' ? '🎬' : post.tag === 'ASCI Compliance' ? '🛡️' : post.tag === 'Negotiation' ? '🤝' : post.tag === 'Brand Outreach' ? '🔍' : post.tag === 'Barter Collab' ? '📦' : post.tag === 'Brand Ambassador' ? '🏆' : post.tag === 'UGC Pricing' ? '🎬' : '📄'}
                   </div>
                 </div>
                 <div style={{ padding: 24 }}>

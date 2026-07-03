@@ -40,6 +40,7 @@ export const tagIcons: Record<string, string> = {
   'Barter Collab': '📦',
   'Brand Ambassador': '🏆',
   'UGC Pricing': '🎬',
+  'Getting Paid': '💸',
 }
 
 export function getTagIcon(tag: string): string {

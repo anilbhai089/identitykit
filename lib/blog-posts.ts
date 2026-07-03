@@ -10,6 +10,14 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'how-to-get-paid-by-brands-india-2026',
+    tag: 'Getting Paid',
+    title: 'How to Get Paid by Brands in India 2026: Payment Terms, Invoicing & Chasing Late Payments',
+    excerpt: 'A signed contract and a delivered post don\'t guarantee a payment date. Standard payment structures (upfront, 50/50, Net-15/30), what every invoice must include, a 7-step script for chasing a late payment, and red flags to catch before you sign.',
+    readTime: '15 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'ugc-pricing-india-2026',
     tag: 'UGC Pricing',
     title: 'UGC Content Pricing in India 2026: Single Videos, Bundles & Retainer Rates',

@@ -10,6 +10,38 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'talent-agency-vs-self-represented-india-2026',
+    tag: 'Agency vs Self-Rep',
+    title: 'Talent Agency vs Self-Represented Creator in India 2026: Which Should You Choose?',
+    excerpt: 'A good manager can land you deals you\'d never get on your own — and take 15-25% of every one of them, forever. Real commission rates, pros and cons of each path, decision signals, and hybrid models that let you self-manage professionally.',
+    readTime: '14 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-reply-brand-collaboration-dm-india-2026',
+    tag: 'Brand DM Reply',
+    title: 'How to Reply to a Brand Collaboration DM in India 2026 (Without Underselling Yourself)',
+    excerpt: 'How you reply to that first DM decides whether the brand sees a professional or an easy discount. A 5-step first-response framework, ready-to-use replies for vague offers, lowballs, and gifted-only pitches, and red flags to catch early.',
+    readTime: '12 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'content-revisions-scope-creep-brand-deals-india-2026',
+    tag: 'Scope Creep',
+    title: 'How to Handle Content Revisions & Scope Creep in Brand Deals (India 2026)',
+    excerpt: '"Just one more small tweak" is how a single Reel turns into five hours of unpaid re-edits. Revision-round pricing, exact contract language, and scripts to hold your limit without damaging the brand relationship.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'international-payments-indian-creators-2026',
+    tag: 'International Payments',
+    title: 'How Indian Creators Can Receive International Brand Payments 2026 (PayPal, Wise, FIRC & GST)',
+    excerpt: 'Your first foreign brand deal is exciting — until the payment lands and you realise nobody explained FIRCs, purpose codes, or why PayPal quietly took an 8% cut. PayPal vs Wise vs Payoneer fees compared, FIRC basics, and GST export rules.',
+    readTime: '15 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'how-to-get-paid-by-brands-india-2026',
     tag: 'Getting Paid',
     title: 'How to Get Paid by Brands in India 2026: Payment Terms, Invoicing & Chasing Late Payments',

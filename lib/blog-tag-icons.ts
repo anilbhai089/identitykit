@@ -41,6 +41,10 @@ export const tagIcons: Record<string, string> = {
   'Brand Ambassador': '🏆',
   'UGC Pricing': '🎬',
   'Getting Paid': '💸',
+  'International Payments': '🌍',
+  'Scope Creep': '🔁',
+  'Brand DM Reply': '💬',
+  'Agency vs Self-Rep': '⚖️',
 }
 
 export function getTagIcon(tag: string): string {

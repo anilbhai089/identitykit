@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'content-usage-rights-explained-india-2026',
+    tag: 'Usage Rights',
+    title: 'Content Usage Rights Explained: Organic, Paid, Whitelisting & Perpetuity (India 2026)',
+    excerpt: 'A brand quietly running your Reel as a paid ad for six months, with zero extra payment, is one of the most common ways Indian creators lose money. Real percentage-based pricing by follower tier, calculation examples, and contract language that protects you.',
+    readTime: '14 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'why-creators-need-email-list-india-2026',
+    tag: 'Email List',
+    title: 'Why Every Indian Creator Needs an Email List in 2026 (And How to Start One Free)',
+    excerpt: 'Instagram reach dropped 30-50% for thousands of creators overnight in April 2026. An email list is the one channel no algorithm update can quietly take away. Free platform comparison, a 6-step setup guide, and how it becomes a second income stream.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'talent-agency-vs-self-represented-india-2026',
     tag: 'Agency vs Self-Rep',
     title: 'Talent Agency vs Self-Represented Creator in India 2026: Which Should You Choose?',

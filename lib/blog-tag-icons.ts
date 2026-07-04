@@ -45,6 +45,8 @@ export const tagIcons: Record<string, string> = {
   'Scope Creep': '🔁',
   'Brand DM Reply': '💬',
   'Agency vs Self-Rep': '⚖️',
+  'Email List': '📧',
+  'Usage Rights': '♾️',
 }
 
 export function getTagIcon(tag: string): string {

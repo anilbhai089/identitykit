@@ -47,6 +47,9 @@ export const tagIcons: Record<string, string> = {
   'Agency vs Self-Rep': '⚖️',
   'Email List': '📧',
   'Usage Rights': '♾️',
+  'Case Studies': '📊',
+  'Kill Fees': '🛑',
+  'Deal Pipeline': '🗂️',
 }
 
 export function getTagIcon(tag: string): string {

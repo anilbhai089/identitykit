@@ -490,6 +490,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+      {
+      url: `${baseUrl}/blog/kill-fee-brand-cancellation-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+      {
+      url: `${baseUrl}/blog/managing-multiple-brand-deals-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

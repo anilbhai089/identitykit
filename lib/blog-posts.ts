@@ -10,6 +10,30 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'managing-multiple-brand-deals-india-2026',
+    tag: 'Deal Pipeline',
+    title: 'How to Manage Multiple Brand Deals at Once Without Dropping the Ball (India 2026)',
+    excerpt: 'Running 2-3 brand deals at once sounds like chaos without a system. With one, it\'s just pipeline management. A 6-stage deal tracker, a 30-minute weekly review routine, and how to handle overlapping exclusivity windows.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'kill-fee-brand-cancellation-india-2026',
+    tag: 'Kill Fees',
+    title: 'Brand Cancelled Your Campaign? Kill Fees Explained for Indian Creators (2026)',
+    excerpt: 'A brand can cancel a campaign after you\'ve scripted, filmed, and edited an entire piece of content — and legally owe you nothing, unless your contract says otherwise. Kill fee benchmarks by stage, the exact clause to add, and how to ask without sounding difficult.',
+    readTime: '12 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'brand-deal-case-study-india-2026',
+    tag: 'Case Studies',
+    title: 'How to Turn Past Brand Deals into Case Studies That Land Bigger Ones (India 2026)',
+    excerpt: 'A screenshot of an Instagram post proves you posted. A case study proves you delivered results. What to track during a campaign, the exact 4-part structure that works, a filled-in example, and how one good case study can raise your rate more than followers ever will.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'content-usage-rights-explained-india-2026',
     tag: 'Usage Rights',
     title: 'Content Usage Rights Explained: Organic, Paid, Whitelisting & Perpetuity (India 2026)',

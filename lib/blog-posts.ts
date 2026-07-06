@@ -10,6 +10,30 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'influencer-brief-guide-india-2026',
+    tag: 'For Brands',
+    title: 'How to Write an Influencer Brief for Indian Creators (2026 Brand Guide)',
+    excerpt: 'A vague WhatsApp message asking for "some content" is the biggest reason Indian D2C brands get off-brand creator content. The 8 sections every brief needs, ASCI disclosure language, a ready-to-use WhatsApp brief format, and common mistakes to avoid.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'creator-manager-commission-india-2026',
+    tag: 'Creator Manager',
+    title: 'How Much Should You Charge as a Creator Manager in India? (2026 Commission Guide)',
+    excerpt: 'The standard is 15-20% commission on deals you bring in — and you should never charge a creator upfront. Real rupee commission examples, the "tail clause" that protects your commission after a contract ends, and 6 terms every agreement needs.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-become-influencer-manager-india-2026',
+    tag: 'Creator Manager',
+    title: 'How to Become an Influencer/Creator Manager in India 2026 (Role, Skills, Pay)',
+    excerpt: 'An influencer manager isn\'t a brand\'s social media manager — it\'s the creator\'s right hand, running pitches, negotiations, and contracts. What the role actually involves, how to land your first client with no experience, and the exact toolkit you need.',
+    readTime: '14 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'managing-multiple-brand-deals-india-2026',
     tag: 'Deal Pipeline',
     title: 'How to Manage Multiple Brand Deals at Once Without Dropping the Ball (India 2026)',

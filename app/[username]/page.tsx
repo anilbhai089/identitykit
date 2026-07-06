@@ -12,7 +12,10 @@ const TABS = [
 
 export default function PublicProfile() {
   const params = useParams()
-  const username = params.username as string
+  const rawUsername = params.username as string
+  // Next.js doesn't url-decode "@" in dynamic segments (it's reserved for parallel routes),
+  // so strip any leftover %40/@ and lowercase to match how usernames are stored/saved.
+  const username = rawUsername?.replace(/%40/gi, '').replace(/@/g, '').toLowerCase()
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState('profile')

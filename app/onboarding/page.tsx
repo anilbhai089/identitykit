@@ -401,7 +401,7 @@ export default function Onboarding() {
               </div>
 
               <div><label className="label">Full name *</label><input className="input" placeholder="Anil Prajapati" value={form.full_name} onChange={e => set('full_name', e.target.value)} /></div>
-              <div><label className="label">Username * <span style={{ color: 'var(--text3)', fontWeight: 400 }}>— identitykit.in/yourname</span></label><input className="input" placeholder="anilprajapati" value={form.username} onChange={e => set('username', e.target.value.toLowerCase().replace(/\s/g, ''))} /></div>
+              <div><label className="label">Username * <span style={{ color: 'var(--text3)', fontWeight: 400 }}>— identitykit.in/yourname</span></label><input className="input" placeholder="anilprajapati" value={form.username} onChange={e => set('username', e.target.value.toLowerCase().replace(/[^a-z0-9_.]/g, ''))} /></div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div><label className="label">City *</label><input className="input" placeholder="Mumbai" value={form.city} onChange={e => set('city', e.target.value)} /></div>
                 <div><label className="label">Languages</label><input className="input" placeholder="Hindi, English" value={form.languages} onChange={e => set('languages', e.target.value)} /></div>

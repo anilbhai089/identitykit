@@ -504,6 +504,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+      {
+      url: `${baseUrl}/blog/how-to-become-influencer-manager-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+      {
+      url: `${baseUrl}/blog/creator-manager-commission-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+      {
+      url: `${baseUrl}/blog/influencer-brief-guide-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

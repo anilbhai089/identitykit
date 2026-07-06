@@ -50,6 +50,8 @@ export const tagIcons: Record<string, string> = {
   'Case Studies': '📊',
   'Kill Fees': '🛑',
   'Deal Pipeline': '🗂️',
+  'Creator Manager': '🧑‍💼',
+  'For Brands': '📋',
 }
 
 export function getTagIcon(tag: string): string {

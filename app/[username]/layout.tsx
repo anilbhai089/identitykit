@@ -11,10 +11,13 @@ export async function generateMetadata({ params }: { params: { username: string 
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey)
+    // Next.js doesn't url-decode "@" in dynamic segments (it's reserved for parallel routes),
+    // so strip any leftover %40/@ and lowercase to match how usernames are stored/saved.
+    const cleanUsername = params.username.replace(/%40/gi, '').replace(/@/g, '').toLowerCase()
     const { data } = await supabase
       .from('profiles')
       .select('full_name, niche, city, bio, photo_url, username, instagram_followers, youtube_subscribers')
-      .eq('username', params.username.toLowerCase())
+      .eq('username', cleanUsername)
       .single()
 
     // If no profile found, just show Identity Kit — not "Creator not found"

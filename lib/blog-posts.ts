@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'nano-influencer-seeding-campaign-india-2026',
+    tag: 'Seeding Campaign',
+    title: 'How to Run a Nano-Influencer Seeding Campaign in India (2026 Brand Guide)',
+    excerpt: 'One nano creator posting to 3,000 followers isn\'t meaningful. Sixty to a hundred of them, seeded and briefed properly, is a real content and discovery engine. A 7-step playbook, realistic budget breakdown, and honest expectations on post-through rates.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'evaluating-creator-media-kit-brands-india-2026',
+    tag: 'For Brands',
+    title: 'What to Look for in a Creator\'s Media Kit Before You Hire Them (India 2026)',
+    excerpt: 'A polished media kit and a genuinely good campaign fit are two different things. Which numbers actually predict performance, 6 red flags worth a closer look, 5 questions to ask before committing budget, and why the media kit itself is a signal worth weighing.',
+    readTime: '12 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'influencer-brief-guide-india-2026',
     tag: 'For Brands',
     title: 'How to Write an Influencer Brief for Indian Creators (2026 Brand Guide)',

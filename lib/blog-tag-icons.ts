@@ -52,6 +52,7 @@ export const tagIcons: Record<string, string> = {
   'Deal Pipeline': '🗂️',
   'Creator Manager': '🧑‍💼',
   'For Brands': '📋',
+  'Seeding Campaign': '🌱',
 }
 
 export function getTagIcon(tag: string): string {

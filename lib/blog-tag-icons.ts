@@ -53,6 +53,8 @@ export const tagIcons: Record<string, string> = {
   'Creator Manager': '🧑‍💼',
   'For Brands': '📋',
   'Seeding Campaign': '🌱',
+  'Podcasting': '🎙️',
+  'Threads': '🧵',
 }
 
 export function getTagIcon(tag: string): string {

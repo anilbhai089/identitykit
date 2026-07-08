@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'instagram-threads-creators-india-2026',
+    tag: 'Threads',
+    title: 'Instagram Threads for Indian Creators: Growth & Monetization Guide (2026)',
+    excerpt: 'Threads hit 400 million users in 2.5 years — X took 17 years to reach 600 million. Why the platform is still under-saturated, what content actually works, realistic brand deal rates today, and how to use it as a discovery funnel to your owned channels.',
+    readTime: '12 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-start-podcast-india-creator-2026',
+    tag: 'Podcasting',
+    title: 'How to Start a Podcast in India as a Content Creator (2026 Guide)',
+    excerpt: 'You don\'t need a ₹50,000 studio mic on day one. India\'s podcast audience has crossed 100 million listeners. Real equipment costs by budget tier, the right free hosting platform, and how podcast sponsorships actually pay (₹5,000-50,000/episode).',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'nano-influencer-seeding-campaign-india-2026',
     tag: 'Seeding Campaign',
     title: 'How to Run a Nano-Influencer Seeding Campaign in India (2026 Brand Guide)',

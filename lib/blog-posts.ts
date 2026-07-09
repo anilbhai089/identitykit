@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'influencer-contract-checklist-brands-india-2026',
+    tag: 'For Brands',
+    title: 'Influencer Contract Checklist for Brands in India: IP Rights, TDS & Termination (2026)',
+    excerpt: 'By default, the creator owns the content under Indian copyright law — even if your brand paid for it. 8 essential clauses, the TDS deduction rule most global templates miss, and 5 mistakes brands make in influencer contracts.',
+    readTime: '14 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-grow-on-x-twitter-india-2026',
+    tag: 'X / Twitter',
+    title: 'How to Grow on X (Twitter) as an Indian Creator & Get Brand Deals (2026)',
+    excerpt: 'X rewards replies roughly 15x more than likes — a completely different growth mechanic than Instagram. The niches that actually work (fintech, tech, career), thread-writing tactics, realistic monetization milestones, and how to pitch brands with an X-specific media kit.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'instagram-threads-creators-india-2026',
     tag: 'Threads',
     title: 'Instagram Threads for Indian Creators: Growth & Monetization Guide (2026)',

@@ -553,6 +553,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+    {
+      url: `${baseUrl}/blog/how-to-grow-on-x-twitter-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/influencer-contract-checklist-brands-india-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

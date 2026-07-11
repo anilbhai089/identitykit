@@ -56,6 +56,7 @@ export const tagIcons: Record<string, string> = {
   'Podcasting': '🎙️',
   'Threads': '🧵',
   'X / Twitter': '🐦',
+  'Regional Platforms': '🇮🇳',
 }
 
 export function getTagIcon(tag: string): string {

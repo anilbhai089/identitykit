@@ -38,6 +38,10 @@ export default function Landing() {
         .feature-card { transition: all 0.25s; }
         .feature-card:hover { transform: translateY(-4px); border-color: rgba(255,107,43,0.25) !important; }
         .step-num { background: linear-gradient(135deg, rgba(255,107,43,0.15), rgba(255,107,43,0.05)); border: 1px solid rgba(255,107,43,0.2); }
+        @media (max-width: 900px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-preview-stack { height: 380px !important; margin-top: 20px; }
+        }
         @media (max-width: 640px) {
           .hero-title { font-size: 36px !important; }
           .hero-sub { font-size: 15px !important; }
@@ -47,8 +51,9 @@ export default function Landing() {
           .features-grid { grid-template-columns: 1fr !important; }
           .vs-table-cols { grid-template-columns: 1fr 80px 80px !important; }
           .nav-cta-text { display: none !important; }
-          .profile-mock { max-width: 320px !important; }
           .social-row { gap: 16px !important; }
+          .hero-preview-stack { height: 320px !important; }
+          .preview-window { width: 240px !important; }
         }
         @media (max-width: 400px) {
           .hero-title { font-size: 30px !important; }
@@ -75,88 +80,109 @@ export default function Landing() {
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{ paddingTop: 120, paddingBottom: 72, position: 'relative', overflow: 'hidden' }}>
+      <section style={{ paddingTop: 132, paddingBottom: 60, position: 'relative', overflow: 'hidden' }}>
         {/* BG effects */}
-        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 800, height: 500, background: 'radial-gradient(ellipse at 50% 0%,rgba(255,107,43,0.15) 0%,transparent 65%)', pointerEvents: 'none' }}></div>
-        <div style={{ position: 'absolute', top: 80, left: '15%', width: 300, height: 300, background: 'radial-gradient(circle,rgba(255,107,43,0.06) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
-        <div style={{ position: 'absolute', top: 60, right: '10%', width: 200, height: 200, background: 'radial-gradient(circle,rgba(168,85,247,0.06) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 1100, height: 560, background: 'radial-gradient(ellipse at 30% 0%,rgba(255,107,43,0.13) 0%,transparent 65%)', pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', top: 60, right: '8%', width: 260, height: 260, background: 'radial-gradient(circle,rgba(168,85,247,0.06) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
 
-        <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 20px', textAlign: 'center', position: 'relative', animation: 'fadeUp 0.6s ease' }}>
+        <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px', position: 'relative' }}>
+          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 40, alignItems: 'center' }}>
 
-          {/* Badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 99, padding: '6px 14px', marginBottom: 28 }}>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF6B2B', animation: 'pulse 2s infinite', flexShrink: 0 }}></span>
-            <span style={{ fontSize: 12, color: '#FF8C5A', fontWeight: 600, letterSpacing: '0.02em' }}>Built for Indian Creators 🇮🇳</span>
-          </div>
+            {/* ── LEFT: headline column ── */}
+            <div style={{ animation: 'fadeUp 0.6s ease' }}>
+              {/* Badge */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 99, padding: '6px 14px', marginBottom: 26 }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF6B2B', animation: 'pulse 2s infinite', flexShrink: 0 }}></span>
+                <span style={{ fontSize: 12, color: '#FF8C5A', fontWeight: 600, letterSpacing: '0.02em' }}>Built for Indian Creators 🇮🇳</span>
+              </div>
 
-          {/* Title */}
-          <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 62, fontWeight: 800, lineHeight: 1.05, marginBottom: 20, letterSpacing: '-0.03em' }}>
-            One link.<br />
-            <span style={{ background: 'linear-gradient(135deg,#FF6B2B 0%,#FF8C5A 50%,#FFB347 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Every brand</span>{' '}
-            <span style={{ color: 'rgba(255,255,255,0.9)' }}>needs.</span>
-          </h1>
+              {/* Title — editorial serif */}
+              <h1 className="hero-title" style={{ fontFamily: "'Fraunces',serif", fontSize: 58, fontWeight: 500, fontStyle: 'italic', lineHeight: 1.08, marginBottom: 22, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.95)' }}>
+                One link.<br />
+                <span style={{ fontStyle: 'normal', fontWeight: 600, background: 'linear-gradient(135deg,#FF6B2B 0%,#FF8C5A 50%,#FFB347 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Every brand</span>{' '}
+                needs.
+              </h1>
 
-          <p className="hero-sub" style={{ fontSize: 18, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, marginBottom: 36, maxWidth: 520, margin: '0 auto 36px' }}>
-            Stop losing brand deals because you don&apos;t look professional. Get your Media Kit, Rate Card and Creator CV — all in one stunning shareable link.
-          </p>
+              <p className="hero-sub" style={{ fontSize: 17, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, marginBottom: 32, maxWidth: 440 }}>
+                Stop losing brand deals because you don&apos;t look professional. Get your Media Kit, Rate Card and Creator CV — all in one stunning shareable link.
+              </p>
 
-          {/* CTAs */}
-          <div className="hero-btns" style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
-            <button onClick={() => router.push('/auth?mode=signup')} className="btn-primary" style={{ padding: '14px 28px', borderRadius: 12, fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
-              Create your Identity Kit free
-              <i className="ti ti-arrow-right" style={{ fontSize: 16 }}></i>
-            </button>
-            <button onClick={() => router.push('/anil')} className="btn-ghost" style={{ padding: '14px 22px', borderRadius: 12, fontSize: 15 }}>
-              See live example →
-            </button>
-          </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>Free to create · No credit card · Takes 5 minutes</p>
-        </div>
+              {/* CTAs */}
+              <div className="hero-btns" style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 16 }}>
+                <button onClick={() => router.push('/auth?mode=signup')} className="btn-primary" style={{ padding: '14px 28px', borderRadius: 12, fontSize: 15, display: 'flex', alignItems: 'center', gap: 8 }}>
+                  Create your Identity Kit free
+                  <i className="ti ti-arrow-right" style={{ fontSize: 16 }}></i>
+                </button>
+                <button onClick={() => router.push('/anil')} className="btn-ghost" style={{ padding: '14px 22px', borderRadius: 12, fontSize: 15 }}>
+                  See live example →
+                </button>
+              </div>
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', marginBottom: 32 }}>Free to create · No credit card · Takes 5 minutes</p>
 
-        {/* FLOATING PROFILE MOCK */}
-        <div className="profile-mock" style={{ maxWidth: 400, margin: '52px auto 0', padding: '0 20px', animation: 'float 5s ease-in-out infinite' }}>
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, overflow: 'hidden', backdropFilter: 'blur(12px)', boxShadow: '0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,107,43,0.1)' }}>
-            {/* Mock banner */}
-            <div style={{ height: 72, background: '#0e0e1c', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(255,107,43,0.08) 24px,rgba(255,107,43,0.08) 25px),repeating-linear-gradient(90deg,transparent,transparent 24px,rgba(255,107,43,0.08) 24px,rgba(255,107,43,0.08) 25px)' }}></div>
-            </div>
-            <div style={{ padding: '0 18px 18px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 10 }}>
-                <div style={{ position: 'relative', marginTop: -28 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', border: '3px solid #07070D', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18, color: 'white' }}>AP</div>
-                  <div style={{ position: 'absolute', bottom: 2, right: 2, width: 12, height: 12, background: '#22c55e', borderRadius: '50%', border: '2px solid #07070D' }}></div>
+              {/* Trusted-by strip, now sits under the CTA on the left */}
+              <div>
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12 }}>Everything brands ask for</p>
+                <div className="social-row" style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+                  {[['ti-id-badge','Creator CV'],['ti-chart-bar','Media Kit'],['ti-receipt','Rate Card'],['ti-photo-video','Portfolio']].map(([icon,label]) => (
+                    <div key={label as string} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <i className={`ti ${icon}`} style={{ fontSize: 14, color: '#FF6B2B' }}></i>
+                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{label}</span>
+                    </div>
+                  ))}
                 </div>
-                <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 99, padding: '4px 10px', fontSize: 10, color: '#22c55e', fontWeight: 600 }}>● Open for collabs</div>
-              </div>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 800, marginBottom: 2 }}>Anil Prajapati</div>
-              <div style={{ fontSize: 11, color: '#FF6B2B', marginBottom: 12 }}>identitykit.in/anilprajapati</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(255,255,255,0.04)', borderRadius: 12, overflow: 'hidden', marginBottom: 12 }}>
-                {[['23K','Followers'],['35K','Avg Views'],['4.8%','Eng.'],['12+','Brands']].map(([n,l]) => (
-                  <div key={l} style={{ background: '#111120', padding: '9px 4px', textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 800, color: '#FF6B2B' }}>{n}</div>
-                    <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>{l}</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: 'flex', gap: 6 }}>
-                {['Profile','Media Kit','Rate Card','CV'].map(t => (
-                  <div key={t} style={{ flex: 1, padding: '5px 2px', textAlign: 'center', fontSize: 9, background: t === 'Profile' ? 'rgba(255,107,43,0.12)' : 'rgba(255,255,255,0.04)', borderRadius: 6, color: t === 'Profile' ? '#FF8C5A' : 'rgba(255,255,255,0.3)', fontWeight: t === 'Profile' ? 600 : 400 }}>{t}</div>
-                ))}
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Trusted by strip */}
-        <div style={{ textAlign: 'center', marginTop: 40, padding: '0 20px' }}>
-          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 14 }}>Everything brands ask for</p>
-          <div className="social-row" style={{ display: 'flex', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
-            {[['ti-id-badge','Creator CV'],['ti-chart-bar','Media Kit'],['ti-receipt','Rate Card'],['ti-photo-video','Portfolio'],['ti-share','Share link']].map(([icon,label]) => (
-              <div key={label as string} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <i className={`ti ${icon}`} style={{ fontSize: 14, color: '#FF6B2B' }}></i>
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{label}</span>
+            {/* ── RIGHT: floating real-product preview windows ── */}
+            <div className="hero-preview-stack" style={{ position: 'relative', height: 500 }}>
+
+              {/* Rate Card window — back, upper-right */}
+              <div className="preview-window" style={{ position: 'absolute', top: 0, right: 0, width: 300, animation: 'float 6s ease-in-out infinite', zIndex: 1 }}>
+                <div style={{ background: '#0e0e18', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.45)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+                    <i className="ti ti-receipt" style={{ fontSize: 12, color: '#FF6B2B' }}></i>
+                    <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 600, letterSpacing: '0.04em' }}>RATE CARD</span>
+                  </div>
+                  <div style={{ padding: 14 }}>
+                    {[['Instagram Reel','₹15,000'],['YouTube Integration','₹40,000'],['Story Mention','₹5,000']].map(([label, price]) => (
+                      <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{label}</span>
+                        <span style={{ fontSize: 12, color: '#FF8C5A', fontWeight: 700 }}>{price}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            ))}
+
+              {/* Media Kit window — front, lower-left, overlapping */}
+              <div className="preview-window" style={{ position: 'absolute', bottom: 20, left: 0, width: 320, animation: 'float 5s ease-in-out infinite 0.4s', zIndex: 2 }}>
+                <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,107,43,0.18)', borderRadius: 20, overflow: 'hidden', backdropFilter: 'blur(12px)', boxShadow: '0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,107,43,0.08)' }}>
+                    <div style={{ height: 64, background: '#0e0e1c', position: 'relative', overflow: 'hidden' }}>
+                      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(255,107,43,0.08) 24px,rgba(255,107,43,0.08) 25px),repeating-linear-gradient(90deg,transparent,transparent 24px,rgba(255,107,43,0.08) 24px,rgba(255,107,43,0.08) 25px)' }}></div>
+                    </div>
+                    <div style={{ padding: '0 16px 16px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 10 }}>
+                        <div style={{ position: 'relative', marginTop: -26 }}>
+                          <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', border: '3px solid #07070D', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, color: 'white' }}>AP</div>
+                          <div style={{ position: 'absolute', bottom: 2, right: 2, width: 11, height: 11, background: '#22c55e', borderRadius: '50%', border: '2px solid #07070D' }}></div>
+                        </div>
+                        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 99, padding: '4px 9px', fontSize: 9, color: '#22c55e', fontWeight: 600 }}>● Open for collabs</div>
+                      </div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 800, marginBottom: 2 }}>Anil Prajapati</div>
+                      <div style={{ fontSize: 10, color: '#FF6B2B', marginBottom: 12 }}>identitykit.in/anilprajapati</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: 'rgba(255,255,255,0.04)', borderRadius: 12, overflow: 'hidden' }}>
+                        {[['23K','Followers'],['35K','Avg Views'],['4.8%','Eng.'],['12+','Brands']].map(([n,l]) => (
+                          <div key={l} style={{ background: '#111120', padding: '8px 4px', textAlign: 'center' }}>
+                            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 11, fontWeight: 800, color: '#FF6B2B' }}>{n}</div>
+                            <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>{l}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </section>

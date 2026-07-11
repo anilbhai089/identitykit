@@ -10,6 +10,14 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'sharechat-moj-josh-chingari-creators-india-2026',
+    tag: 'Regional Platforms',
+    title: 'ShareChat, Moj, Josh & Chingari: India\'s Regional Platforms for Creators (2026)',
+    excerpt: 'Nearly 70% of users on ShareChat, Moj, and Josh are from small towns — a genuinely underserved opportunity most metro-focused creators overlook. How these homegrown platforms actually pay creators, realistic income by tier, and how to use them alongside Instagram and YouTube.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'influencer-contract-checklist-brands-india-2026',
     tag: 'For Brands',
     title: 'Influencer Contract Checklist for Brands in India: IP Rights, TDS & Termination (2026)',

@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'national-creator-economy-bill-2026-explained',
+    tag: 'Creator Economy Bill',
+    title: 'National Creator Economy Bill 2026: What Every Indian Creator Needs to Know',
+    excerpt: 'For the first time, being a creator in India comes with formal legal recognition — bank loans, business insurance, a Creator Welfare Fund — alongside real new legal obligations. Mandatory registration thresholds, disclosure now a federal mandate, AI content labeling, and how to prepare now.',
+    readTime: '14 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'fake-brand-collaboration-scams-india-2026',
+    tag: 'Creator Safety',
+    title: 'How to Spot and Avoid Fake Brand Collaboration Scams in India (2026)',
+    excerpt: 'A Delhi-based beauty creator paid ₹3,500 to a fake Nykaa account and never heard back. Documented scam patterns targeting Indian creators, 7 red flags to check, a 6-step verification process, and what legal recourse is actually available if you\'ve been scammed.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'sharechat-moj-josh-chingari-creators-india-2026',
     tag: 'Regional Platforms',
     title: 'ShareChat, Moj, Josh & Chingari: India\'s Regional Platforms for Creators (2026)',

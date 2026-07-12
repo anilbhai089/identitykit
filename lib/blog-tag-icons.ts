@@ -57,6 +57,8 @@ export const tagIcons: Record<string, string> = {
   'Threads': '🧵',
   'X / Twitter': '🐦',
   'Regional Platforms': '🇮🇳',
+  'Creator Safety': '🛡️',
+  'Creator Economy Bill': '🏛️',
 }
 
 export function getTagIcon(tag: string): string {

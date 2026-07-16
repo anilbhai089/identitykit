@@ -73,6 +73,9 @@ export default function PublicProfile() {
   const initials = profile.full_name?.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()
   const igHandle = profile.instagram_handle?.replace('@', '')
   const ytHandle = profile.youtube_channel
+  const ttHandle = profile.tiktok_handle?.replace('@', '')
+  const CURRENCY_SYMBOLS: Record<string, string> = { INR: '₹', USD: '$', EUR: '€' }
+  const curSym = CURRENCY_SYMBOLS[profile.currency] || '₹'
   const now = new Date()
   const validTill = `${now.toLocaleString('default', { month: 'long' })} ${now.getFullYear() + 1}`
 
@@ -85,6 +88,7 @@ export default function PublicProfile() {
     { name: 'Dedicated Video', desc: '8–15 min · 5–7 days', price: profile.rate_yt_dedicated, cat: 'yt', icon: 'ti-brand-youtube', color: '#ff0000' },
     { name: 'Integration', desc: '60–90 sec in existing video', price: profile.rate_yt_integration, cat: 'yt', icon: 'ti-player-play', color: '#ff0000' },
     { name: 'YouTube Short', desc: '60 sec · 3–5 days', price: profile.rate_yt_short, cat: 'yt', icon: 'ti-device-mobile-rotated', color: '#ff0000' },
+    { name: 'TikTok Video', desc: '60 sec · 3–5 days', price: profile.rate_tiktok, cat: 'tiktok', icon: 'ti-brand-tiktok', color: '#00f2ea' },
     { name: 'Twitter Thread', desc: 'Full thread with visuals', price: profile.rate_twitter, cat: 'other', icon: 'ti-brand-twitter', color: '#1da1f2' },
     { name: 'LinkedIn Post', desc: 'Professional post', price: profile.rate_linkedin, cat: 'other', icon: 'ti-brand-linkedin', color: '#0077b5' },
     { name: 'Blog Post', desc: 'Long-form article', price: profile.rate_blog, cat: 'other', icon: 'ti-file-text', color: '#FF6B2B' },
@@ -93,6 +97,7 @@ export default function PublicProfile() {
 
   const igRates = allRates.filter(r => r.cat === 'ig')
   const ytRates = allRates.filter(r => r.cat === 'yt')
+  const tiktokRates = allRates.filter(r => r.cat === 'tiktok')
   const otherRates = allRates.filter(r => r.cat === 'other')
 
   const portfolioItems = [
@@ -109,6 +114,7 @@ export default function PublicProfile() {
     'Twitter / X': { icon: 'ti-brand-twitter', color: '#1da1f2', bg: '#1da1f215' },
     'Podcast': { icon: 'ti-microphone', color: '#a855f7', bg: '#a855f715' },
     'Blog': { icon: 'ti-file-text', color: '#FF6B2B', bg: '#FF6B2B15' },
+    'TikTok': { icon: 'ti-brand-tiktok', color: '#00f2ea', bg: '#00f2ea15' },
   }
 
   const S = {
@@ -137,7 +143,7 @@ export default function PublicProfile() {
                 </div>
               </td>
               <td style={{ padding: '11px 0', textAlign: 'right', fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', whiteSpace: 'nowrap' }}>
-                ₹{Number(r.price).toLocaleString('en-IN')}
+                {curSym}{Number(r.price).toLocaleString('en-IN')}
               </td>
             </tr>
           ))}
@@ -227,7 +233,7 @@ export default function PublicProfile() {
         {/* ─── BENTO STATS GRID ─── */}
         <div className="ik-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 8 }}>
           {[
-            { val: profile.instagram_followers || profile.youtube_subscribers || '—', label: 'Followers', icon: 'ti-users' },
+            { val: profile.instagram_followers || profile.youtube_subscribers || profile.tiktok_followers || '—', label: 'Followers', icon: 'ti-users' },
             { val: profile.avg_views || '—', label: 'Avg Views', icon: 'ti-eye' },
             { val: profile.engagement_rate || '—', label: 'Engagement', icon: 'ti-chart-bar' },
             { val: brands.length > 0 ? `${brands.length}+` : '—', label: 'Brands', icon: 'ti-building-store' },
@@ -263,9 +269,9 @@ export default function PublicProfile() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                       {platformList.map((p: string) => {
                         const cfg = platConfig[p] || { icon: 'ti-device-mobile', color: '#FF6B2B', bg: '#FF6B2B15' }
-                        const followers = p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : null
-                        const handle = p === 'Instagram' ? (igHandle ? `@${igHandle}` : '') : p === 'YouTube' ? ytHandle : ''
-                        const link = p === 'Instagram' && igHandle ? `https://instagram.com/${igHandle}` : p === 'YouTube' && ytHandle ? `https://youtube.com/@${ytHandle}` : ''
+                        const followers = p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : p === 'TikTok' ? profile.tiktok_followers : null
+                        const handle = p === 'Instagram' ? (igHandle ? `@${igHandle}` : '') : p === 'YouTube' ? ytHandle : p === 'TikTok' ? (ttHandle ? `@${ttHandle}` : '') : ''
+                        const link = p === 'Instagram' && igHandle ? `https://instagram.com/${igHandle}` : p === 'YouTube' && ytHandle ? `https://youtube.com/@${ytHandle}` : p === 'TikTok' && ttHandle ? `https://tiktok.com/@${ttHandle}` : ''
                         return (
                           <div key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
@@ -491,7 +497,7 @@ export default function PublicProfile() {
                 <div style={S.sectionTitle}>Platform breakdown</div>
                 {platformList.map((p: string) => {
                   const cfg = platConfig[p] || { icon: 'ti-device-mobile', color: '#FF6B2B', bg: '#FF6B2B15' }
-                  const followers = p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : null
+                  const followers = p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : p === 'TikTok' ? profile.tiktok_followers : null
                   const stat2 = p === 'Instagram' ? profile.engagement_rate : p === 'YouTube' ? profile.avg_views : null
                   const stat2label = p === 'Instagram' ? 'eng' : 'views'
                   return (
@@ -577,7 +583,7 @@ export default function PublicProfile() {
                         <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>{r.name}</div>
                         <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 2 }}>{r.desc}</div>
                       </div>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', flexShrink: 0, marginLeft: 12 }}>₹{Number(r.price).toLocaleString('en-IN')}</div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', flexShrink: 0, marginLeft: 12 }}>{curSym}{Number(r.price).toLocaleString('en-IN')}</div>
                     </div>
                   ))}
                   {profile.custom_package && (
@@ -654,6 +660,20 @@ export default function PublicProfile() {
                   {ytHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>{ytHandle} · {profile.youtube_subscribers}</span>}
                 </div>
                 <RateTable rates={ytRates} />
+              </div>
+            )}
+
+            {/* TikTok rates */}
+            {tiktokRates.length > 0 && (
+              <div style={{ ...S.card, padding: '18px 16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: '#00f2ea15', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <i className="ti ti-brand-tiktok" style={{ color: '#00f2ea', fontSize: 15 }}></i>
+                  </div>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>TikTok</span>
+                  {ttHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>@{ttHandle} · {profile.tiktok_followers}</span>}
+                </div>
+                <RateTable rates={tiktokRates} />
               </div>
             )}
 
@@ -753,7 +773,7 @@ export default function PublicProfile() {
                     <div style={{ fontSize: 9, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 6, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Platforms</div>
                     {platformList.map((p: string) => {
                       const cfg = platConfig[p] || { icon: 'ti-device-mobile', color: '#FF6B2B', bg: '#FF6B2B15' }
-                      const val = p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : null
+                      const val = p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : p === 'TikTok' ? profile.tiktok_followers : null
                       return (
                         <div key={p} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -841,7 +861,7 @@ export default function PublicProfile() {
                       {allRates.slice(0, 5).map(r => (
                         <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 10px', background: '#08080E', borderRadius: 8 }}>
                           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{r.name}</span>
-                          <span style={{ fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#FF6B2B' }}>₹{Number(r.price).toLocaleString('en-IN')}</span>
+                          <span style={{ fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#FF6B2B' }}>{curSym}{Number(r.price).toLocaleString('en-IN')}</span>
                         </div>
                       ))}
                     </div>
@@ -854,7 +874,7 @@ export default function PublicProfile() {
             {/* CV Footer */}
             <div style={{ background: '#111120', padding: '12px 18px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Identity Kit · identitykit.in/{profile.username}</span>
-              {allRates.length > 0 && <span style={{ fontSize: 11, color: '#FF6B2B' }}>Starting ₹{Number(allRates[0].price).toLocaleString('en-IN')} per collab</span>}
+              {allRates.length > 0 && <span style={{ fontSize: 11, color: '#FF6B2B' }}>Starting {curSym}{Number(allRates[0].price).toLocaleString('en-IN')} per collab</span>}
             </div>
           </div>
         )}

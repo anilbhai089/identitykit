@@ -477,12 +477,12 @@ export default function PublicProfile() {
                 </div>
               </div>
               <div className='ik-mk-stats' style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, gap: 4 }}>
-                {[
-                  [profile.instagram_followers || '—', 'Instagram'],
-                  [profile.youtube_subscribers || '—', 'YouTube'],
-                  [profile.avg_views || '—', 'Avg Views'],
-                  [profile.engagement_rate || '—', 'Engagement'],
-                ].map(([n, l]) => (
+                {(() => {
+                  const followerVal = (p: string) => p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : p === 'TikTok' ? profile.tiktok_followers : null
+                  const platformStats = platformList.filter((p: string) => followerVal(p)).slice(0, 2).map((p: string) => [followerVal(p), p])
+                  while (platformStats.length < 2) platformStats.push(['—', platformStats.length === 0 ? 'Instagram' : 'YouTube'])
+                  return [...platformStats, [profile.avg_views || '—', 'Avg Views'], [profile.engagement_rate || '—', 'Engagement']]
+                })().map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: '#FF6B2B' }}>{n}</div>
                     <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: 2 }}>{l}</div>
@@ -737,7 +737,7 @@ export default function PublicProfile() {
                 <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 3 }}>{profile.full_name}</div>
                 <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>{profile.niche} Creator · {profile.platforms?.split(',').slice(0, 2).join(' & ')}</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  {[profile.city && { icon: 'ti-map-pin', val: profile.city }, profile.email && { icon: 'ti-mail', val: profile.email }, igHandle && { icon: 'ti-brand-instagram', val: `@${igHandle}` }].filter(Boolean).map((m: any) => (
+                  {[profile.city && { icon: 'ti-map-pin', val: profile.city }, profile.email && { icon: 'ti-mail', val: profile.email }, igHandle && { icon: 'ti-brand-instagram', val: `@${igHandle}` }, ttHandle && { icon: 'ti-brand-tiktok', val: `@${ttHandle}` }].filter(Boolean).map((m: any) => (
                     <span key={m.val} style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', display: 'flex', alignItems: 'center', gap: 4 }}>
                       <i className={`ti ${m.icon}`} style={{ fontSize: 11, color: '#FF6B2B' }}></i>{m.val}
                     </span>
@@ -756,6 +756,7 @@ export default function PublicProfile() {
                   {[
                     [profile.youtube_subscribers, 'YT subscribers'],
                     [profile.instagram_followers, 'IG followers'],
+                    [profile.tiktok_followers, 'TikTok followers'],
                     [profile.avg_views, 'Avg views'],
                     [profile.engagement_rate, 'Engagement'],
                     [brands.length > 0 ? `${brands.length}+` : null, 'Brand deals'],

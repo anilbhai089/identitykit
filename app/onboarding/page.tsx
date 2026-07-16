@@ -6,7 +6,12 @@ import { ChevronRight, ChevronLeft, Upload, X } from 'lucide-react'
 import PhotoCropper from '@/components/PhotoCropper'
 
 const NICHES = ['Fashion & Lifestyle','Tech & Gadgets','Food & Cooking','Finance & Investing','Gaming','Fitness & Health','Travel','Education & Coaching','Comedy & Entertainment','Beauty & Skincare','Business','Other']
-const PLATFORMS = ['Instagram','YouTube','LinkedIn','Twitter / X','Podcast','Blog','Moj / Josh','Snapchat']
+const PLATFORMS = ['Instagram','YouTube','TikTok','LinkedIn','Twitter / X','Podcast','Blog','Moj / Josh','Snapchat']
+const CURRENCIES = [
+  { code: 'INR', symbol: '₹', label: '₹ INR' },
+  { code: 'USD', symbol: '$', label: '$ USD' },
+  { code: 'EUR', symbol: '€', label: '€ EUR' },
+]
 const VIBES = ['Educational & Informative','Fun & Entertaining','Honest & Raw','Aspirational & Aesthetic','Relatable & Desi','Professional & Corporate']
 const TURNAROUND = ['3-5 business days','5-7 business days','1-2 weeks','2+ weeks']
 const COLLAB_TYPES = ['One-off campaigns','Long-term partnerships','Both']
@@ -40,14 +45,15 @@ export default function Onboarding() {
 
   const [form, setForm] = useState({
     full_name: '', username: '', city: '', niche: '', languages: '', bio_note: '',
-    platforms: [] as string[], instagram_handle: '', youtube_channel: '',
-    instagram_followers: '', youtube_subscribers: '', avg_views: '', engagement_rate: '',
+    currency: 'INR',
+    platforms: [] as string[], instagram_handle: '', youtube_channel: '', tiktok_handle: '',
+    instagram_followers: '', youtube_subscribers: '', tiktok_followers: '', avg_views: '', engagement_rate: '',
     follower_growth: '',
     audience_gender: '', audience_age: '', top_cities: '',
     brands_worked: '', best_campaign: '', awards: '',
     rate_reel: '', rate_post: '', rate_carousel: '', rate_stories: '',
     rate_story_link: '', rate_yt_dedicated: '', rate_yt_integration: '',
-    rate_yt_short: '', rate_twitter: '', rate_linkedin: '', rate_blog: '',
+    rate_yt_short: '', rate_tiktok: '', rate_twitter: '', rate_linkedin: '', rate_blog: '',
     rate_podcast: '', custom_package: '', turnaround: '',
     rate_valid_till: '',
     term_advance: '', term_gst: '', term_usage: '', term_revision: '',
@@ -60,6 +66,8 @@ export default function Onboarding() {
   // Store existing portfolio URLs (already uploaded, not new files)
   const [existingPortfolioImages, setExistingPortfolioImages] = useState<string[]>([])
   const [existingPortfolioVideos, setExistingPortfolioVideos] = useState<string[]>([])
+
+  const curSym = CURRENCIES.find(c => c.code === form.currency)?.symbol || '₹'
 
   // Load existing profile to pre-fill form when editing
   useEffect(() => {
@@ -417,6 +425,11 @@ export default function Onboarding() {
                   {VIBES.map(v => <div key={v} className={`chip ${form.vibe === v ? 'selected' : ''}`} onClick={() => set('vibe', v)}>{v}</div>)}
                 </div>
               </div>
+              <div><label className="label">Currency <span style={{ color: 'var(--text3)', fontWeight: 400 }}>— used for your rate card</span></label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+                  {CURRENCIES.map(c => <div key={c.code} className={`chip ${form.currency === c.code ? 'selected' : ''}`} onClick={() => set('currency', c.code)}>{c.label}</div>)}
+                </div>
+              </div>
             </div>
           )}
 
@@ -435,6 +448,10 @@ export default function Onboarding() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div><label className="label">Instagram followers</label><input className="input" placeholder="25,000" value={form.instagram_followers} onChange={e => set('instagram_followers', e.target.value)} /></div>
                 <div><label className="label">YouTube subscribers</label><input className="input" placeholder="10,000" value={form.youtube_subscribers} onChange={e => set('youtube_subscribers', e.target.value)} /></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div><label className="label">TikTok handle</label><input className="input" placeholder="@anilprajapati" value={form.tiktok_handle} onChange={e => set('tiktok_handle', e.target.value)} /></div>
+                <div><label className="label">TikTok followers</label><input className="input" placeholder="15,000" value={form.tiktok_followers} onChange={e => set('tiktok_followers', e.target.value)} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div><label className="label">Avg views per post</label><input className="input" placeholder="35,000" value={form.avg_views} onChange={e => set('avg_views', e.target.value)} /></div>
@@ -481,30 +498,36 @@ export default function Onboarding() {
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>📸 Instagram rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Reel (₹)</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
-                  <div><label className="label">Static Post (₹)</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
-                  <div><label className="label">Carousel (₹)</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
-                  <div><label className="label">Stories Pack (₹)</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
+                  <div><label className="label">Reel ({curSym})</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
+                  <div><label className="label">Static Post ({curSym})</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
+                  <div><label className="label">Carousel ({curSym})</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
+                  <div><label className="label">Stories Pack ({curSym})</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
                 </div>
               </div>
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>▶️ YouTube rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Dedicated Video (₹)</label><input className="input" placeholder="5000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
-                  <div><label className="label">Integration / Mention (₹)</label><input className="input" placeholder="2500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
-                  <div><label className="label">YouTube Short (₹)</label><input className="input" placeholder="1500" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
+                  <div><label className="label">Dedicated Video ({curSym})</label><input className="input" placeholder="5000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
+                  <div><label className="label">Integration / Mention ({curSym})</label><input className="input" placeholder="2500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
+                  <div><label className="label">YouTube Short ({curSym})</label><input className="input" placeholder="1500" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
+                </div>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>🎵 TikTok rates</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <div><label className="label">TikTok Video ({curSym})</label><input className="input" placeholder="2000" value={form.rate_tiktok} onChange={e => set('rate_tiktok', e.target.value)} /></div>
                 </div>
               </div>
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>🌐 Other platforms</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Twitter Thread (₹)</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
-                  <div><label className="label">LinkedIn Post (₹)</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
-                  <div><label className="label">Blog Post (₹)</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
-                  <div><label className="label">Podcast Mention (₹)</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
+                  <div><label className="label">Twitter Thread ({curSym})</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
+                  <div><label className="label">LinkedIn Post ({curSym})</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
+                  <div><label className="label">Blog Post ({curSym})</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
+                  <div><label className="label">Podcast Mention ({curSym})</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
                 </div>
               </div>
-              <div><label className="label">Custom bundle package</label><input className="input" placeholder="Reel + Stories + YT Short = ₹5,500" value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>
+              <div><label className="label">Custom bundle package</label><input className="input" placeholder={`Reel + Stories + YT Short = ${curSym}5,500`} value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>
               <div><label className="label">Turnaround time</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
                   {TURNAROUND.map(t => <div key={t} className={`chip ${form.turnaround === t ? 'selected' : ''}`} onClick={() => set('turnaround', t)}>{t}</div>)}

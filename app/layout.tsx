@@ -5,10 +5,10 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
 
 export const metadata: Metadata = {
-  title: 'Identity Kit — One link for Indian Creators',
-  description: 'AI-powered Media Kit, Rate Card and CV for Indian creators. One beautiful shareable link.',
+  title: 'Identity Kit — One Link for Creators',
+  description: 'AI-powered Media Kit, Rate Card and CV for content creators. One beautiful shareable link.',
   openGraph: {
-    title: 'Identity Kit — One link for Indian creators',
+    title: 'Identity Kit — One Link for Creators',
     description: 'Get your professional creator profile in one shareable link.',
     url: 'https://identitykit.in',
     siteName: 'Identity Kit',

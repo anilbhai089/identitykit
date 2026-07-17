@@ -12,6 +12,19 @@ const CURRENCIES = [
   { code: 'USD', symbol: '$', label: '$ USD' },
   { code: 'EUR', symbol: '€', label: '€ EUR' },
 ]
+
+// Converts shorthand input like "150k", "1.2m", "$150", "1,500" into a plain number string.
+// Falls back to stripping non-digits if it doesn't match the k/m pattern.
+function normalizeShorthand(raw: string): string {
+  const s = String(raw || '').trim().toLowerCase()
+  if (!s) return ''
+  const m = s.match(/^([0-9]*\.?[0-9]+)\s*(k|m)?$/)
+  if (!m) return s.replace(/[^0-9]/g, '')
+  let n = parseFloat(m[1])
+  if (m[2] === 'k') n *= 1000
+  else if (m[2] === 'm') n *= 1000000
+  return String(Math.round(n))
+}
 const VIBES = ['Educational & Informative','Fun & Entertaining','Honest & Raw','Aspirational & Aesthetic','Relatable & Desi','Professional & Corporate']
 const TURNAROUND = ['3-5 business days','5-7 business days','1-2 weeks','2+ weeks']
 const COLLAB_TYPES = ['One-off campaigns','Long-term partnerships','Both']
@@ -145,10 +158,19 @@ export default function Onboarding() {
   }, [])
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
+  // For handle fields (text, e.g. @username) — just auto-selects the platform chip, no character stripping
   const ensurePlatform = (k: string, v: string, platform: string) => setForm(f => ({
     ...f, [k]: v,
     platforms: v.trim() && !f.platforms.includes(platform) ? [...f.platforms, platform] : f.platforms,
   }))
+  // For follower-count fields — allows digits/k/m while typing (for shorthand like "150k"), plus auto-selects the platform chip
+  const ensurePlatformNumeric = (k: string, v: string, platform: string) => setForm(f => ({
+    ...f, [k]: v.replace(/[^0-9.kKmM]/g, ''),
+    platforms: v.trim() && !f.platforms.includes(platform) ? [...f.platforms, platform] : f.platforms,
+  }))
+  const setRate = (k: string, v: string) => setForm(f => ({ ...f, [k]: v.replace(/[^0-9.kKmM]/g, '') }))
+  // Converts shorthand like "150k" or "1.2m" to the real number on blur; also strips any stray symbols like $ or ₹
+  const normalizeNumeric = (k: string) => setForm(f => ({ ...f, [k]: normalizeShorthand((f as any)[k]) }))
   const toggleArr = (k: string, v: string) => setForm(f => ({
     ...f,
     [k]: (f[k as keyof typeof f] as string[]).includes(v)
@@ -456,12 +478,12 @@ export default function Onboarding() {
                 <div><label className="label">YouTube channel</label><input className="input" placeholder="Anil King" value={form.youtube_channel} onChange={e => ensurePlatform('youtube_channel', e.target.value, 'YouTube')} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div><label className="label">Instagram followers</label><input className="input" placeholder="25,000" value={form.instagram_followers} onChange={e => ensurePlatform('instagram_followers', e.target.value, 'Instagram')} /></div>
-                <div><label className="label">YouTube subscribers</label><input className="input" placeholder="10,000" value={form.youtube_subscribers} onChange={e => ensurePlatform('youtube_subscribers', e.target.value, 'YouTube')} /></div>
+                <div><label className="label">Instagram followers</label><input className="input" placeholder="25,000" value={form.instagram_followers} onChange={e => ensurePlatformNumeric('instagram_followers', e.target.value, 'Instagram')} onBlur={() => normalizeNumeric('instagram_followers')} /></div>
+                <div><label className="label">YouTube subscribers</label><input className="input" placeholder="10,000" value={form.youtube_subscribers} onChange={e => ensurePlatformNumeric('youtube_subscribers', e.target.value, 'YouTube')} onBlur={() => normalizeNumeric('youtube_subscribers')} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div><label className="label">TikTok handle</label><input className="input" placeholder="@anilprajapati" value={form.tiktok_handle} onChange={e => ensurePlatform('tiktok_handle', e.target.value, 'TikTok')} /></div>
-                <div><label className="label">TikTok followers</label><input className="input" placeholder="15,000" value={form.tiktok_followers} onChange={e => ensurePlatform('tiktok_followers', e.target.value, 'TikTok')} /></div>
+                <div><label className="label">TikTok followers</label><input className="input" placeholder="15,000" value={form.tiktok_followers} onChange={e => ensurePlatformNumeric('tiktok_followers', e.target.value, 'TikTok')} onBlur={() => normalizeNumeric('tiktok_followers')} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div><label className="label">Avg views per post</label><input className="input" placeholder="35,000" value={form.avg_views} onChange={e => set('avg_views', e.target.value)} /></div>
@@ -508,33 +530,33 @@ export default function Onboarding() {
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>📸 Instagram rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Reel ({curSym})</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => set('rate_reel', e.target.value)} /></div>
-                  <div><label className="label">Static Post ({curSym})</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => set('rate_post', e.target.value)} /></div>
-                  <div><label className="label">Carousel ({curSym})</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => set('rate_carousel', e.target.value)} /></div>
-                  <div><label className="label">Stories Pack ({curSym})</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => set('rate_stories', e.target.value)} /></div>
+                  <div><label className="label">Reel ({curSym})</label><input className="input" placeholder="3000" value={form.rate_reel} onChange={e => setRate('rate_reel', e.target.value)} onBlur={() => normalizeNumeric('rate_reel')} /></div>
+                  <div><label className="label">Static Post ({curSym})</label><input className="input" placeholder="1000" value={form.rate_post} onChange={e => setRate('rate_post', e.target.value)} onBlur={() => normalizeNumeric('rate_post')} /></div>
+                  <div><label className="label">Carousel ({curSym})</label><input className="input" placeholder="1500" value={form.rate_carousel} onChange={e => setRate('rate_carousel', e.target.value)} onBlur={() => normalizeNumeric('rate_carousel')} /></div>
+                  <div><label className="label">Stories Pack ({curSym})</label><input className="input" placeholder="500" value={form.rate_stories} onChange={e => setRate('rate_stories', e.target.value)} onBlur={() => normalizeNumeric('rate_stories')} /></div>
                 </div>
               </div>
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>▶️ YouTube rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Dedicated Video ({curSym})</label><input className="input" placeholder="5000" value={form.rate_yt_dedicated} onChange={e => set('rate_yt_dedicated', e.target.value)} /></div>
-                  <div><label className="label">Integration / Mention ({curSym})</label><input className="input" placeholder="2500" value={form.rate_yt_integration} onChange={e => set('rate_yt_integration', e.target.value)} /></div>
-                  <div><label className="label">YouTube Short ({curSym})</label><input className="input" placeholder="1500" value={form.rate_yt_short} onChange={e => set('rate_yt_short', e.target.value)} /></div>
+                  <div><label className="label">Dedicated Video ({curSym})</label><input className="input" placeholder="5000" value={form.rate_yt_dedicated} onChange={e => setRate('rate_yt_dedicated', e.target.value)} onBlur={() => normalizeNumeric('rate_yt_dedicated')} /></div>
+                  <div><label className="label">Integration / Mention ({curSym})</label><input className="input" placeholder="2500" value={form.rate_yt_integration} onChange={e => setRate('rate_yt_integration', e.target.value)} onBlur={() => normalizeNumeric('rate_yt_integration')} /></div>
+                  <div><label className="label">YouTube Short ({curSym})</label><input className="input" placeholder="1500" value={form.rate_yt_short} onChange={e => setRate('rate_yt_short', e.target.value)} onBlur={() => normalizeNumeric('rate_yt_short')} /></div>
                 </div>
               </div>
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>🎵 TikTok rates</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">TikTok Video ({curSym})</label><input className="input" placeholder="2000" value={form.rate_tiktok} onChange={e => set('rate_tiktok', e.target.value)} /></div>
+                  <div><label className="label">TikTok Video ({curSym})</label><input className="input" placeholder="2000" value={form.rate_tiktok} onChange={e => setRate('rate_tiktok', e.target.value)} onBlur={() => normalizeNumeric('rate_tiktok')} /></div>
                 </div>
               </div>
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>🌐 Other platforms</p>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div><label className="label">Twitter Thread ({curSym})</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => set('rate_twitter', e.target.value)} /></div>
-                  <div><label className="label">LinkedIn Post ({curSym})</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => set('rate_linkedin', e.target.value)} /></div>
-                  <div><label className="label">Blog Post ({curSym})</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => set('rate_blog', e.target.value)} /></div>
-                  <div><label className="label">Podcast Mention ({curSym})</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => set('rate_podcast', e.target.value)} /></div>
+                  <div><label className="label">Twitter Thread ({curSym})</label><input className="input" placeholder="500" value={form.rate_twitter} onChange={e => setRate('rate_twitter', e.target.value)} onBlur={() => normalizeNumeric('rate_twitter')} /></div>
+                  <div><label className="label">LinkedIn Post ({curSym})</label><input className="input" placeholder="800" value={form.rate_linkedin} onChange={e => setRate('rate_linkedin', e.target.value)} onBlur={() => normalizeNumeric('rate_linkedin')} /></div>
+                  <div><label className="label">Blog Post ({curSym})</label><input className="input" placeholder="600" value={form.rate_blog} onChange={e => setRate('rate_blog', e.target.value)} onBlur={() => normalizeNumeric('rate_blog')} /></div>
+                  <div><label className="label">Podcast Mention ({curSym})</label><input className="input" placeholder="700" value={form.rate_podcast} onChange={e => setRate('rate_podcast', e.target.value)} onBlur={() => normalizeNumeric('rate_podcast')} /></div>
                 </div>
               </div>
               <div><label className="label">Custom bundle package</label><input className="input" placeholder={`Reel + Stories + YT Short = ${curSym}5,500`} value={form.custom_package} onChange={e => set('custom_package', e.target.value)} /></div>

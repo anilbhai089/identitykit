@@ -10,6 +10,21 @@ const TABS = [
   { id: 'cv', label: 'CV' },
 ]
 
+// Strips currency symbols, commas, spaces etc. so "150$", "$150", "1,500" all parse correctly instead of NaN
+function toNum(v: unknown): number {
+  const n = Number(String(v ?? '').replace(/[^0-9.]/g, ''))
+  return isNaN(n) ? 0 : n
+}
+
+// Formats large numbers compactly for display: 1000000 -> "1M", 23900 -> "23.9K"
+function formatCompact(v: unknown): string {
+  const n = toNum(v)
+  if (!n) return String(v ?? '') || '—'
+  if (n >= 1000000) return (Math.round((n / 1000000) * 10) / 10).toString().replace(/\.0$/, '') + 'M'
+  if (n >= 1000) return (Math.round((n / 1000) * 10) / 10).toString().replace(/\.0$/, '') + 'K'
+  return String(n)
+}
+
 export default function PublicProfile() {
   const params = useParams()
   const rawUsername = params.username as string
@@ -150,7 +165,7 @@ export default function PublicProfile() {
                 </div>
               </td>
               <td style={{ padding: '11px 0', textAlign: 'right', fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', whiteSpace: 'nowrap' }}>
-                {curSym}{Number(r.price).toLocaleString('en-IN')}
+                {curSym}{toNum(r.price).toLocaleString('en-IN')}
               </td>
             </tr>
           ))}
@@ -240,7 +255,7 @@ export default function PublicProfile() {
         {/* ─── BENTO STATS GRID ─── */}
         <div className="ik-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 8 }}>
           {[
-            { val: profile.instagram_followers || profile.youtube_subscribers || profile.tiktok_followers || '—', label: 'Followers', icon: 'ti-users' },
+            { val: formatCompact(profile.instagram_followers || profile.youtube_subscribers || profile.tiktok_followers), label: 'Followers', icon: 'ti-users' },
             { val: profile.avg_views || '—', label: 'Avg Views', icon: 'ti-eye' },
             { val: profile.engagement_rate || '—', label: 'Engagement', icon: 'ti-chart-bar' },
             { val: brands.length > 0 ? `${brands.length}+` : '—', label: 'Brands', icon: 'ti-building-store' },
@@ -290,7 +305,7 @@ export default function PublicProfile() {
                                 {handle && <a href={link || '#'} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', textDecoration: 'none' }}>{handle}</a>}
                               </div>
                             </div>
-                            {followers && <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 700, color: '#FF6B2B' }}>{followers}</span>}
+                            {followers && <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 700, color: '#FF6B2B' }}>{formatCompact(followers)}</span>}
                           </div>
                         )
                       })}
@@ -486,7 +501,7 @@ export default function PublicProfile() {
               <div className='ik-mk-stats' style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 16, gap: 4 }}>
                 {(() => {
                   const followerVal = (p: string) => p === 'Instagram' ? profile.instagram_followers : p === 'YouTube' ? profile.youtube_subscribers : p === 'TikTok' ? profile.tiktok_followers : null
-                  const platformStats = platformList.filter((p: string) => followerVal(p)).slice(0, 2).map((p: string) => [followerVal(p), p])
+                  const platformStats = platformList.filter((p: string) => followerVal(p)).slice(0, 2).map((p: string) => [formatCompact(followerVal(p)), p])
                   while (platformStats.length < 2) platformStats.push(['—', platformStats.length === 0 ? 'Instagram' : 'YouTube'])
                   return [...platformStats, [profile.avg_views || '—', 'Avg Views'], [profile.engagement_rate || '—', 'Engagement']]
                 })().map(([n, l]) => (
@@ -516,7 +531,7 @@ export default function PublicProfile() {
                         <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{p}</span>
                       </div>
                       <div style={{ display: 'flex', gap: 10 }}>
-                        {followers && <div style={{ textAlign: 'right' }}><div style={{ fontSize: 12, fontWeight: 700, color: '#FF6B2B', fontFamily: "'Syne',sans-serif" }}>{followers}</div><div style={{ fontSize: 9, color: 'rgba(255,255,255,0.2)' }}>followers</div></div>}
+                        {followers && <div style={{ textAlign: 'right' }}><div style={{ fontSize: 12, fontWeight: 700, color: '#FF6B2B', fontFamily: "'Syne',sans-serif" }}>{formatCompact(followers)}</div><div style={{ fontSize: 9, color: 'rgba(255,255,255,0.2)' }}>followers</div></div>}
                         {stat2 && <div style={{ textAlign: 'right' }}><div style={{ fontSize: 12, fontWeight: 700, color: '#FF6B2B', fontFamily: "'Syne',sans-serif" }}>{stat2}</div><div style={{ fontSize: 9, color: 'rgba(255,255,255,0.2)' }}>{stat2label}</div></div>}
                       </div>
                     </div>
@@ -590,7 +605,7 @@ export default function PublicProfile() {
                         <div style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.8)' }}>{r.name}</div>
                         <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', marginTop: 2 }}>{r.desc}</div>
                       </div>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', flexShrink: 0, marginLeft: 12 }}>{curSym}{Number(r.price).toLocaleString('en-IN')}</div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 15, fontWeight: 700, color: '#FF6B2B', flexShrink: 0, marginLeft: 12 }}>{curSym}{toNum(r.price).toLocaleString('en-IN')}</div>
                     </div>
                   ))}
                   {profile.custom_package && (
@@ -650,7 +665,7 @@ export default function PublicProfile() {
                     <i className="ti ti-brand-instagram" style={{ color: '#e1306c', fontSize: 15 }}></i>
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>Instagram</span>
-                  {igHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>@{igHandle} · {profile.instagram_followers}</span>}
+                  {igHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>@{igHandle} · {formatCompact(profile.instagram_followers)}</span>}
                 </div>
                 <RateTable rates={igRates} />
               </div>
@@ -664,7 +679,7 @@ export default function PublicProfile() {
                     <i className="ti ti-brand-youtube" style={{ color: '#ff0000', fontSize: 15 }}></i>
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>YouTube</span>
-                  {ytHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>{ytHandle} · {profile.youtube_subscribers}</span>}
+                  {ytHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>{ytHandle} · {formatCompact(profile.youtube_subscribers)}</span>}
                 </div>
                 <RateTable rates={ytRates} />
               </div>
@@ -678,7 +693,7 @@ export default function PublicProfile() {
                     <i className="ti ti-brand-tiktok" style={{ color: '#00f2ea', fontSize: 15 }}></i>
                   </div>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>TikTok</span>
-                  {ttHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>@{ttHandle} · {profile.tiktok_followers}</span>}
+                  {ttHandle && <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>@{ttHandle} · {formatCompact(profile.tiktok_followers)}</span>}
                 </div>
                 <RateTable rates={tiktokRates} />
               </div>
@@ -761,13 +776,13 @@ export default function PublicProfile() {
                 <div style={{ marginBottom: 18 }}>
                   <div style={{ fontSize: 9, fontWeight: 700, color: '#FF6B2B', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: 10, paddingBottom: 6, borderBottom: '1px solid rgba(255,107,43,0.15)' }}>Key stats</div>
                   {[
-                    [profile.youtube_subscribers, 'YT subscribers'],
-                    [profile.instagram_followers, 'IG followers'],
-                    [profile.tiktok_followers, 'TikTok followers'],
-                    [profile.avg_views, 'Avg views'],
-                    [profile.engagement_rate, 'Engagement'],
-                    [brands.length > 0 ? `${brands.length}+` : null, 'Brand deals'],
-                  ].filter(([v]) => v).map(([val, key]) => (
+                    [formatCompact(profile.youtube_subscribers), 'YT subscribers', profile.youtube_subscribers],
+                    [formatCompact(profile.instagram_followers), 'IG followers', profile.instagram_followers],
+                    [formatCompact(profile.tiktok_followers), 'TikTok followers', profile.tiktok_followers],
+                    [profile.avg_views, 'Avg views', profile.avg_views],
+                    [profile.engagement_rate, 'Engagement', profile.engagement_rate],
+                    [brands.length > 0 ? `${brands.length}+` : null, 'Brand deals', brands.length > 0 ? '1' : null],
+                  ].filter(([, , raw]) => raw).map(([val, key]) => (
                     <div key={key as string} style={{ background: '#08080E', borderRadius: 8, padding: '7px 10px', marginBottom: 6 }}>
                       <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, color: '#FF6B2B' }}>{val}</div>
                       <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.25)', marginTop: 1 }}>{key}</div>
@@ -787,7 +802,7 @@ export default function PublicProfile() {
                           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 6 }}>
                             <i className={`ti ${cfg.icon}`} style={{ color: cfg.color, fontSize: 12 }}></i>{p}
                           </span>
-                          {val && <span style={{ fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#fff' }}>{val}</span>}
+                          {val && <span style={{ fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#fff' }}>{formatCompact(val)}</span>}
                         </div>
                       )
                     })}
@@ -869,7 +884,7 @@ export default function PublicProfile() {
                       {allRates.slice(0, 5).map(r => (
                         <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 10px', background: '#08080E', borderRadius: 8 }}>
                           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{r.name}</span>
-                          <span style={{ fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#FF6B2B' }}>{curSym}{Number(r.price).toLocaleString('en-IN')}</span>
+                          <span style={{ fontSize: 12, fontFamily: "'Syne',sans-serif", fontWeight: 700, color: '#FF6B2B' }}>{curSym}{toNum(r.price).toLocaleString('en-IN')}</span>
                         </div>
                       ))}
                     </div>
@@ -882,7 +897,7 @@ export default function PublicProfile() {
             {/* CV Footer */}
             <div style={{ background: '#111120', padding: '12px 18px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.15)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Identity Kit · identitykit.in/{profile.username}</span>
-              {allRates.length > 0 && <span style={{ fontSize: 11, color: '#FF6B2B' }}>Starting {curSym}{Number(allRates[0].price).toLocaleString('en-IN')} per collab</span>}
+              {allRates.length > 0 && <span style={{ fontSize: 11, color: '#FF6B2B' }}>Starting {curSym}{toNum(allRates[0].price).toLocaleString('en-IN')} per collab</span>}
             </div>
           </div>
         )}

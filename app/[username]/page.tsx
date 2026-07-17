@@ -67,9 +67,9 @@ export default function PublicProfile() {
   )
 
   const brands = profile.brands_worked?.split(',').map((b: string) => b.trim()).filter(Boolean) || []
-  const platformList = (() => {
-    const base = profile.platforms?.split(',').map((p: string) => p.trim()).filter(Boolean) || []
-    const set = new Set(base)
+  const platformList: string[] = (() => {
+    const base: string[] = profile.platforms?.split(',').map((p: string) => p.trim()).filter(Boolean) || []
+    const set = new Set<string>(base)
     if ((profile.instagram_handle || profile.instagram_followers) && !set.has('Instagram')) set.add('Instagram')
     if ((profile.youtube_channel || profile.youtube_subscribers) && !set.has('YouTube')) set.add('YouTube')
     if ((profile.tiktok_handle || profile.tiktok_followers) && !set.has('TikTok')) set.add('TikTok')

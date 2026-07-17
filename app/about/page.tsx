@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'About Us | Identity Kit',
-  description: 'Identity Kit is built for Indian creators who deserve professional tools. Learn our story, mission, and the team behind the platform.',
+  description: 'Identity Kit is built for content creators who deserve professional tools. Learn our story, mission, and the team behind the platform.',
 }
 
 export default function AboutPage() {

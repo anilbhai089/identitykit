@@ -67,7 +67,14 @@ export default function PublicProfile() {
   )
 
   const brands = profile.brands_worked?.split(',').map((b: string) => b.trim()).filter(Boolean) || []
-  const platformList = profile.platforms?.split(',').map((p: string) => p.trim()).filter(Boolean) || []
+  const platformList = (() => {
+    const base = profile.platforms?.split(',').map((p: string) => p.trim()).filter(Boolean) || []
+    const set = new Set(base)
+    if ((profile.instagram_handle || profile.instagram_followers) && !set.has('Instagram')) set.add('Instagram')
+    if ((profile.youtube_channel || profile.youtube_subscribers) && !set.has('YouTube')) set.add('YouTube')
+    if ((profile.tiktok_handle || profile.tiktok_followers) && !set.has('TikTok')) set.add('TikTok')
+    return Array.from(set)
+  })()
   const cities = profile.top_cities?.split(',').map((c: string) => c.trim()).filter(Boolean) || []
   const skillsList = profile.skills?.split(',').map((s: string) => s.trim()).filter(Boolean) || []
   const initials = profile.full_name?.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()

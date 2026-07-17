@@ -68,6 +68,7 @@ export default function Onboarding() {
   const [existingPortfolioVideos, setExistingPortfolioVideos] = useState<string[]>([])
 
   const curSym = CURRENCIES.find(c => c.code === form.currency)?.symbol || '₹'
+  const [isEditing, setIsEditing] = useState(false)
 
   // Load existing profile to pre-fill form when editing
   useEffect(() => {
@@ -76,6 +77,7 @@ export default function Onboarding() {
       if (!user) return
       const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
       if (!data) return
+      setIsEditing(true)
       if (data.photo_url) setPhotoPreview(data.photo_url)
       // Pre-fill existing portfolio URLs
       const existImgs = [data.portfolio_image1, data.portfolio_image2].filter(Boolean)
@@ -89,11 +91,14 @@ export default function Onboarding() {
         city: data.city || '',
         niche: data.niche || '',
         languages: data.languages || '',
+        currency: data.currency || 'INR',
         platforms: data.platforms ? data.platforms.split(',').map((p: string) => p.trim()).filter(Boolean) : [],
         instagram_handle: data.instagram_handle || '',
         youtube_channel: data.youtube_channel || '',
+        tiktok_handle: data.tiktok_handle || '',
         instagram_followers: data.instagram_followers || '',
         youtube_subscribers: data.youtube_subscribers || '',
+        tiktok_followers: data.tiktok_followers || '',
         avg_views: data.avg_views || '',
         engagement_rate: data.engagement_rate || '',
         follower_growth: data.follower_growth || '',
@@ -111,6 +116,7 @@ export default function Onboarding() {
         rate_yt_dedicated: data.rate_yt_dedicated || '',
         rate_yt_integration: data.rate_yt_integration || '',
         rate_yt_short: data.rate_yt_short || '',
+        rate_tiktok: data.rate_tiktok || '',
         rate_twitter: data.rate_twitter || '',
         rate_linkedin: data.rate_linkedin || '',
         rate_blog: data.rate_blog || '',
@@ -139,6 +145,10 @@ export default function Onboarding() {
   }, [])
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
+  const ensurePlatform = (k: string, v: string, platform: string) => setForm(f => ({
+    ...f, [k]: v,
+    platforms: v.trim() && !f.platforms.includes(platform) ? [...f.platforms, platform] : f.platforms,
+  }))
   const toggleArr = (k: string, v: string) => setForm(f => ({
     ...f,
     [k]: (f[k as keyof typeof f] as string[]).includes(v)
@@ -442,16 +452,16 @@ export default function Onboarding() {
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div><label className="label">Instagram handle</label><input className="input" placeholder="@anilprajapati" value={form.instagram_handle} onChange={e => set('instagram_handle', e.target.value)} /></div>
-                <div><label className="label">YouTube channel</label><input className="input" placeholder="Anil King" value={form.youtube_channel} onChange={e => set('youtube_channel', e.target.value)} /></div>
+                <div><label className="label">Instagram handle</label><input className="input" placeholder="@anilprajapati" value={form.instagram_handle} onChange={e => ensurePlatform('instagram_handle', e.target.value, 'Instagram')} /></div>
+                <div><label className="label">YouTube channel</label><input className="input" placeholder="Anil King" value={form.youtube_channel} onChange={e => ensurePlatform('youtube_channel', e.target.value, 'YouTube')} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div><label className="label">Instagram followers</label><input className="input" placeholder="25,000" value={form.instagram_followers} onChange={e => set('instagram_followers', e.target.value)} /></div>
-                <div><label className="label">YouTube subscribers</label><input className="input" placeholder="10,000" value={form.youtube_subscribers} onChange={e => set('youtube_subscribers', e.target.value)} /></div>
+                <div><label className="label">Instagram followers</label><input className="input" placeholder="25,000" value={form.instagram_followers} onChange={e => ensurePlatform('instagram_followers', e.target.value, 'Instagram')} /></div>
+                <div><label className="label">YouTube subscribers</label><input className="input" placeholder="10,000" value={form.youtube_subscribers} onChange={e => ensurePlatform('youtube_subscribers', e.target.value, 'YouTube')} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div><label className="label">TikTok handle</label><input className="input" placeholder="@anilprajapati" value={form.tiktok_handle} onChange={e => set('tiktok_handle', e.target.value)} /></div>
-                <div><label className="label">TikTok followers</label><input className="input" placeholder="15,000" value={form.tiktok_followers} onChange={e => set('tiktok_followers', e.target.value)} /></div>
+                <div><label className="label">TikTok handle</label><input className="input" placeholder="@anilprajapati" value={form.tiktok_handle} onChange={e => ensurePlatform('tiktok_handle', e.target.value, 'TikTok')} /></div>
+                <div><label className="label">TikTok followers</label><input className="input" placeholder="15,000" value={form.tiktok_followers} onChange={e => ensurePlatform('tiktok_followers', e.target.value, 'TikTok')} /></div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div><label className="label">Avg views per post</label><input className="input" placeholder="35,000" value={form.avg_views} onChange={e => set('avg_views', e.target.value)} /></div>
@@ -693,21 +703,28 @@ export default function Onboarding() {
           )}
 
           {/* NAV */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--border)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--border)' }}>
             {step > 0 ? (
               <button className="btn-ghost" onClick={back} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <ChevronLeft size={16} /> Back
               </button>
             ) : <span />}
-            {step < STEPS.length - 1 ? (
-              <button className="btn-primary" onClick={next} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                Next <ChevronRight size={16} />
-              </button>
-            ) : (
-              <button className="btn-primary" onClick={submit} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                ✨ Generate my profile
-              </button>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {isEditing && (
+                <button className="btn-ghost" onClick={submit} disabled={loading || generating} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  💾 Save changes
+                </button>
+              )}
+              {step < STEPS.length - 1 ? (
+                <button className="btn-primary" onClick={next} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  Next <ChevronRight size={16} />
+                </button>
+              ) : (
+                <button className="btn-primary" onClick={submit} disabled={loading} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  ✨ {isEditing ? 'Save & finish' : 'Generate my profile'}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

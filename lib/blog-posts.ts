@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'best-media-kit-tools-creators-2026',
+    tag: 'Media Kit',
+    title: 'Best Free Media Kit Tools for Creators in 2026 (Beacons vs Stan Store vs Identity Kit)',
+    excerpt: 'Beacons and Stan Store are genuinely good tools — for selling digital products. If landing brand deals, not running a storefront, is your actual goal, here\'s an honest breakdown of what each tool is really built for, and which one fits your situation.',
+    readTime: '11 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'creator-economy-bill-brand-compliance-checklist-2026',
+    tag: 'For Brands',
+    title: 'National Creator Economy Bill 2026: A Compliance Checklist for Brands Hiring Influencers',
+    excerpt: 'Non-disclosure in an influencer campaign now reportedly carries a ₹1 lakh penalty for a first offense — and brands share the liability. 6 things that change for your influencer program, and a 6-step action checklist to audit your contracts and campaigns now.',
+    readTime: '13 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'national-creator-economy-bill-2026-explained',
     tag: 'Creator Economy Bill',
     title: 'National Creator Economy Bill 2026: What Every Indian Creator Needs to Know',

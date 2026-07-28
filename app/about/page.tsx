@@ -81,7 +81,7 @@ export default function AboutPage() {
             { num: '$300B+', label: 'Global creator economy' },
             { num: '200M+', label: 'Active creators worldwide' },
             { num: '1 Link', label: 'Is all you need to share' },
-            { num: '2025', label: 'Year we said enough' },
+            { num: '5 Min', label: 'From signup to professional profile' },
           ].map(s => (
             <div key={s.label} className="stat-card">
               <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 32, fontWeight: 800, color: '#FF6B2B', marginBottom: 8 }}>{s.num}</div>

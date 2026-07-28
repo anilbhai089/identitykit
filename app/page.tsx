@@ -82,7 +82,7 @@ export default function Landing() {
       {/* ── HERO ── */}
       <section style={{ paddingTop: 132, paddingBottom: 60, position: 'relative', overflow: 'hidden' }}>
         {/* BG effects */}
-        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 1100, height: 560, background: 'radial-gradient(ellipse at 30% 0%,rgba(255,107,43,0.13) 0%,transparent 65%)', pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', top: 80, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 1100, height: 480, background: 'radial-gradient(ellipse at 68% 25%,rgba(255,107,43,0.13) 0%,transparent 60%)', pointerEvents: 'none' }}></div>
         <div style={{ position: 'absolute', top: 60, right: '8%', width: 260, height: 260, background: 'radial-gradient(circle,rgba(168,85,247,0.06) 0%,transparent 70%)', pointerEvents: 'none' }}></div>
 
         <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px', position: 'relative' }}>

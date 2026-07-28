@@ -93,7 +93,7 @@ export default function Landing() {
               {/* Badge */}
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 99, padding: '6px 14px', marginBottom: 26 }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF6B2B', animation: 'pulse 2s infinite', flexShrink: 0 }}></span>
-                <span style={{ fontSize: 12, color: '#FF8C5A', fontWeight: 600, letterSpacing: '0.02em' }}>Built for Indian Creators 🇮🇳</span>
+                <span style={{ fontSize: 12, color: '#FF8C5A', fontWeight: 600, letterSpacing: '0.02em' }}>Built for Creators Everywhere 🌍</span>
               </div>
 
               {/* Title — editorial serif */}
@@ -144,7 +144,7 @@ export default function Landing() {
                     <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 600, letterSpacing: '0.04em' }}>RATE CARD</span>
                   </div>
                   <div style={{ padding: 14 }}>
-                    {[['Instagram Reel','₹15,000'],['YouTube Integration','₹40,000'],['Story Mention','₹5,000']].map(([label, price]) => (
+                    {[['Instagram Reel','$180'],['YouTube Integration','$500'],['Story Mention','$60']].map(([label, price]) => (
                       <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                         <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{label}</span>
                         <span style={{ fontSize: 12, color: '#FF8C5A', fontWeight: 700 }}>{price}</span>
@@ -261,7 +261,7 @@ export default function Landing() {
               <div style={{ padding: '12px 8px', textAlign: 'center', fontSize: 12, color: '#FF6B2B', fontWeight: 800, fontFamily: "'Syne',sans-serif" }}>IK</div>
             </div>
             {[
-              ['India-first (INR, GST, UPI)', false, true],
+              ['Multi-currency ready', false, true],
               ['AI-written bio', false, true],
               ['Shareable link', false, true],
               ['Media Kit + CV + Rate Card', false, true],
@@ -291,13 +291,13 @@ export default function Landing() {
             <div style={{ position: 'relative' }}>
               <div style={{ fontSize: 40, marginBottom: 16, lineHeight: 1 }}>&ldquo;</div>
               <p style={{ fontSize: 'clamp(15px,2.5vw,18px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: 20, fontStyle: 'italic' }}>
-                When a brand DMs you asking for your media kit, what do you send them? Most Indian creators send a screenshot or a Canva PDF. With Identity Kit — you just send one link and they see everything.
+                When a brand DMs you asking for your media kit, what do you send them? Most creators send a screenshot or a Canva PDF. With Identity Kit — you just send one link and they see everything.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: 'white', flexShrink: 0 }}>IK</div>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 600 }}>Identity Kit Team</div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>Built for Indian creators</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>Built for creators everywhere</div>
                 </div>
               </div>
             </div>
@@ -318,7 +318,7 @@ export default function Landing() {
                 Get your creator link today
               </h2>
               <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 28, lineHeight: 1.65 }}>
-                Join Indian creators who never scramble when a brand asks for their media kit.
+                Join creators around the world who never scramble when a brand asks for their media kit.
               </p>
               <button onClick={() => router.push('/auth?mode=signup')} className="btn-primary" style={{ padding: '14px 32px', borderRadius: 12, fontSize: 15, display: 'inline-flex', alignItems: 'center', gap: 8, width: '100%', maxWidth: 320, justifyContent: 'center' }}>
                 Create your Identity Kit free
@@ -346,7 +346,7 @@ export default function Landing() {
               ))}
             </div>
           </div>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textAlign: 'center' }}>© 2025 Identity Kit · Made with ❤️ for Indian creators 🇮🇳</p>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textAlign: 'center' }}>© 2025 Identity Kit · Made with ❤️ for creators everywhere 🌍</p>
         </div>
       </footer>
     </div>

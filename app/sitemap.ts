@@ -588,6 +588,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+     {
+      url: `${baseUrl}/blog/creator-economy-bill-brand-compliance-checklist-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+     {
+      url: `${baseUrl}/blog/best-media-kit-tools-creators-2026/`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

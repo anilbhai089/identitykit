@@ -10,6 +10,14 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'linktree-vs-media-kit-brand-deals',
+    tag: 'Comparison',
+    title: 'Linktree vs. Media Kit: Why Brands Need More Than a Link Page (2026)',
+    excerpt: 'Linktree tells brands where to find your content. A media kit tells them why to pay you. Here\'s the real difference between a link page and a media kit — and why the gap quietly costs creators brand deals every week.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'best-media-kit-tools-creators-2026',
     tag: 'Media Kit',
     title: 'Best Free Media Kit Tools for Creators in 2026 (Beacons vs Stan Store vs Identity Kit)',

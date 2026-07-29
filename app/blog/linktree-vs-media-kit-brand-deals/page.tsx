@@ -18,7 +18,9 @@ export const metadata: Metadata = {
   },
 }
 
-const comparisonRows = [
+type ComparisonRow = { feature: string; linktree: boolean | string; pdf: boolean | string; ik: boolean | string }
+
+const comparisonRows: ComparisonRow[] = [
   { feature: 'Shows your content links', linktree: true, pdf: false, ik: true },
   { feature: 'Shows follower & engagement stats', linktree: false, pdf: true, ik: true },
   { feature: 'Shows your rate card / pricing', linktree: false, pdf: 'sometimes', ik: true },

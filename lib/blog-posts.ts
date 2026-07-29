@@ -10,6 +10,14 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: '1099-vs-w9-content-creators',
+    tag: 'Taxes',
+    title: '1099 vs. W-9 for Content Creators: What You Actually Need (2026)',
+    excerpt: 'A W-9 is what you fill out before a brand pays you. A 1099-NEC is what they send you after. Here\'s exactly how it works, plus a 2026 threshold change (from $600 to $2,000) every US creator earning brand deal income should know about.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'linktree-vs-media-kit-brand-deals',
     tag: 'Comparison',
     title: 'Linktree vs. Media Kit: Why Brands Need More Than a Link Page (2026)',

@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'youtube-rpm-by-country-2026',
+    tag: 'Data',
+    title: 'YouTube RPM by Country 2026: Where Creators Earn the Most',
+    excerpt: 'The same 1,000 views can pay one creator 10x more than another — not because of talent, but because of where their audience lives. A breakdown of the country RPM gap, why it exists, and what it actually means for how you grow.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'ftc-disclosure-rules-influencers-2026',
+    tag: 'Compliance',
+    title: 'FTC Disclosure Rules for Influencers (2026 Guide)',
+    excerpt: 'What US creators actually need to disclose, where to put it, and how — covering material connections, "clear and conspicuous" disclosure, gifted products, affiliate links, and AI-generated content.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
     slug: '1099-vs-w9-content-creators',
     tag: 'Taxes',
     title: '1099 vs. W-9 for Content Creators: What You Actually Need (2026)',

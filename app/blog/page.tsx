@@ -3,11 +3,11 @@ import { getPostsForPage, getTotalPages } from '@/lib/blog-posts'
 import BlogIndexShell from '@/components/blog/BlogIndexShell'
 
 export const metadata: Metadata = {
-  title: 'Blog | Identity Kit — Tips for Indian Creators',
-  description: 'Media kit tips, rate card guides, and creator tools for Indian influencers. Learn how to land more brand deals with Identity Kit.',
+  title: 'Blog | Identity Kit — Tips for Creators',
+  description: 'Media kit tips, rate card guides, and creator tools for creators everywhere. Learn how to land more brand deals with Identity Kit.',
   openGraph: {
-    title: 'Blog | Identity Kit — Tips for Indian Creators',
-    description: 'Media kit tips, rate card guides, and creator tools for Indian influencers.',
+    title: 'Blog | Identity Kit — Tips for Creators',
+    description: 'Media kit tips, rate card guides, and creator tools for creators everywhere.',
     url: 'https://identitykit.in/blog',
     siteName: 'Identity Kit',
     type: 'website',

@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'nano-micro-macro-influencer-rates',
+    tag: 'Rate Card',
+    title: 'Nano vs. Micro vs. Macro Influencers: What Brands Actually Pay For',
+    excerpt: 'Follower count sets which tier you\'re in, but it doesn\'t set your rate. Here\'s what nano, micro, mid-tier, macro, and mega influencers each get hired for — and the factors that actually drive price within every tier.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'uk-self-assessment-tax-creators-2026',
+    tag: 'Taxes',
+    title: 'UK Self-Assessment Tax for Creators: What You Actually Owe (2026)',
+    excerpt: 'The £1,000 trading allowance, when to register with HMRC, why gifted products count as income, and what Making Tax Digital means for creators from 2026 onward — a plain-English guide.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'youtube-rpm-by-country-2026',
     tag: 'Data',
     title: 'YouTube RPM by Country 2026: Where Creators Earn the Most',

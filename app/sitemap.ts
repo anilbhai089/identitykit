@@ -644,6 +644,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+     {
+      url: `${baseUrl}/blog/how-to-make-a-media-kit`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+     {
+      url: `${baseUrl}/blog/brand-deal-contract-red-flags`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

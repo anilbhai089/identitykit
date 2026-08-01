@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'brand-deal-contract-red-flags',
+    tag: 'Brand Deals',
+    title: 'Brand Deal Contract Red Flags: What to Check Before You Sign',
+    excerpt: 'Perpetual usage rights, vague deliverables, one-sided termination clauses — here are the contract terms that quietly cost creators money and control, and what to ask for instead.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-make-a-media-kit',
+    tag: 'Media Kit',
+    title: 'How to Make a Media Kit as a Creator (Free Guide, 2026)',
+    excerpt: 'A media kit either passes the one-page test or it doesn\'t. Here\'s exactly what belongs in each section, which format actually works for brands, and the mistakes that quietly kill otherwise-good pitches.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'nano-micro-macro-influencer-rates',
     tag: 'Rate Card',
     title: 'Nano vs. Micro vs. Macro Influencers: What Brands Actually Pay For',

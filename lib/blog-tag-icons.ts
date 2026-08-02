@@ -63,6 +63,7 @@ export const tagIcons: Record<string, string> = {
   'Taxes': '🧾',
   'Compliance': '🛡️',
   'Data': '📊',
+  'Affiliate': '🪙',
 }
 
 export function getTagIcon(tag: string): string {

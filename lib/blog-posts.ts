@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'affiliate-marketing-creators-guide',
+    tag: 'Affiliate',
+    title: 'Affiliate Marketing for Creators: How to Get Started (2026)',
+    excerpt: 'Commission rates, cookie duration, and how to pick programs that actually pay. A practical starting guide to affiliate marketing for creators who want income beyond brand deals.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'ugc-creator-rates-2026',
+    tag: 'UGC',
+    title: 'UGC Rates: What to Charge for User-Generated Content (2026)',
+    excerpt: 'UGC pricing works nothing like influencer rates — follower count barely matters. Here\'s how experience tier, usage rights, and bundle pricing actually shape what UGC creators charge in 2026.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'brand-deal-contract-red-flags',
     tag: 'Brand Deals',
     title: 'Brand Deal Contract Red Flags: What to Check Before You Sign',

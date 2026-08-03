@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'newsletter-sponsorship-rates-2026',
+    tag: 'Newsletter',
+    title: 'Newsletter Sponsorships: How Substack & Beehiiv Creators Get Paid (2026)',
+    excerpt: 'Newsletter sponsorships are priced on CPM per subscriber, not follower count — and niche changes the rate more than list size does. Here\'s how pricing actually works for Substack, Beehiiv, and other newsletter creators.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'twitch-streamer-media-kit-sponsorships',
+    tag: 'Streaming',
+    title: 'How Streamers Can Build a Media Kit for Sponsorships (2026)',
+    excerpt: 'Live streaming is priced on concurrent viewers, not followers. Here\'s what actually belongs in a Twitch or livestream media kit, which metrics brands check first, and how sponsorship activations work on stream.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'affiliate-marketing-creators-guide',
     tag: 'Affiliate',
     title: 'Affiliate Marketing for Creators: How to Get Started (2026)',

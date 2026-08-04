@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'linkedin-creator-monetization-2026',
+    tag: 'LinkedIn',
+    title: 'LinkedIn Creator Monetization: How B2B Creators Get Paid (2026)',
+    excerpt: 'LinkedIn rates run 2–4x higher than equivalent Instagram rates — not because of bigger audiences, but because of who\'s in them. Here\'s how sponsored posts, newsletter takeovers, and LinkedIn\'s new creator tools actually get priced.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'podcast-sponsorship-rates-2026',
+    tag: 'Podcast',
+    title: 'Podcast Sponsorship Rates: Pre-Roll, Mid-Roll & Post-Roll Explained (2026)',
+    excerpt: 'Podcast ads are priced on CPM per 1,000 downloads — and where the ad sits in the episode changes the price as much as your download count does. A full breakdown of 2026 podcast sponsorship pricing.',
+    readTime: '9 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'newsletter-sponsorship-rates-2026',
     tag: 'Newsletter',
     title: 'Newsletter Sponsorships: How Substack & Beehiiv Creators Get Paid (2026)',

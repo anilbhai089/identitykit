@@ -68,6 +68,8 @@ export const tagIcons: Record<string, string> = {
   'Newsletter': '📰',
   'Podcast': '🎙️',
   'LinkedIn': '💼',
+  'Calculator': '🧮',
+  'Business': '🏢',
 }
 
 export function getTagIcon(tag: string): string {

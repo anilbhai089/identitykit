@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'llc-vs-sole-proprietor-creators',
+    tag: 'Business',
+    title: 'LLC vs. Sole Proprietor for Creators: Do You Need to Incorporate? (2026)',
+    excerpt: 'There\'s no follower count or income number that automatically triggers "you need an LLC." Here\'s what actually changes with an LLC, what doesn\'t, and the signals worth weighing before you decide.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-calculate-influencer-rate',
+    tag: 'Calculator',
+    title: 'How to Calculate Your Influencer Rate: A Step-by-Step Formula (2026)',
+    excerpt: 'The industry-standard formula for sponsored post pricing: Base Rate = (Followers ÷ 1,000) × CPM × Niche Multiplier × Engagement Multiplier. Here\'s how to actually run the numbers, with a full worked example.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'linkedin-creator-monetization-2026',
     tag: 'LinkedIn',
     title: 'LinkedIn Creator Monetization: How B2B Creators Get Paid (2026)',

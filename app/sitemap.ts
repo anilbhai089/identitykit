@@ -700,6 +700,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+     {
+      url: `${baseUrl}/blog/how-to-calculate-influencer-rate`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+     {
+      url: `${baseUrl}/blog/llc-vs-sole-proprietor-creators`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

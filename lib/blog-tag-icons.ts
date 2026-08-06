@@ -70,6 +70,8 @@ export const tagIcons: Record<string, string> = {
   'LinkedIn': '💼',
   'Calculator': '🧮',
   'Business': '🏢',
+  'Invoicing': '📥',
+  'TikTok': '🎵',
 }
 
 export function getTagIcon(tag: string): string {

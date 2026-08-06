@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'tiktok-creator-rewards-program-2026',
+    tag: 'TikTok',
+    title: 'TikTok Creator Rewards Program: How Payouts Actually Work (2026)',
+    excerpt: 'TikTok doesn\'t just pay per view — it scores originality, watch time, engagement, and search value before a single video earns a cent. Here\'s the real eligibility checklist, RPM ranges, and what disqualifies a video entirely.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'how-to-invoice-a-brand',
+    tag: 'Invoicing',
+    title: 'How to Invoice a Brand for Sponsored Content (Free Guide, 2026)',
+    excerpt: 'Incorrect payment terms are the single biggest reason creator invoices go unpaid. Here\'s exactly what to include, how Net-30 actually works, and the mistakes that quietly delay your payment.',
+    readTime: '7 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'llc-vs-sole-proprietor-creators',
     tag: 'Business',
     title: 'LLC vs. Sole Proprietor for Creators: Do You Need to Incorporate? (2026)',

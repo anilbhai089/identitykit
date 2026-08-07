@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'deinfluencing-trend-creators-brand-deals',
+    tag: 'Trends',
+    title: 'The Deinfluencing Trend: What It Means for Creators and Brand Deals (2026)',
+    excerpt: 'Deinfluencing didn\'t kill brand partnerships — it raised the bar for honesty. Here\'s what the trend actually is, why audiences responded to it, and how to adapt your brand deal approach without losing trust.',
+    readTime: '7 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'electronic-press-kit-vs-media-kit',
+    tag: 'EPK',
+    title: 'Electronic Press Kit (EPK) vs. Media Kit: What\'s the Difference? (2026)',
+    excerpt: 'EPK and media kit describe nearly the same thing — a one-link professional profile — built for different audiences. Here\'s what belongs in an EPK for musicians, podcasters, and artists, and how it differs from an influencer media kit.',
+    readTime: '7 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'tiktok-creator-rewards-program-2026',
     tag: 'TikTok',
     title: 'TikTok Creator Rewards Program: How Payouts Actually Work (2026)',

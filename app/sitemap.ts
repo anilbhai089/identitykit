@@ -728,6 +728,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+     {
+      url: `${baseUrl}/blog/electronic-press-kit-vs-media-kit`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+     {
+      url: `${baseUrl}/blog/deinfluencing-trend-creators-brand-deals`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

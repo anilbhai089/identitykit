@@ -3,10 +3,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Script from 'next/script'
 
-// ─── TOGGLE: flip to false to skip payment for testing ───
-const PAYMENT_ENABLED = true
-const PRICE_RUPEES = 49
-
 // ── FAQ data ──────────────────────────────────────────────────────────────────
 const faqs = [
   {
@@ -59,10 +55,10 @@ const webToolSchema = {
   '@type': 'WebApplication',
   name: 'GST Invoice Generator for Indian Creators 2026',
   url: 'https://identitykit.in/tools/gst-invoice-generator',
-  description: 'GST invoice generator for Indian content creators and influencers. Generate professional GST-compliant invoices for brand deals in seconds. Supports CGST+SGST and IGST. Preview free, ₹49 to download as PDF.',
+  description: 'GST invoice generator for Indian content creators and influencers. Generate professional GST-compliant invoices for brand deals in seconds. Supports CGST+SGST and IGST. 100% free.',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'All',
-  offers: { '@type': 'Offer', price: '49', priceCurrency: 'INR' },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
   creator: { '@type': 'Organization', name: 'Identity Kit', url: 'https://identitykit.in' },
 }
 
@@ -370,70 +366,11 @@ export default function GSTInvoiceGenerator() {
     setGenerating(false)
   }
 
-  function loadRazorpayScript(): Promise<boolean> {
-    return new Promise(resolve => {
-      if ((window as any).Razorpay) { resolve(true); return }
-      const script = document.createElement('script')
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-      script.onload = () => resolve(true)
-      script.onerror = () => resolve(false)
-      document.body.appendChild(script)
-    })
-  }
-
   async function handlePayAndDownload() {
-    if (!PAYMENT_ENABLED) {
-      generatePDF()
-      return
-    }
     setGenerating(true)
     try {
-      const loaded = await loadRazorpayScript()
-      if (!loaded) {
-        alert('Could not load payment gateway. Check your connection and try again.')
-        setGenerating(false)
-        return
-      }
-
-      const res = await fetch('/api/gst-invoice-payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: PRICE_RUPEES * 100 }),
-      })
-      const order = await res.json()
-
-      if (!order.orderId) {
-        alert('Could not start payment. Make sure RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are set in Vercel env vars.')
-        setGenerating(false)
-        return
-      }
-
-      const rzp = new (window as any).Razorpay({
-        key: order.key,
-        order_id: order.orderId,
-        amount: PRICE_RUPEES * 100,
-        currency: 'INR',
-        name: 'Identity Kit',
-        description: `${invoiceNo} — GST Invoice PDF`,
-        prefill: { name: creatorName, email: creatorEmail },
-        theme: { color: '#FF6B2B' },
-        handler: function () {
-          generatePDF()
-        },
-        modal: {
-          ondismiss: function () {
-            setGenerating(false)
-          },
-        },
-      })
-      rzp.on('payment.failed', function () {
-        alert('Payment failed. Please try again.')
-        setGenerating(false)
-      })
-      rzp.open()
-    } catch (err) {
-      console.error(err)
-      alert('Something went wrong starting payment. Please try again.')
+      generatePDF()
+    } finally {
       setGenerating(false)
     }
   }
@@ -541,15 +478,15 @@ export default function GSTInvoiceGenerator() {
         {/* HERO */}
         <div style={{ textAlign: 'center', paddingTop: 28, paddingBottom: 44 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            🧾 Preview Free · ₹49 to Download
+            🧾 100% Free
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 36, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
             GST Invoice Generator<br />for Indian Creators 2026
           </h1>
           <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 520, margin: '0 auto 10px', lineHeight: 1.7 }}>
-            Generate professional GST-compliant invoices for your brand deals in seconds. Supports CGST+SGST and IGST. Preview free, pay ₹49 to download the PDF.
+            Generate professional GST-compliant invoices for your brand deals in seconds. Supports CGST+SGST and IGST. 100% free.
           </p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>No login required · ₹49 one-time download · Instant PDF</p>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>No login required · Free · Instant PDF</p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16, alignItems: 'start' }}>
@@ -981,31 +918,15 @@ export default function GSTInvoiceGenerator() {
               )}
             </div>
 
-            {/* Pay & download bar */}
+            {/* Download bar */}
             <div style={{ padding: '20px 24px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-              {!PAYMENT_ENABLED && (
-                <div style={{ background: 'rgba(255,193,7,0.08)', border: '1px solid rgba(255,193,7,0.25)', borderRadius: 10, padding: '10px 12px', marginBottom: 14, fontSize: 12, color: '#FFD166' }}>
-                  🛠 Testing mode — downloads are free for now.
-                </div>
-              )}
-              {PAYMENT_ENABLED && (
-                <div style={{ background: 'rgba(255,107,43,0.08)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 10, padding: '12px 14px', marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>One-time download</span>
-                  <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 18, fontWeight: 800, color: '#FF6B2B' }}>₹{PRICE_RUPEES}</span>
-                </div>
-              )}
               <button
                 onClick={handlePayAndDownload}
                 disabled={generating}
                 style={{ width: '100%', background: 'linear-gradient(135deg,#FF6B2B,#FF4500)', color: '#fff', border: 'none', borderRadius: 12, padding: '14px', fontSize: 15, fontWeight: 700, cursor: generating ? 'default' : 'pointer', opacity: generating ? 0.7 : 1, marginBottom: 10, fontFamily: "'Syne',sans-serif" }}
               >
-                {generating ? 'Processing…' : PAYMENT_ENABLED ? `Pay ₹${PRICE_RUPEES} & Download PDF →` : 'Download PDF (Free — Testing) →'}
+                {generating ? 'Processing…' : 'Download PDF →'}
               </button>
-              {PAYMENT_ENABLED && (
-                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', textAlign: 'center', marginBottom: 10 }}>
-                  Secure payment via Razorpay · UPI, cards, netbanking
-                </p>
-              )}
               <button onClick={() => setPreviewOpen(false)} disabled={generating} style={{ width: '100%', background: 'transparent', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '12px', fontSize: 13, fontWeight: 600, cursor: generating ? 'default' : 'pointer' }}>
                 ← Edit details
               </button>

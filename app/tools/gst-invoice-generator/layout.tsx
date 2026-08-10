@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'GST Invoice Generator for Indian Creators 2026 — ₹49 PDF Download',
+  title: 'Free GST Invoice Generator for Indian Creators 2026',
   description:
-    'GST invoice generator for Indian content creators and influencers. Generate professional GST-compliant invoices for brand deals in seconds. Supports CGST+SGST and IGST. Preview free, pay ₹49 to download as PDF.',
+    'GST invoice generator for Indian content creators and influencers. Generate professional GST-compliant invoices for brand deals in seconds. Supports CGST+SGST and IGST. 100% free.',
   keywords: [
     'gst invoice generator for creators india',
     'gst invoice generator influencer india',
@@ -15,17 +15,17 @@ export const metadata: Metadata = {
     'sac code for influencer marketing india',
   ],
   openGraph: {
-    title: 'GST Invoice Generator for Indian Creators 2026 — ₹49 PDF Download',
+    title: 'Free GST Invoice Generator for Indian Creators 2026',
     description:
-      'Generate GST-compliant brand deal invoices in seconds. CGST+SGST or IGST auto-applied. Preview free, pay ₹49 to download as PDF.',
+      'Generate GST-compliant brand deal invoices in seconds. CGST+SGST or IGST auto-applied. 100% free.',
     url: 'https://identitykit.in/tools/gst-invoice-generator',
     siteName: 'Identity Kit',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GST Invoice Generator for Indian Creators — ₹49 PDF Download',
-    description: 'Generate professional GST invoices for brand deals. Preview free, ₹49 to download the PDF.',
+    title: 'Free GST Invoice Generator for Indian Creators',
+    description: 'Generate professional GST invoices for brand deals. 100% free.',
   },
   alternates: {
     canonical: 'https://identitykit.in/tools/gst-invoice-generator',

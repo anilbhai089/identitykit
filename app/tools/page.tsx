@@ -129,7 +129,7 @@ export default function ToolsIndex() {
               <div className={`tool-card ${tool.live ? 'live' : ''}`} style={{ opacity: tool.live ? 1 : 0.6, cursor: tool.live ? 'pointer' : 'default' }}>
                 <div style={{ fontSize: 36 }}>{tool.emoji}</div>
                 <div>
-                  <span style={{ background: tool.paid ? 'rgba(255,107,43,0.14)' : tool.live ? 'rgba(76,175,80,0.12)' : 'rgba(255,255,255,0.05)', color: tool.tagColor, fontSize: 11, fontWeight: 700, padding: '3px 9px', borderRadius: 100, display: 'inline-block', marginBottom: 10 }}>
+                  <span style={{ background: tool.live ? 'rgba(76,175,80,0.12)' : 'rgba(255,255,255,0.05)', color: tool.tagColor, fontSize: 11, fontWeight: 700, padding: '3px 9px', borderRadius: 100, display: 'inline-block', marginBottom: 10 }}>
                     {tool.tag}
                   </span>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 17, lineHeight: 1.3, marginBottom: 10 }}>{tool.title}</div>

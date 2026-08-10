@@ -742,6 +742,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+     {
+      url: `${baseUrl}/blog/amazon-influencer-program-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+     {
+      url: `${baseUrl}/blog/pinterest-creator-monetization-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

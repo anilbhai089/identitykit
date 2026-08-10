@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'pinterest-creator-monetization-2026',
+    tag: 'Pinterest',
+    title: 'How Pinterest Creators Actually Make Money in 2026 (No Ad Revenue Share)',
+    excerpt: 'Pinterest has no per-view payout and its old Creator Rewards program shut down in 2022. Here\'s how creators actually earn from Pinterest today — affiliate links, brand partnerships, and why a single pin can pay off for years.',
+    readTime: '7 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'amazon-influencer-program-2026',
+    tag: 'Amazon',
+    title: 'Amazon Influencer Program: How to Get Approved and Earn Commission (2026)',
+    excerpt: 'A branded storefront, shoppable video on Amazon\'s own product pages, and access to flat-fee brand deals — here\'s what the Amazon Influencer Program actually offers, how approval really works, and how it differs from Amazon Associates.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'deinfluencing-trend-creators-brand-deals',
     tag: 'Trends',
     title: 'The Deinfluencing Trend: What It Means for Creators and Brand Deals (2026)',

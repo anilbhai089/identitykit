@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Brand Deal Contract Template for Indian Creators 2026 — ₹49 PDF Download',
+  title: 'Free Brand Deal Contract Template for Indian Creators 2026',
   description:
-    'Brand deal contract template for Indian creators. Fill in your details and download a professional, ASCI-compliant PDF contract for influencer brand collaborations. 10 clauses included. Preview free, pay ₹49 to download. No login required.',
+    'Brand deal contract template for Indian creators. Fill in your details and download a professional, ASCI-compliant PDF contract for influencer brand collaborations. 10 clauses included. 100% free. No login required.',
   keywords: [
     'brand deal contract template india',
     'influencer contract template india',
@@ -15,16 +15,16 @@ export const metadata: Metadata = {
     'brand deal agreement template india',
   ],
   openGraph: {
-    title: 'Brand Deal Contract Template for Indian Creators 2026 — ₹49 PDF',
-    description: 'Fill your details and download a professional brand deal contract PDF. ASCI-compliant. 10 clauses. Preview free, ₹49 to download.',
+    title: 'Free Brand Deal Contract Template for Indian Creators 2026',
+    description: 'Fill your details and download a professional brand deal contract PDF. ASCI-compliant. 10 clauses. 100% free.',
     url: 'https://identitykit.in/tools/brand-deal-contract-template',
     siteName: 'Identity Kit',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Brand Deal Contract Template India — ₹49 PDF Download',
-    description: 'Professional brand deal contract for Indian creators. ASCI-compliant, 10 clauses. Preview free, ₹49 to download.',
+    title: 'Free Brand Deal Contract Template India',
+    description: 'Professional brand deal contract for Indian creators. ASCI-compliant, 10 clauses. 100% free.',
   },
   alternates: {
     canonical: 'https://identitykit.in/tools/brand-deal-contract-template',

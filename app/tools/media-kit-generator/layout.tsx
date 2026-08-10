@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Media Kit Generator for Indian Creators 2026 — ₹49 PDF Download',
+  title: 'Free Media Kit Generator for Creators 2026 — Identity Kit',
   description:
-    'Create a brand-ready media kit in minutes — stats, platforms, audience demographics, brand collaborations and rates in one polished PDF. Preview free, pay ₹49 to download. No login required.',
+    'Create a brand-ready media kit in minutes — stats, platforms, audience demographics, brand collaborations and rates in one polished PDF. 100% free. No login required.',
   keywords: [
     'media kit generator india',
     'influencer media kit template india',
@@ -15,16 +15,16 @@ export const metadata: Metadata = {
     'influencer press kit india',
   ],
   openGraph: {
-    title: 'Media Kit Generator for Indian Creators 2026 — ₹49 PDF',
-    description: 'Turn your stats, audience and rates into a polished, brand-ready media kit PDF. Preview free, ₹49 to download.',
+    title: 'Free Media Kit Generator for Creators 2026 — Identity Kit',
+    description: 'Turn your stats, audience and rates into a polished, brand-ready media kit PDF. 100% free.',
     url: 'https://identitykit.in/tools/media-kit-generator',
     siteName: 'Identity Kit',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Media Kit Generator for Indian Creators — ₹49 PDF Download',
-    description: 'Brand-ready media kit PDF — stats, audience, platforms and rates. Preview free, ₹49 to download.',
+    title: 'Free Media Kit Generator for Creators — Identity Kit',
+    description: 'Brand-ready media kit PDF — stats, audience, platforms and rates. 100% free.',
   },
   alternates: {
     canonical: 'https://identitykit.in/tools/media-kit-generator',

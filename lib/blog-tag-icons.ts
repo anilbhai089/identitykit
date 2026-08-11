@@ -76,7 +76,6 @@ export const tagIcons: Record<string, string> = {
   'Trends': '🌿',
   'Amazon': '📦',
   'Pinterest': '📌',
-  'Threads': '🧵',
   'Shorts': '📱',
 }
 

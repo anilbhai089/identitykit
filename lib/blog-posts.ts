@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'youtube-shorts-monetization-2026',
+    tag: 'Shorts',
+    title: 'YouTube Shorts Monetization: How It\'s Different From Long-Form (2026)',
+    excerpt: 'Shorts don\'t earn like long-form YouTube — there\'s no per-video CPM, just a shared regional pool split by view share. Here\'s how the pool model actually works, why original audio pays more, and what realistic RPM looks like.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'threads-monetization-2026',
+    tag: 'Threads',
+    title: 'Threads Monetization in 2026: What\'s Actually Live (and What Isn\'t)',
+    excerpt: 'No creator fund, no ad revenue share, no tipping — Threads still doesn\'t pay creators directly in 2026, even with 400M+ users and global ads. Here\'s what\'s real, what ended, and how creators are actually earning from Threads today.',
+    readTime: '7 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'pinterest-creator-monetization-2026',
     tag: 'Pinterest',
     title: 'How Pinterest Creators Actually Make Money in 2026 (No Ad Revenue Share)',

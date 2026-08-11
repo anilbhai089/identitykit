@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Free Tools for Indian Creators 2026 — Identity Kit',
+  title: 'Free Tools for Content Creators 2026 — Identity Kit',
   description:
-    'Free calculators and tools built for Indian content creators. Engagement rate calculator, rate calculator, YouTube money calculator, and more — India-specific benchmarks, no login required.',
+    'Free calculators and tools built for content creators. Engagement rate calculator, rate calculator, YouTube money calculator, and more — no login required.',
   openGraph: {
-    title: 'Free Tools for Indian Creators 2026 — Identity Kit',
+    title: 'Free Tools for Content Creators 2026 — Identity Kit',
     description:
-      'Free calculators and tools built for Indian content creators. No login required.',
+      'Free calculators and tools built for content creators. No login required.',
     url: 'https://identitykit.in/tools',
     siteName: 'Identity Kit',
     type: 'website',
@@ -25,7 +25,7 @@ const tools = [
     tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Instagram Engagement Rate Calculator',
-    desc: 'Calculate your engagement rate instantly with India-specific benchmarks for every tier. Find out exactly if you qualify for brand deals.',
+    desc: 'Calculate your engagement rate instantly with benchmarks for every tier. Find out exactly if you qualify for brand deals.',
     cta: 'Calculate now →',
     live: true,
   },
@@ -55,7 +55,7 @@ const tools = [
     tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Instagram Bio Generator',
-    desc: 'AI-powered Instagram bio generator for Indian creators. Get 3 professional bio options instantly — brand-ready, niche-specific, under 150 characters.',
+    desc: 'AI-powered Instagram bio generator for creators. Get 3 professional bio options instantly — brand-ready, niche-specific, under 150 characters.',
     cta: 'Generate bio →',
     live: true,
   },
@@ -65,7 +65,7 @@ const tools = [
     tag: 'Free',
     tagColor: '#4CAF50',
     title: 'Brand Pitch Email Generator',
-    desc: 'AI-powered pitch email generator for Indian creators. Get a personalized email + 2 follow-ups in seconds — short enough to actually get read.',
+    desc: 'AI-powered pitch email generator for creators. Get a personalized email + 2 follow-ups in seconds — short enough to actually get read.',
     cta: 'Generate pitch →',
     live: true,
   },
@@ -112,13 +112,13 @@ export default function ToolsIndex() {
         {/* HERO */}
         <div style={{ textAlign: 'center', paddingTop: 40, paddingBottom: 56 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            🛠️ Built for Indian Creators
+            🛠️ Built for Creators
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 40, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
-            Free Creator Tools for India
+            Free Creator Tools
           </h1>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', maxWidth: 520, margin: '0 auto', lineHeight: 1.75 }}>
-            Calculators and generators built specifically for Indian creators — with India-specific benchmarks, INR rates, and real data. No login. No fees. Ever.
+            Calculators and generators built specifically for content creators — with real data and benchmarks. No login. No fees. Ever.
           </p>
         </div>
 
@@ -151,7 +151,7 @@ export default function ToolsIndex() {
             Your media kit, rate card & CV — in one free link
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 15, lineHeight: 1.75, maxWidth: 440, margin: '0 auto 28px' }}>
-            Identity Kit gives every Indian creator a professional shareable profile that brands can open in one click — no PDFs, no back-and-forth.
+            Identity Kit gives every creator a professional shareable profile that brands can open in one click — no PDFs, no back-and-forth.
           </p>
           <Link href="/auth?mode=signup" style={{ display: 'inline-block', background: '#FF6B2B', color: '#fff', borderRadius: 14, padding: '14px 36px', fontWeight: 800, fontSize: 16, letterSpacing: '-0.3px' }}>
             Get my free Identity Kit →
@@ -169,7 +169,7 @@ export default function ToolsIndex() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for creators everywhere.</p>
       </footer>
     </div>
   )

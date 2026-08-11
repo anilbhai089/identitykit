@@ -6,20 +6,20 @@ import Script from 'next/script'
 // ── FAQ data (also used for schema) ──────────────────────────────────────────
 const faqs = [
   {
-    q: 'What is a good Instagram engagement rate in India in 2026?',
-    a: 'A good engagement rate depends on your tier. Nano creators (1K–10K): 4–8% is good, 8%+ is excellent. Micro creators (10K–100K): 3–6% is good. Mid-tier (100K–500K): 1.5–4%. Macro creators (500K–1M): 0.8–2.5%. Indian creators average 3.2% — higher than the global average of 1.59%.',
+    q: 'What is a good Instagram engagement rate in 2026?',
+    a: 'A good engagement rate depends on your tier. Nano creators (1K–10K): 4–8% is good, 8%+ is excellent. Micro creators (10K–100K): 3–6% is good. Mid-tier (100K–500K): 1.5–4%. Macro creators (500K–1M): 0.8–2.5%. The global average sits around 1.59%, but this varies significantly by region and platform.',
   },
   {
     q: 'How do I calculate Instagram engagement rate?',
     a: 'The standard formula is: (Likes + Comments) ÷ Followers × 100. For a more complete picture, use the full formula: (Likes + Comments + Saves + Shares) ÷ Followers × 100. Calculate across your last 10–15 posts and average the results — never use a single viral post as it will inflate your rate.',
   },
   {
-    q: 'What engagement rate do I need to get brand deals in India?',
-    a: 'Most Indian brands require a minimum 2–3% engagement rate before considering paid brand deals. Niche matters too — a finance creator with 2.5% engagement is more valuable to a fintech brand than a lifestyle creator with 5%. For consistent brand deal income, aim for 3%+ as a micro creator and 1.5%+ as a mid-tier creator.',
+    q: 'What engagement rate do I need to get brand deals?',
+    a: 'Most brands require a minimum 2–3% engagement rate before considering paid brand deals. Niche matters too — a finance creator with 2.5% engagement is more valuable to a fintech brand than a lifestyle creator with 5%. For consistent brand deal income, aim for 3%+ as a micro creator and 1.5%+ as a mid-tier creator.',
   },
   {
     q: 'Why do brands look at engagement rate over follower count?',
-    a: 'Brands prefer engagement rate because many Indian creators have inflated follower counts from bots or follow-for-follow tactics. A creator with 30K followers and 7% engagement reaches more genuinely interested people than one with 200K followers and 0.5% engagement. Engagement rate predicts conversion rate far better than follower count.',
+    a: 'Brands prefer engagement rate because many creators have inflated follower counts from bots or follow-for-follow tactics. A creator with 30K followers and 7% engagement reaches more genuinely interested people than one with 200K followers and 0.5% engagement. Engagement rate predicts conversion rate far better than follower count.',
   },
   {
     q: 'What counts as engagement on Instagram in 2026?',
@@ -27,15 +27,15 @@ const faqs = [
   },
   {
     q: 'Does a higher engagement rate mean higher brand deal rates?',
-    a: 'Yes, significantly. Indian agencies use engagement rate as a multiplier on top of base follower-count rates. A micro creator with 50K followers and 7% engagement can charge 2–3x more than one with 50K followers and 1.5% engagement. Some agencies like Qoruz use cost-per-engagement (CPE) as their primary campaign ROI metric.',
+    a: 'Yes, significantly. Agencies increasingly use engagement rate as a multiplier on top of base follower-count rates. A micro creator with 50K followers and 7% engagement can charge 2–3x more than one with 50K followers and 1.5% engagement. Some agencies like Qoruz use cost-per-engagement (CPE) as their primary campaign ROI metric.',
   },
   {
     q: 'How many posts should I average to calculate engagement rate?',
     a: 'Always average across your last 10–15 posts. A single viral post can inflate your rate by 5–10x, giving a misleading picture. If you have had a major viral moment in the last month, use your last 15–20 posts to get a more accurate baseline that brands can trust.',
   },
   {
-    q: 'What is the average Instagram engagement rate for Indian creators?',
-    a: 'The average Instagram engagement rate for Indian creators in 2026 is approximately 3.2% across all tiers — higher than the global average of 1.59%. Nano-influencers average 5–8%, micro-influencers 3–6%, mid-tier 1.5–3.5%, and macro creators 0.8–2.5%. Finance and education niches consistently outperform lifestyle and fashion by 1.5–2x.',
+    q: 'What is the average Instagram engagement rate for creators?',
+    a: 'The average Instagram engagement rate across all tiers in 2026 is approximately 1.59% globally, though this varies by region, niche and audience size. Nano-influencers average 5–8%, micro-influencers 3–6%, mid-tier 1.5–3.5%, and macro creators 0.8–2.5%. Finance and education niches consistently outperform lifestyle and fashion by 1.5–2x.',
   },
 ]
 
@@ -62,10 +62,10 @@ const faqSchema = {
 const webToolSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Instagram Engagement Rate Calculator India',
+  name: 'Instagram Engagement Rate Calculator',
   url: 'https://identitykit.in/tools/instagram-engagement-calculator',
   description:
-    'Free Instagram engagement rate calculator for Indian creators. Get your engagement rate in seconds, see how you compare to India benchmarks, and find out if you qualify for brand deals.',
+    'Free Instagram engagement rate calculator for creators. Get your engagement rate in seconds, see how you compare to industry benchmarks, and find out if you qualify for brand deals.',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'All',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
@@ -82,19 +82,19 @@ function getRating(followers: number, rate: number) {
   }
   if (followers <= 100000) {
     if (rate >= 6) return { label: 'Excellent 🔥', color: '#4CAF50', desc: 'Exceptional for a micro creator. You are in the top 10% of your tier.' }
-    if (rate >= 3) return { label: 'Good ✅', color: '#8BC34A', desc: 'Strong micro creator engagement. Indian brands actively seek creators like you.' }
+    if (rate >= 3) return { label: 'Good ✅', color: '#8BC34A', desc: 'Strong micro creator engagement. Brands actively seek creators like you.' }
     if (rate >= 1.5) return { label: 'Average ⚡', color: '#FF9800', desc: 'Decent but improvable. Aim for 3%+ with better content strategy.' }
     return { label: 'Below Average ⚠️', color: '#FF5252', desc: 'Below the brand deal threshold for micro creators. Engagement work needed first.' }
   }
   if (followers <= 500000) {
-    if (rate >= 4) return { label: 'Excellent 🔥', color: '#4CAF50', desc: 'Outstanding for a mid-tier creator. Well above the India benchmark.' }
-    if (rate >= 1.5) return { label: 'Good ✅', color: '#8BC34A', desc: 'Solid mid-tier engagement. You qualify for most Indian brand campaigns.' }
+    if (rate >= 4) return { label: 'Excellent 🔥', color: '#4CAF50', desc: 'Outstanding for a mid-tier creator. Well above the global benchmark.' }
+    if (rate >= 1.5) return { label: 'Good ✅', color: '#8BC34A', desc: 'Solid mid-tier engagement. You qualify for most brand campaigns.' }
     if (rate >= 0.8) return { label: 'Average ⚡', color: '#FF9800', desc: 'Average for your tier. Negotiating power is limited at this rate.' }
     return { label: 'Below Average ⚠️', color: '#FF5252', desc: 'Below average. Brands may question audience quality at this rate.' }
   }
   if (followers <= 1000000) {
     if (rate >= 2.5) return { label: 'Excellent 🔥', color: '#4CAF50', desc: 'Exceptional macro creator engagement. Premium brand deals are yours to command.' }
-    if (rate >= 0.8) return { label: 'Good ✅', color: '#8BC34A', desc: 'Strong for a macro creator. You are competitive in the Indian market.' }
+    if (rate >= 0.8) return { label: 'Good ✅', color: '#8BC34A', desc: 'Strong for a macro creator. You are competitive in most markets.' }
     if (rate >= 0.5) return { label: 'Average ⚡', color: '#FF9800', desc: 'Average for your scale. Reels-first strategy can push this higher.' }
     return { label: 'Below Average ⚠️', color: '#FF5252', desc: 'Low for a macro creator. An audience audit and Reels strategy are recommended.' }
   }
@@ -241,13 +241,13 @@ export default function InstagramEngagementCalculator() {
         {/* ── HERO ── */}
         <div style={{ textAlign: 'center', paddingTop: 32, paddingBottom: 48 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            📊 Free Tool for Indian Creators
+            📊 Free Tool for Creators
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 38, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
-            Instagram Engagement Rate<br />Calculator India 2026
+            Instagram Engagement Rate<br />Calculator 2026
           </h1>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', maxWidth: 540, margin: '0 auto 10px', lineHeight: 1.7 }}>
-            Calculate your Instagram engagement rate instantly. See if you qualify for brand deals — with India-specific benchmarks for every creator tier.
+            Calculate your Instagram engagement rate instantly. See if you qualify for brand deals — with benchmarks for every creator tier.
           </p>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>Free forever · No login required · Results in seconds</p>
         </div>
@@ -345,10 +345,10 @@ export default function InstagramEngagementCalculator() {
 
         {/* ── BENCHMARK TABLE ── */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          India Engagement Rate Benchmarks by Creator Tier — 2026
+          Engagement Rate Benchmarks by Creator Tier — 2026
         </h2>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>
-          Indian creators average 3.2% engagement — nearly 2x the global average. Use this table to see exactly where your rate stands and how brands will evaluate you.
+          Use this table to see exactly where your rate stands and how brands will evaluate you. Use this table to see exactly where your rate stands and how brands will evaluate you.
         </p>
         <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden', marginBottom: 52 }}>
           <div style={{ overflowX: 'auto' }}>
@@ -381,14 +381,14 @@ export default function InstagramEngagementCalculator() {
 
         {/* ── NICHE BENCHMARKS ── */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          Engagement Rate by Niche — India 2026
+          Engagement Rate by Niche — 2026
         </h2>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>
           Your niche affects your engagement rate as much as follower count. Finance and education niches consistently outperform lifestyle by 1.5–2x.
         </p>
         <div className="niche-grid" style={{ marginBottom: 52 }}>
           {[
-            { name: 'Finance & Investing', rate: '4–9%', note: 'Highest in India. Discussion-heavy comments and saves.', color: '#4CAF50' },
+            { name: 'Finance & Investing', rate: '4–9%', note: 'Discussion-heavy comments and saves drive the highest rates.', color: '#4CAF50' },
             { name: 'Education & Career', rate: '3.5–8%', note: 'High save rate — tutorials get bookmarked heavily.', color: '#8BC34A' },
             { name: 'Fitness & Health', rate: '3–7%', note: 'Challenges and before/after drive strong shares.', color: '#FF9800' },
             { name: 'Beauty & Skincare', rate: '2.5–6%', note: 'Tutorial saves are very high. Reviews drive comments.', color: '#FF6B2B' },
@@ -408,10 +408,10 @@ export default function InstagramEngagementCalculator() {
 
         {/* ── HOW ENGAGEMENT AFFECTS INCOME ── */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          How Engagement Rate Affects Your Brand Deal Income in India
+          How Engagement Rate Affects Your Brand Deal Income
         </h2>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>
-          Indian agencies use engagement rate as a multiplier on top of follower-count rates. A 7% engagement rate can earn you 2–3x more than the same follower count at 1.5%.
+          Agencies increasingly use engagement rate as a multiplier on top of follower-count rates. A 7% engagement rate can earn you 2–3x more than the same follower count at 1.5%.
         </p>
         <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden', marginBottom: 52 }}>
           <div style={{ overflowX: 'auto' }}>
@@ -448,9 +448,9 @@ export default function InstagramEngagementCalculator() {
 
         {/* ── TIPS ── */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          10 Ways to Increase Your Instagram Engagement Rate in India
+          10 Ways to Increase Your Instagram Engagement Rate
         </h2>
-        <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>Actionable tactics that Indian creators have used to push past the 3% threshold.</p>
+        <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>Actionable tactics creators have used to push past the 3% threshold.</p>
         <div style={{ marginBottom: 52 }}>
           {[
             { icon: '🎬', title: 'Post Reels over static posts', desc: 'Reels get 3–5x more organic distribution than static posts on Instagram in 2026. Switching to Reels is the single highest-impact change most creators can make.' },
@@ -458,9 +458,9 @@ export default function InstagramEngagementCalculator() {
             { icon: '💾', title: 'Create content designed to be saved', desc: 'Saves are the highest-value engagement signal in 2026. Tutorials, checklists, rate guides — ask yourself: would someone save this to refer to later?' },
             { icon: '🔄', title: 'Make content worth sharing', desc: 'Shares push your content to non-followers, expanding reach and boosting algorithmic score simultaneously. Relatable, surprising, or emotionally resonant content gets shared.' },
             { icon: '❓', title: 'End every caption with a question', desc: 'A direct question gives your audience a specific reason to comment. "Which do you prefer — A or B?" can double comment counts on its own.' },
-            { icon: '📊', title: 'Post at peak IST times', desc: 'For Indian audiences: 7–9am, 12–2pm, and 7–10pm IST are peak engagement windows. Check your Instagram Insights to find when your specific audience is most active.' },
+            { icon: '📊', title: 'Post when your audience is online', desc: 'Check your Instagram Insights to find your specific audience\'s peak activity windows — this varies by region and audience, so use your own data rather than generic timing advice.' },
             { icon: '🤝', title: 'Use Collab posts with niche creators', desc: 'Collab posts appear in both creators\' feeds simultaneously. This exposes your content to an entirely new engaged audience in your niche for zero cost.' },
-            { icon: '🎯', title: 'Use niche hashtags, not broad ones', desc: '#FitnessIndia (2M posts) will get you more visibility than #Fitness (500M posts). Use 5–8 specific hashtags rather than 30 generic ones.' },
+            { icon: '🎯', title: 'Use niche hashtags, not broad ones', desc: 'A specific hashtag like #FitnessTips (2M posts) will get you more visibility than #Fitness (500M posts). Use 5–8 specific hashtags rather than 30 generic ones.' },
             { icon: '📈', title: 'Audit and remove fake followers', desc: 'Fake followers dilute your engagement rate directly. 1,000 inactive followers reduce your percentage as much as losing 1,000 active real ones.' },
             { icon: '🗓️', title: 'Post consistently — minimum 4 Reels per week', desc: 'Creators who post 4+ Reels per week consistently outperform those posting 1–2 per week in reach and engagement, even with slightly lower individual quality.' },
           ].map(tip => (
@@ -537,7 +537,7 @@ export default function InstagramEngagementCalculator() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for creators everywhere.</p>
       </footer>
     </div>
   )

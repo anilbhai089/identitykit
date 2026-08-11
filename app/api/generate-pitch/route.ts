@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       affiliate: 'Affiliate / Commission Deal',
     }
 
-    const prompt = `You are an expert at writing influencer brand pitch emails for the Indian creator economy. Generate a complete pitch email package.
+    const prompt = `You are an expert at writing influencer brand pitch emails. Generate a complete pitch email package.
 
 Creator Details:
 - Name: ${data.creatorName || 'the creator'}
@@ -87,7 +87,7 @@ Return ONLY valid JSON, no markdown, no backticks, no explanation:
     return NextResponse.json({
       result: {
         subject: `${brand} × ${data.creatorName || 'Creator'} — Collab Idea`,
-        body: `Hi ${brand} team,\n\nLove what you're building — your recent campaigns have been spot on for the Indian market.\n\nI create ${data.niche || 'lifestyle'} content for ${data.followers || 'a highly engaged'} audience on ${data.platform || 'Instagram'} — exactly the demographic that buys ${data.brandProduct || 'your products'}.\n\nI'd love to do ${data.proposedDeliverable || '1 Instagram Reel'} for this. Here's my full media kit and past work: ${url}\n\nCan we connect this week?\n\n${data.creatorName || 'Best'}`,
+        body: `Hi ${brand} team,\n\nLove what you're building — your recent campaigns have been on point.\n\nI create ${data.niche || 'lifestyle'} content for ${data.followers || 'a highly engaged'} audience on ${data.platform || 'Instagram'} — exactly the demographic that buys ${data.brandProduct || 'your products'}.\n\nI'd love to do ${data.proposedDeliverable || '1 Instagram Reel'} for this. Here's my full media kit and past work: ${url}\n\nCan we connect this week?\n\n${data.creatorName || 'Best'}`,
         followUp1: `Hi! Just following up on my email from a few days ago about a ${data.proposedDeliverable || 'Reel'} collab.\n\nHappy to jump on a quick 10-min call — ${url}\n\n${data.creatorName || 'Best'}`,
         followUp2: `Last follow-up from my side — would love to connect if the timing works.\n\nMy profile: ${url}\n\n${data.creatorName || 'Best'}`,
       }

@@ -6,36 +6,36 @@ import Script from 'next/script'
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 const faqs = [
   {
-    q: 'How do I write a good Instagram bio for brand deals in India?',
-    a: 'A brand-ready Instagram bio should include: your niche (what you create), your location (city/India), a key stat (followers, views, or engagement), your unique angle, and a clear CTA (link in bio, DM for collabs, or email). Keep it under 150 characters. Emojis help break up text and highlight key points. Avoid vague words like "content creator" — be specific: "Finance tips for Indian millennials" is far stronger.',
+    q: 'How do I write a good Instagram bio for brand deals?',
+    a: 'A brand-ready Instagram bio should include: your niche (what you create), your location (city or region), a key stat (followers, views, or engagement), your unique angle, and a clear CTA (link in bio, DM for collabs, or email). Keep it under 150 characters. Emojis help break up text and highlight key points. Avoid vague words like "content creator" — be specific: "Finance tips for millennials" is far stronger than a vague label.',
   },
   {
     q: 'How many characters can an Instagram bio have?',
     a: 'Instagram bios have a maximum of 150 characters. This includes spaces, emojis, and line breaks. Each emoji counts as 1–2 characters depending on the emoji. Line breaks are free but you are limited to a maximum of 5 lines visible on the profile without the "more" toggle. Use every character strategically — your bio is the first thing brands and new followers read.',
   },
   {
-    q: 'Should Indian creators put their niche in their Instagram bio?',
-    a: 'Yes — absolutely. Brands search Instagram by niche when scouting creators. If your bio says "Finance tips for Indian millennials 📈" instead of just "Content Creator", you appear in searches and DMs from relevant brands. Your niche in the bio also sets audience expectations, which improves follower quality and engagement rate — both critical for brand deal rates.',
+    q: 'Should creators put their niche in their Instagram bio?',
+    a: 'Yes — absolutely. Brands search Instagram by niche when scouting creators. If your bio says "Finance tips for millennials 📈" instead of just "Content Creator", you appear in searches and DMs from relevant brands. Your niche in the bio also sets audience expectations, which improves follower quality and engagement rate — both critical for brand deal rates.',
   },
   {
-    q: 'What should I put in my Instagram bio as a new creator in India?',
-    a: 'As a new Indian creator (under 10K followers), focus your bio on: your niche, your city, what makes your content different, and a CTA. Do not fake stats or mention follower counts. Instead, highlight your angle: "Honest product reviews from Pune 🛍️" or "Daily stock market tips in Hindi 📊". Authenticity and specificity attract the right followers and early brand partnerships faster than generic bios.',
+    q: 'What should I put in my Instagram bio as a new creator?',
+    a: 'As a new creator (under 10K followers), focus your bio on: your niche, your city, what makes your content different, and a CTA. Do not fake stats or mention follower counts. Instead, highlight your angle: "Honest product reviews from a real user 🛍️" or "Daily market tips, explained simply 📊". Authenticity and specificity attract the right followers and early brand partnerships faster than generic bios.',
   },
   {
     q: 'Can I use emojis in my Instagram bio for a professional look?',
-    a: 'Yes — emojis are standard in Indian creator bios and actually improve readability. Use 1–2 relevant emojis per line as bullet points or highlights. Finance creators use 📈💰, fitness creators use 💪🏃, food creators use 🍳🥗. Avoid using more than 6–8 emojis total as it looks cluttered. Brands do not judge emojis negatively — they are expected in creator bios.',
+    a: 'Yes — emojis are standard in creator bios and actually improve readability. Use 1–2 relevant emojis per line as bullet points or highlights. Finance creators use 📈💰, fitness creators use 💪🏃, food creators use 🍳🥗. Avoid using more than 6–8 emojis total as it looks cluttered. Brands do not judge emojis negatively — they are expected in creator bios.',
   },
   {
     q: 'How often should I update my Instagram bio?',
-    a: 'Update your Instagram bio whenever: your follower count crosses a major milestone (10K, 50K, 100K), you launch a new content series or format, you add a new platform, your email or booking link changes, or you want to highlight a recent achievement or collab. Many successful Indian creators update their bio monthly. Think of it as your living business card — it should always reflect your current best self.',
+    a: 'Update your Instagram bio whenever: your follower count crosses a major milestone (10K, 50K, 100K), you launch a new content series or format, you add a new platform, your email or booking link changes, or you want to highlight a recent achievement or collab. Many successful creators update their bio monthly. Think of it as your living business card — it should always reflect your current best self.',
   },
   {
-    q: 'What is the best CTA for an Instagram bio in India?',
-    a: 'The best CTAs for Indian creator bios depend on your goal. For brand deals: "📩 Collabs: email@domain.com" or "DM for brand collabs". For link clicks: "👇 Media kit + rates" pointing to your Identity Kit link. For followers: "New video every Tuesday 🎬". For course/product sales: "Free finance guide 👇". Always have exactly one CTA — multiple CTAs confuse visitors and reduce click-through rates.',
+    q: 'What is the best CTA for an Instagram bio?',
+    a: 'The best CTAs depend on your goal. For brand deals: "📩 Collabs: email@domain.com" or "DM for brand collabs". For link clicks: "👇 Media kit + rates" pointing to your Identity Kit link. For followers: "New video every Tuesday 🎬". For course/product sales: "Free finance guide 👇". Always have exactly one CTA — multiple CTAs confuse visitors and reduce click-through rates.',
   },
   {
-    q: 'How do I write an Instagram bio that gets followers in India?',
-    a: 'To write a follower-attracting Instagram bio for Indian audiences: be hyper-specific about your niche ("Surat-based street food reviews" beats "Foodie"), use Hindi or Hinglish words if your audience is Hindi-speaking, mention your posting schedule ("New Reels every Mon/Wed/Fri"), include a hook or personality line ("Turning ₹5K into ₹5L one stock at a time 📈"), and always end with a clear CTA pointing to your best content or link.',
+    q: 'How do I write an Instagram bio that gets followers?',
+    a: 'To write a follower-attracting Instagram bio: be hyper-specific about your niche ("Street food reviews from a local" beats "Foodie"), speak your audience's language and slang, mention your posting schedule ("New Reels every Mon/Wed/Fri"), include a hook or personality line ("Turning ₹5K into ₹5L one stock at a time 📈"), and always end with a clear CTA pointing to your best content or link.',
   },
 ]
 
@@ -52,9 +52,9 @@ const faqSchema = {
 const webToolSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Instagram Bio Generator for Indian Creators 2026',
+  name: 'Instagram Bio Generator for Creators 2026',
   url: 'https://identitykit.in/tools/instagram-bio-generator',
-  description: 'Free AI-powered Instagram bio generator for Indian creators. Get 3 professional bio options instantly — brand-ready, niche-specific, under 150 characters.',
+  description: 'Free AI-powered Instagram bio generator for creators. Get 3 professional bio options instantly — brand-ready, niche-specific, under 150 characters.',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'All',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
@@ -109,11 +109,11 @@ export default function InstagramBioGenerator() {
     const goalLabel = goals.find(g => g.key === goal)?.label ?? goal
     const toneLabel = tones.find(t => t.key === tone)?.label ?? tone
 
-    const prompt = `You are an expert Instagram bio writer for Indian content creators. Generate exactly 3 different Instagram bio options for a creator with these details:
+    const prompt = `You are an expert Instagram bio writer for content creators. Generate exactly 3 different Instagram bio options for a creator with these details:
 
 Name: ${name || 'not specified'}
 Niche: ${niche}
-City/Location: ${city || 'India'}
+City/Location: ${city || 'not specified'}
 Tone: ${toneLabel}
 Primary Goal: ${goalLabel}
 Unique angle / what makes them different: ${uniqueAngle || 'not specified'}
@@ -125,7 +125,6 @@ Rules:
 - Use line breaks (\\n) to separate lines — max 4 lines per bio
 - Use relevant emojis naturally — 3-5 per bio
 - Include a CTA on the last line (e.g. 📩 collabs: email, 👇 link in bio, DM for rates)
-- Be specific to India and the Indian creator economy
 - If goal is brand deals, make bio clearly signal openness to collaborations
 - If followers are mentioned and above 10K, include them as a social proof signal
 - Each of the 3 bios should feel meaningfully different in structure and style
@@ -264,13 +263,13 @@ Return ONLY a JSON array with exactly 3 strings, no other text, no markdown, no 
         {/* HERO */}
         <div style={{ textAlign: 'center', paddingTop: 28, paddingBottom: 44 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            ✨ AI-Powered · Free for Indian Creators
+            ✨ AI-Powered · Free for Creators
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 38, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
-            Instagram Bio Generator<br />for Indian Creators 2026
+            Instagram Bio Generator<br />for Creators 2026
           </h1>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', maxWidth: 520, margin: '0 auto 10px', lineHeight: 1.7 }}>
-            Get 3 AI-generated Instagram bio options instantly — brand-ready, niche-specific, under 150 characters. Built for the Indian creator economy.
+            Get 3 AI-generated Instagram bio options instantly — brand-ready, niche-specific, under 150 characters.
           </p>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>Free forever · No login required · AI-powered</p>
         </div>
@@ -418,17 +417,17 @@ Return ONLY a JSON array with exactly 3 strings, no other text, no markdown, no 
 
         {/* TIPS */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          What Makes a Great Instagram Bio for Indian Creators?
+          What Makes a Great Instagram Bio?
         </h2>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>
-          Study what the top Indian creators put in their bios and why it works.
+          Study what top creators put in their bios and why it works.
         </p>
         <div style={{ marginBottom: 52 }}>
           {[
-            { icon: '🎯', title: 'Be specific about your niche', desc: '"Finance tips for Indian millennials 📈" gets more brand DMs than "Content Creator". Brands search Instagram by niche. The more specific your bio, the more relevant the inbound.' },
-            { icon: '📍', title: 'Include your city or India', desc: 'Local brands and talent managers search by city. "Mumbai-based" or "Delhi creator" in your bio attracts local collabs. "India" alone helps international brands confirm market relevance.' },
+            { icon: '🎯', title: 'Be specific about your niche', desc: '"Finance tips for millennials 📈" gets more brand DMs than "Content Creator". Brands search Instagram by niche. The more specific your bio, the more relevant the inbound.' },
+            { icon: '📍', title: 'Include your city or country', desc: 'Local brands and talent managers search by city. A city name or region in your bio attracts local collabs, while your country helps international brands confirm market relevance.' },
             { icon: '📊', title: 'Add one key stat if above 10K', desc: 'Once you cross 10K followers, put it in your bio. "45K finance enthusiasts 📊" or "Trusted by 1L+ subscribers" is social proof that brands respond to. Below 10K, focus on your angle instead.' },
-            { icon: '🔥', title: 'State your unique angle clearly', desc: 'The best Indian creator bios tell you something you cannot guess from just the niche. "CA turned meme-maker explaining taxes 😂" or "Surat street food reviewed honestly 🍜" — a specific angle makes you memorable.' },
+            { icon: '🔥', title: 'State your unique angle clearly', desc: 'The best creator bios tell you something you cannot guess from just the niche. "Accountant turned meme-maker explaining taxes 😂" or "Street food reviewed honestly 🍜" — a specific angle makes you memorable.' },
             { icon: '📩', title: 'Always have one CTA', desc: 'End every bio with exactly one call to action. For brand deals: "📩 collabs@email.com". For link clicks: "👇 Media kit + rates". Having two CTAs halves your conversion rate.' },
             { icon: '🔗', title: 'Link your Identity Kit profile', desc: 'Your Identity Kit link in bio gives brands everything they need in one click — your media kit, rate card, and creator CV. Brands who land on your profile can go from "who is this?" to "let\'s collab" in 60 seconds.' },
           ].map(tip => (
@@ -444,15 +443,15 @@ Return ONLY a JSON array with exactly 3 strings, no other text, no markdown, no 
 
         {/* EXAMPLES */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          Instagram Bio Examples for Indian Creators — by Niche
+          Instagram Bio Examples for Creators — by Niche
         </h2>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>Real-style examples you can adapt for your own profile.</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 52 }}>
           {[
             { niche: 'Finance', emoji: '💹', bio: '📊 Stock market in simple Hindi\n🏦 Ex-banker, now your money guide\n45K learning with me\n📩 collabs@finwithme.in' },
-            { niche: 'Fitness', emoji: '💪', bio: '🏋️ Desi fitness, no gym required\nTransforming 10K+ Mumbai locals\n💯 Free workout every Monday\n👇 Program link in bio' },
+            { niche: 'Fitness', emoji: '💪', bio: '🏋️ Home workouts, no gym required\nTransforming 10K+ lives\n💯 Free workout every Monday\n👇 Program link in bio' },
             { niche: 'Food', emoji: '🍳', bio: '🍜 Honest street food reviews | Surat\nNo filters. No PR. Just real food.\n📍 New spot every Friday\n📩 foodcollabs@gmail.com' },
-            { niche: 'Beauty', emoji: '💄', bio: '✨ Skincare for Indian skin tones\n🚫 No filters | Real results only\nTrusted by 80K desi girls\n👇 Routine guide in bio' },
+            { niche: 'Beauty', emoji: '💄', bio: '✨ Skincare for every skin tone\n🚫 No filters | Real results only\nTrusted by 80K followers\n👇 Routine guide in bio' },
             { niche: 'Tech', emoji: '💻', bio: '📱 Honest gadget reviews in Hindi\n🔍 Before you buy, watch me review\nDelhi | 1.2L subscribers on YT\n📩 tech@reviewwala.in' },
             { niche: 'Education', emoji: '📚', bio: '🎯 UPSC tips that actually work\nCleared Prelims 2024 | Now guiding you\n50K aspirants learning together\n👇 Free notes — link in bio' },
           ].map(ex => (
@@ -503,7 +502,7 @@ Return ONLY a JSON array with exactly 3 strings, no other text, no markdown, no 
           <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, marginBottom: 20 }}>Related Tools & Guides</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {[
-              { href: '/tools/instagram-engagement-calculator', tag: 'Free Tool', title: 'Instagram Engagement Rate Calculator India' },
+              { href: '/tools/instagram-engagement-calculator', tag: 'Free Tool', title: 'Instagram Engagement Rate Calculator' },
               { href: '/tools/influencer-rate-calculator', tag: 'Free Tool', title: 'Influencer Rate Calculator — What to Charge Brands' },
               { href: '/tools/youtube-money-calculator', tag: 'Free Tool', title: 'YouTube Money Calculator India 2026' },
               { href: '/tools/gst-invoice-generator', tag: 'Free Tool', title: 'GST Invoice Generator for Indian Creators' },
@@ -529,7 +528,7 @@ Return ONLY a JSON array with exactly 3 strings, no other text, no markdown, no 
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for creators everywhere.</p>
       </footer>
     </div>
   )

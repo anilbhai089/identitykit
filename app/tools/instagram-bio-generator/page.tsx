@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: 'How do I write an Instagram bio that gets followers?',
-    a: 'To write a follower-attracting Instagram bio: be hyper-specific about your niche ("Street food reviews from a local" beats "Foodie"), speak your audience's language and slang, mention your posting schedule ("New Reels every Mon/Wed/Fri"), include a hook or personality line ("Turning ₹5K into ₹5L one stock at a time 📈"), and always end with a clear CTA pointing to your best content or link.',
+    a: 'To write a follower-attracting Instagram bio: be hyper-specific about your niche ("Street food reviews from a local" beats "Foodie"), speak your audience\'s language and slang, mention your posting schedule ("New Reels every Mon/Wed/Fri"), include a hook or personality line ("Turning ₹5K into ₹5L one stock at a time 📈"), and always end with a clear CTA pointing to your best content or link.',
   },
 ]
 

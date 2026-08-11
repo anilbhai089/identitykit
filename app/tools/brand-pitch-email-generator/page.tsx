@@ -6,11 +6,11 @@ import Script from 'next/script'
 // ── FAQs ──────────────────────────────────────────────────────────────────────
 const faqs = [
   {
-    q: 'How do I pitch a brand for collaboration as an Indian creator?',
-    a: 'A strong brand pitch email for Indian creators should: open with a specific compliment about the brand (not generic praise), introduce yourself with your niche and one key stat, explain why your audience is a perfect fit for their product, propose a specific deliverable (not "open to collaboration"), and end with a clear CTA like "Can we schedule a 15-minute call this week?". Keep it under 150 words — brand managers receive hundreds of pitches and short emails get read. Always include your Identity Kit link so brands can see your full profile instantly.',
+    q: 'How do I pitch a brand for collaboration?',
+    a: 'A strong brand pitch email should: open with a specific compliment about the brand (not generic praise), introduce yourself with your niche and one key stat, explain why your audience is a perfect fit for their product, propose a specific deliverable (not "open to collaboration"), and end with a clear CTA like "Can we schedule a 15-minute call this week?". Keep it under 150 words — brand managers receive hundreds of pitches and short emails get read. Always include your Identity Kit link so brands can see your full profile instantly.',
   },
   {
-    q: 'What should I include in a brand collaboration email in India?',
+    q: 'What should I include in a brand collaboration email?',
     a: 'Your brand collaboration email must include: your name and handle, your niche and platform, one compelling stat (engagement rate, follower count, or a past campaign result), why their specific product fits your audience, a specific proposed deliverable (e.g. "1 Instagram Reel and 3 Stories"), your rate range or a link to your rate card, and your media kit link. Do not attach a PDF — share your Identity Kit link instead. Brands open links on mobile; they rarely download attachments.',
   },
   {
@@ -18,12 +18,12 @@ const faqs = [
     a: 'The best subject lines for influencer pitch emails are specific and curiosity-driven. Avoid: "Collaboration Opportunity" or "Brand Partnership Request" — these get ignored. Use instead: "[Brand Name] × [Your Name] — Reel Collab Idea", "Your [Product] + My [Niche] Audience = Perfect Match", or "Quick collab idea for [Brand Name]\'s [specific product]". Personalization is the biggest factor — a subject line with the brand\'s actual product name gets 3x more opens than a generic one.',
   },
   {
-    q: 'How do I find the right person to email for brand collaborations in India?',
-    a: 'To find the right contact for influencer collaborations at Indian brands: check LinkedIn for "Influencer Marketing Manager", "Brand Partnerships", or "Social Media Manager" at the company. Check the brand\'s Instagram bio — many list a collab email like "collabs@brand.com". Go to the brand\'s website → About Us or Contact page. Search "[Brand Name] influencer email" on Google. For D2C brands, the founder or marketing head often handles influencer outreach directly and is reachable on LinkedIn.',
+    q: 'How do I find the right person to email for brand collaborations?',
+    a: 'To find the right contact for influencer collaborations: check LinkedIn for "Influencer Marketing Manager", "Brand Partnerships", or "Social Media Manager" at the company. Check the brand\'s Instagram bio — many list a collab email like "collabs@brand.com". Go to the brand\'s website → About Us or Contact page. Search "[Brand Name] influencer email" on Google. For D2C brands, the founder or marketing head often handles influencer outreach directly and is reachable on LinkedIn.',
   },
   {
     q: 'Should I mention my rates in the first pitch email?',
-    a: 'For cold pitch emails to Indian brands, do not mention specific rates in the first email. Instead, share your Identity Kit link which has your rate card — let them check it themselves. Mentioning rates too early can kill the conversation before it starts. Instead, say "Happy to share my rate card and media kit — [your Identity Kit link]". Once they respond with interest, share your rates in the second email or on a call. The exception: if a brand specifically asks for rates in their campaign brief.',
+    a: 'For cold pitch emails, do not mention specific rates in the first email. Instead, share your Identity Kit link which has your rate card — let them check it themselves. Mentioning rates too early can kill the conversation before it starts. Instead, say "Happy to share my rate card and media kit — [your Identity Kit link]". Once they respond with interest, share your rates in the second email or on a call. The exception: if a brand specifically asks for rates in their campaign brief.',
   },
   {
     q: 'How long should a brand pitch email be?',
@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     q: 'How many follow-up emails should I send after a brand pitch?',
-    a: 'Send exactly 2 follow-up emails after your initial pitch. Follow-up 1: 3–4 days after the original email, short and direct ("Just following up on my email below — happy to jump on a quick call this week"). Follow-up 2: 7 days after follow-up 1, final touch ("Last follow-up from my end — would love to connect if the timing works. My profile: [Identity Kit link]"). After 2 follow-ups with no response, move on. Most Indian brand deals close on the first or second follow-up, not the original email.',
+    a: 'Send exactly 2 follow-up emails after your initial pitch. Follow-up 1: 3–4 days after the original email, short and direct ("Just following up on my email below — happy to jump on a quick call this week"). Follow-up 2: 7 days after follow-up 1, final touch ("Last follow-up from my end — would love to connect if the timing works. My profile: [Identity Kit link]"). After 2 follow-ups with no response, move on. Most brand deals close on the first or second follow-up, not the original email.',
   },
   {
     q: 'What is a media kit and why do I need one for brand pitches?',
@@ -52,9 +52,9 @@ const faqSchema = {
 const webToolSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Brand Pitch Email Generator for Indian Creators 2026',
+  name: 'Brand Pitch Email Generator for Creators 2026',
   url: 'https://identitykit.in/tools/brand-pitch-email-generator',
-  description: 'Free AI-powered brand pitch email generator for Indian creators. Generate a professional, personalized pitch email to brands in seconds. Get more brand deals with emails that actually get replies.',
+  description: 'Free AI-powered brand pitch email generator for creators. Generate a professional, personalized pitch email to brands in seconds. Get more brand deals with emails that actually get replies.',
   applicationCategory: 'UtilityApplication',
   operatingSystem: 'All',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
@@ -243,13 +243,13 @@ export default function BrandPitchEmailGenerator() {
         {/* HERO */}
         <div style={{ textAlign: 'center', paddingTop: 28, paddingBottom: 44 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'rgba(255,107,43,0.1)', border: '1px solid rgba(255,107,43,0.2)', borderRadius: 100, padding: '5px 14px', fontSize: 12, fontWeight: 700, color: '#FF8C5A', marginBottom: 20, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            📧 AI-Powered · Free for Indian Creators
+            📧 AI-Powered · Free for Creators
           </div>
           <h1 className="hero-title" style={{ fontFamily: "'Syne',sans-serif", fontSize: 38, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: 16 }}>
-            Brand Pitch Email Generator<br />for Indian Creators 2026
+            Brand Pitch Email Generator<br />for Creators 2026
           </h1>
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', maxWidth: 520, margin: '0 auto 10px', lineHeight: 1.7 }}>
-            Generate a personalized brand pitch email in seconds — plus 2 follow-up emails. AI-written, India-specific, short enough to actually get read.
+            Generate a personalized brand pitch email in seconds — plus 2 follow-up emails. AI-written, short enough to actually get read.
           </p>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>Free forever · No login required · Includes subject line + 2 follow-ups</p>
         </div>
@@ -477,18 +477,18 @@ export default function BrandPitchEmailGenerator() {
 
         {/* TIPS */}
         <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 26, fontWeight: 800, marginBottom: 8, letterSpacing: '-0.5px' }}>
-          What Makes a Brand Pitch Email Work in India
+          What Makes a Brand Pitch Email Work
         </h2>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.45)', marginBottom: 24, lineHeight: 1.7 }}>
-          Indian brand managers and D2C founders receive 50–200 pitch emails per week. Here's what separates the ones they reply to.
+          Brand managers and founders receive 50–200 pitch emails per week. Here's what separates the ones they reply to.
         </p>
         <div style={{ marginBottom: 52 }}>
           {[
             { icon: '🎯', title: 'Be specific about the brand — not generic', desc: 'The worst opening: "I love your brand and products." The best opening: "Your Vitamin C Serum campaign last month was brilliant — the before/after format worked perfectly for my audience." Specificity signals you actually researched them, which brands respect.' },
-            { icon: '📏', title: 'Keep it under 120 words', desc: 'Most successful brand deals in India are initiated with emails under 100 words. Founders and marketing managers are busy — they skim, not read. If they can\'t understand your pitch in 10 seconds, they move on. Your Identity Kit link handles the detailed sell.' },
+            { icon: '📏', title: 'Keep it under 120 words', desc: 'Most successful brand deals are initiated with emails under 100 words. Founders and marketing managers are busy — they skim, not read. If they can\'t understand your pitch in 10 seconds, they move on. Your Identity Kit link handles the detailed sell.' },
             { icon: '🔗', title: 'Always include your Identity Kit link', desc: 'Never attach a PDF media kit. Share your Identity Kit link instead — it opens instantly on mobile, always shows your latest stats, and looks far more professional than a PDF. Brands who click your link and see a clean profile are 3x more likely to reply.' },
             { icon: '💡', title: 'Propose something specific', desc: '"Open to collaboration" is the weakest possible CTA. "I\'d love to do 1 Instagram Reel featuring your serum in my skincare routine — here\'s what that could look like" is strong. A specific proposal shows creative thinking and makes it easy for brands to say yes.' },
-            { icon: '⏰', title: 'Send at the right time', desc: 'Best times to send brand pitch emails in India: Tuesday–Thursday, 10am–12pm or 2pm–4pm IST. Avoid Mondays (inbox backlog) and Fridays (pre-weekend wind-down). Gmail shows send time — scheduling tools like Boomerang or Gmail\'s built-in scheduler can help.' },
+            { icon: '⏰', title: 'Send at the right time', desc: 'Best times to send brand pitch emails: Tuesday–Thursday, mid-morning or early afternoon in your recipient's local time zone. Avoid Mondays (inbox backlog) and Fridays (pre-weekend wind-down). Gmail shows send time — scheduling tools like Boomerang or Gmail\'s built-in scheduler can help.' },
             { icon: '🔁', title: 'Always follow up exactly twice', desc: 'Most brand deals that close from cold email close on follow-up 1 or 2 — not the original email. Send follow-up 1 after 3–4 days, follow-up 2 after 7 more days. After that, move on. Two follow-ups is professional. Three or more is desperate.' },
           ].map(tip => (
             <div key={tip.title} style={{ display: 'flex', gap: 14, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 18, marginBottom: 10 }}>
@@ -558,7 +558,7 @@ export default function BrandPitchEmailGenerator() {
           <Link href="/terms" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Terms</Link>
           <Link href="/privacy" style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>Privacy</Link>
         </div>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for Indian creators.</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.2)' }}>© 2026 Identity Kit. Made with ❤️ for creators everywhere.</p>
       </footer>
     </div>
   )

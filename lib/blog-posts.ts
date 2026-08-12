@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'discord-server-monetization-2026',
+    tag: 'Discord',
+    title: 'Discord Server Monetization for Creators: How Paid Communities Work (2026)',
+    excerpt: 'Discord pays creators 90% of Server Subscription revenue — but Apple\'s iOS fee quietly stacks on top, and Android has no in-app purchasing at all. Here\'s the real fee stack, eligibility rules, and how it compares to Patreon integration.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
+    slug: 'instagram-monetization-2026',
+    tag: 'Instagram',
+    title: 'Instagram Monetization 2026: Every Way Creators Get Paid',
+    excerpt: 'Gifts, Badges, Subscriptions, and Reels Bonuses — plus why brand deals still dominate creator income on Instagram. Here\'s the full breakdown of what\'s actually live, follower thresholds, and realistic earnings for each.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'youtube-shorts-monetization-2026',
     tag: 'Shorts',
     title: 'YouTube Shorts Monetization: How It\'s Different From Long-Form (2026)',

@@ -77,6 +77,8 @@ export const tagIcons: Record<string, string> = {
   'Amazon': '📦',
   'Pinterest': '📌',
   'Shorts': '📱',
+  'Instagram': '📸',
+  'Discord': '💬',
 }
 
 export function getTagIcon(tag: string): string {

@@ -784,6 +784,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+
+    {
+      url: `${baseUrl}/blog/x-creator-revenue-sharing-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/youtube-channel-memberships-2026`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     
 
        

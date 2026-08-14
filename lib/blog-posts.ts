@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'x-creator-revenue-sharing-2026',
+    tag: 'X / Twitter',
+    title: 'X Creator Revenue Sharing Is Ending: What Creators Need to Know (2026)',
+    excerpt: 'X\'s Creator Revenue Sharing program pays its final round in September 2026, replaced by a new application-based Original Content Rewards Program. Here\'s exactly what\'s ending, what\'s known about what\'s next, and what it means for your posting strategy.',
+    readTime: '7 min read',
+    date: 'August 2026',
+  },
+  {
+    slug: 'youtube-channel-memberships-2026',
+    tag: 'Memberships',
+    title: 'YouTube Channel Memberships: How the Tier System Works (2026)',
+    excerpt: 'Creators keep 70% of membership revenue — more favorable than YouTube\'s standard 55% ad revenue split. Here\'s how tiers, pricing, and eligibility actually work, and how it compares to Patreon and Discord.',
+    readTime: '8 min read',
+    date: 'July 2026',
+  },
+  {
     slug: 'discord-server-monetization-2026',
     tag: 'Discord',
     title: 'Discord Server Monetization for Creators: How Paid Communities Work (2026)',

@@ -80,6 +80,8 @@ export const tagIcons: Record<string, string> = {
   'Instagram': '📸',
   'Discord': '💬',
   'Memberships': '🏅',
+  'Snapchat': '👻',
+  'Kick': '💚',
 }
 
 export function getTagIcon(tag: string): string {

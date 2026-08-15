@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'kick-vs-twitch-monetization-2026',
+    tag: 'Kick',
+    title: 'Kick vs. Twitch Monetization 2026: Is the 95/5 Split Worth It?',
+    excerpt: 'Kick pays streamers 95% of subscription revenue versus Twitch\'s standard 50% — a real, verified gap. Here\'s the actual subscription math, Kick\'s unique hourly incentive program, and the audience-size tradeoff nobody\'s revenue split fixes.',
+    readTime: '8 min read',
+    date: 'August 2026',
+  },
+  {
+    slug: 'snapchat-spotlight-monetization-2026',
+    tag: 'Snapchat',
+    title: 'Snapchat Spotlight Monetization 2026: What Actually Pays Now',
+    excerpt: 'The $1M-a-day Spotlight jackpot era ended years ago, and the standalone Spotlight Rewards Program itself shut down in January 2025. Here\'s how the current unified Monetization Program actually works, and what tightened again in May 2026.',
+    readTime: '7 min read',
+    date: 'August 2026',
+  },
+  {
     slug: 'x-creator-revenue-sharing-2026',
     tag: 'X / Twitter',
     title: 'X Creator Revenue Sharing Is Ending: What Creators Need to Know (2026)',

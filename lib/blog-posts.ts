@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'creator-tax-deductions-2026',
+    tag: 'Taxes',
+    title: 'Creator Tax Deductions: What You Can Actually Write Off (2026)',
+    excerpt: 'Cameras, software subscriptions, a home studio, even work-only wardrobe — here\'s what qualifies as a legitimate business deduction for US creators, the "ordinary and necessary" test that governs it all, and the hobby-loss rule that can undo it.',
+    readTime: '9 min read',
+    date: 'August 2026',
+  },
+  {
+    slug: 'patreon-fees-explained-2026',
+    tag: 'Patreon',
+    title: 'Patreon for Creators: How It Works and What You Actually Keep (2026)',
+    excerpt: 'Patreon\'s 10% platform fee is just one layer — processing, currency conversion, and payout fees all stack on top. Here\'s the real math on what lands in your account, and why Patreon won\'t solve your audience-building problem.',
+    readTime: '8 min read',
+    date: 'August 2026',
+  },
+  {
     slug: 'kick-vs-twitch-monetization-2026',
     tag: 'Kick',
     title: 'Kick vs. Twitch Monetization 2026: Is the 95/5 Split Worth It?',

@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'tiktok-shop-commission-2026',
+    tag: 'TikTok',
+    title: 'TikTok Shop: How Creator Commissions Actually Work (2026)',
+    excerpt: 'A full refund can zero out a commission you already earned, LIVE rates often beat video rates, and TikTok\'s auto disclosure label alone doesn\'t satisfy FTC rules. Here\'s how TikTok Shop\'s affiliate commission system really works — completely separate from Creator Rewards.',
+    readTime: '8 min read',
+    date: 'August 2026',
+  },
+  {
+    slug: 'twitch-bits-subs-donations-explained',
+    tag: 'Streaming',
+    title: 'Twitch Bits vs. Subscriptions vs. Donations: How Each Actually Pays (2026)',
+    excerpt: 'Three completely different economics: Bits pay a fixed $0.01 with Twitch\'s cut taken at purchase, subscriptions split 50/50 (or better), and third-party donations carry no Twitch cut at all. Here\'s exactly how each mechanism works.',
+    readTime: '7 min read',
+    date: 'August 2026',
+  },
+  {
     slug: 'creator-tax-deductions-2026',
     tag: 'Taxes',
     title: 'Creator Tax Deductions: What You Can Actually Write Off (2026)',

@@ -10,6 +10,22 @@ export interface BlogPost {
 // Ordered newest first. Add new posts to the TOP of this array.
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'cost-to-start-content-creator-2026',
+    tag: 'Getting Started',
+    title: 'How Much Does It Cost to Start as a Content Creator? (2026)',
+    excerpt: 'A phone you already own can shoot your first 50 videos. Here\'s a realistic, tiered budget for starting out as a creator — what to actually spend on first, what to skip, and the recurring costs nobody budgets for.',
+    readTime: '7 min read',
+    date: 'August 2026',
+  },
+  {
+    slug: 'how-to-negotiate-brand-deal-renewal',
+    tag: 'Negotiation',
+    title: 'How to Ask for a Raise: Renegotiating Rates With an Existing Brand (2026)',
+    excerpt: 'A renewal negotiation isn\'t the same conversation as a first deal — you have proof, not just a pitch. Here\'s how to build the case for a rate increase, what leverage you actually have, and the common tradeoffs brands offer instead of a straight raise.',
+    readTime: '7 min read',
+    date: 'August 2026',
+  },
+  {
     slug: 'tiktok-shop-commission-2026',
     tag: 'TikTok',
     title: 'TikTok Shop: How Creator Commissions Actually Work (2026)',
